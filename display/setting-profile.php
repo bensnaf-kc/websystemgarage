@@ -47,7 +47,9 @@ $id = $_SESSION['id'];
                             <!-- Profile picture help block-->
                             <div class="small font-italic text-muted mb-4">JPG หรือ PNG มีขนาดไม่เกิน 5 MB</div>
                             <!-- Profile picture upload button-->
-                            <button class="btn btn-primary shadow lift" type="button">อัพโหลดรูปภาพ</button>
+                            <!-- <a href="edit_profile.php?user_id=<?=$id;?>" class="btn btn-warning shadow iift" type="submit"></a> -->
+                            <!-- Button trigger modal -->
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">อัพโหลดรูปภาพ</button>
                         </div>
                     </div>
                 </div>
@@ -113,3 +115,33 @@ $id = $_SESSION['id'];
     </footer>
 </div>
 <?php include('footer.php'); ?>
+
+<!-- Modal -->
+<form action="edit_profile.php?user_id=<?=$id;?>" method="post" enctype="multipart/form-data">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">แก้ไข</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="" class="small mb-1">รูปภาพโปรไฟล์</label>
+                <?php
+                    $sql_pic = "SELECT * FROM user WHERE user_id = '$id'";
+                    $qty_pic = mysqli_query($mysqli,$sql_pic);
+                    while($pic = mysqli_fetch_array($qty_pic)){
+                ?>
+                <img src="asset/img/illustrations/profiles/<?=$pic['user_pic'];?>" alt="" style="width: 100px; height:auto;">
+                <?php
+                    }
+                ?>
+                <div class="custom-file md-3">
+                    <input type="file" class="custom-file-input" id="pic" name="pic">
+                    <label for="pic" class="custom-file-label">เลือกรูปภาพ</label>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary shadow iift" type="submit">บันทึก</button></form></div>
+        </div>
+    </div>
+</div>
