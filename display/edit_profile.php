@@ -34,11 +34,11 @@
             WHERE user_id = '$id'";
 
     if ($mysqli->query($sql) === TRUE) {
-        copy($pic_tmp,"assets/img/illustrations/profile/$newname");
-        echo $sql;
-        echo "/n";        
-        echo get_include_path();
-        // header("location:setting-profile.php");  
+        copy($pic_tmp,"assets/img/illustrations/profiles/$newname");
+        // echo $sql;
+        // echo "/n";        
+        // echo get_include_path();
+        header("location:setting-profile.php");  
     }else{
         echo '<script type="text/javascript">
         swal("","เพิ่มการซ่อมไม่สำเร็จ", "error");
