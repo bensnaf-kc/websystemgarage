@@ -19,6 +19,17 @@ $id = $_SESSION['id'];
                 </div>
             </div>
         </header>
+        <?php if (isset($_SESSION['succ_info'])) :?>
+        <div class="alert alert-success alert-dismissible" role="alert" id="liveAlert" align="center">
+            <h6>
+                <?php
+                    echo $_SESSION['succ_info'];
+                    unset($_SESSION['succ_info']);
+                ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </h6>
+        </div>
+        <?php endif ?>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-4">
             <!-- Account page navigation-->
@@ -40,7 +51,8 @@ $id = $_SESSION['id'];
                                 $qty = mysqli_query($mysqli,$sql);
                                 while ($row = mysqli_fetch_array($qty)){
                             ?>
-                            <img class="img-account-profile rounded-circle mb-2" src="assets/img/illustrations/profiles/<?=$row['user_pic'];?>" alt="" />
+                            <img class="img-account-profile rounded-circle mb-2"
+                                src="assets/img/illustrations/profiles/<?=$row['user_pic'];?>" alt="" />
                             <?php
                                 }
                             ?>
@@ -49,22 +61,30 @@ $id = $_SESSION['id'];
                             <!-- Profile picture upload button-->
                             <!-- <a href="edit_profile.php?user_id=<?=$id;?>" class="btn btn-warning shadow iift" type="submit"></a> -->
                             <!-- Button trigger modal -->
-                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">อัพโหลดรูปภาพ</button>
+                            <button class="btn btn-warning shadow lift" type="button" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">อัพโหลดรูปภาพ</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-8">
                     <!-- Account details card-->
                     <div class="card mb-4">
-                        <div class="card-header">รายละเอียดผู้ใช้งาน</div>
+                        <div class="card-header">รายละเอียดผู้ใช้งาน <label for=""
+                                class="text-sm text-red">หมายเหตุ:สามารถแก้ไขในช่องด้านล่างได้เลย</label></div>
                         <div class="card-body">
-                            <form>
+                            <form action="edit_infoprofile.php?user_id=<?=$id;?>" method="post">
                                 <!-- Form Row-->
                                 <div class="row gx-3 mb-3">
                                     <!-- Form Group (first name)-->
+                                    <?php
+                                        $sql_info = "SELECT * FROM user WHERE user_id = '$id'";
+                                        $qty_info = mysqli_query($mysqli,$sql_info);
+                                        while ($info = mysqli_fetch_array($qty_info)){
+                                    ?>
                                     <div class="col">
                                         <label class="small mb-1" for="inputFirstName">ชื่ออู่หรือศูนย์บริการ</label>
-                                        <input class="form-control" id="inputFirstName" type="text" value="<?php echo $_SESSION['fname']; ?>" />
+                                        <input class="form-control" id="inputFirstName" type="text"
+                                            value="<?=$info['name'];?>" name="nameser" />
                                     </div>
                                 </div>
                                 <!-- Form Row        -->
@@ -72,28 +92,38 @@ $id = $_SESSION['id'];
                                     <!-- Form Group (organization name)-->
                                     <div class="col">
                                         <label class="small mb-1" for="inputOrgName">ที่อยู่อู่หรือศูนย์บริการ</label>
-                                        <input class="form-control" id="inputOrgName" type="text"  value="<?php echo $_SESSION['address']; ?>" />
+                                        <input class="form-control" id="inputOrgName" type="text"
+                                            value="<?=$info['address'];?>" name="address" />
                                     </div>
                                 </div>
                                 <!-- Form Group (email address)-->
                                 <div class="mb-3">
                                     <label class="small mb-1" for="inputEmailAddress">อีเมล์</label>
-                                    <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value="<?php echo $_SESSION['email']; ?>" />
+                                    <input class="form-control" id="inputEmailAddress" type="email"
+                                        placeholder="Enter your email address" value="<?=$info['email'];?>"
+                                        name="email" />
                                 </div>
                                 <!-- Form Row-->
                                 <div class="row gx-3 mb-3">
                                     <!-- Form Group (phone number)-->
+
                                     <div class="col-md-6">
                                         <label class="small mb-1" for="inputPhone">เบอร์ติดต่อ</label>
-                                        <input class="form-control" id="inputPhone" type="text" value="<?php echo $_SESSION['tel']; ?>" />
+                                        <input class="form-control" id="inputPhone" type="text"
+                                            value="<?=$info['tel'];?>" name="tel" />
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="small mb-1" for="inputPhone">Facebook Fanpages</label>
-                                        <input class="form-control" id="inputPhone" type="facebook"   />
+                                        <label class="small mb-1" for="inputPhone">Facebook Fanpages</label> <label
+                                            for="" class="text-sm text-red">ชื่อเพส หรือ url </label>
+                                        <input class="form-control" id="inputPhone" type="facebook"
+                                            value="<?=$info['facebook'];?>" name="facebook" />
                                     </div>
+                                    <?php
+                                        }
+                                    ?>
                                 </div>
                                 <!-- Save changes button-->
-                                <button class="btn btn-primary shadow lift" type="submit">บันทึก</button>
+                                <button class="btn btn-warning shadow lift" type="submit">แก้ไข</button>
                             </form>
                         </div>
                     </div>
@@ -118,30 +148,36 @@ $id = $_SESSION['id'];
 
 <!-- Modal -->
 <form action="edit_profile.php?user_id=<?=$id;?>" method="post" enctype="multipart/form-data">
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">แก้ไข</h5>
-                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <label for="" class="small mb-1">รูปภาพโปรไฟล์</label>
-                <?php
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">แก้ไข</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="" class="small mb-1">รูปภาพโปรไฟล์</label>
+                    <?php
                     $sql_pic = "SELECT * FROM user WHERE user_id = '$id'";
                     $qty_pic = mysqli_query($mysqli,$sql_pic);
                     while($pic = mysqli_fetch_array($qty_pic)){
                 ?>
-                <img src="asset/img/illustrations/profiles/<?=$pic['user_pic'];?>" alt="" style="width: 100px; height:auto;">
-                <?php
+                    <img src="asset/img/illustrations/profiles/<?=$pic['user_pic'];?>" alt=""
+                        style="width: 100px; height:auto;">
+                    <?php
                     }
                 ?>
-                <div class="custom-file md-3">
-                    <input type="file" class="custom-file-input" id="pic" name="pic">
-                    <label for="pic" class="custom-file-label">เลือกรูปภาพ</label>
+                    <div class="custom-file md-3">
+                        <input type="file" class="custom-file-input" id="pic" name="pic">
+                        <label for="pic" class="custom-file-label">เลือกรูปภาพ</label>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary shadow iift" type="submit">บันทึก</button></form></div>
-        </div>
-    </div>
+                <div class="modal-footer"><button class="btn btn-secondary" type="button"
+                        data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary shadow iift"
+                        type="submit">บันทึก</button>
+</form>
+</div>
+</div>
+</div>
 </div>

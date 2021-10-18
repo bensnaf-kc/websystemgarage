@@ -15962,8 +15962,14 @@ body {
 }
 
 .bg-gradient-primary-to-secondary {
-  background-color: #0061f2 !important;
-  background-image: linear-gradient(135deg, #0061f2 0%, rgba(105, 0, 199, 0.8) 100%) !important;
+  background-color: #f53b57 !important;
+  background-image: linear-gradient(135deg, #f53b57 0%, rgba(255, 121, 63, 0.8) 100%) !important;
+}
+
+
+.bg-gradient-sunset {
+  background-color: #f53b57 !important;
+  background-image: linear-gradient(135deg, #f53b57 0%, rgba(255, 121, 63, 0.8) 100%) !important;
 }
 
 .bg-transparent-light {

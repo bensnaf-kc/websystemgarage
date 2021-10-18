@@ -23,9 +23,11 @@ $id = $_SESSION['id'];
         <div class="container-xl px-4 mt-4">
             <!-- Account page navigation-->
             <nav class="nav nav-borders">
+            <a href="setting.php" type="button" class="btn btn-red btn-icon shadow lift" ><i class="fas fa-arrow-circle-left"></i>&nbsp;</a>
                 <a class="nav-link" href="setting-account.php">ชื่อผู้ใช้งาน</a>
                 <a class="nav-link active" href="setting-financial.php">ธุรกรรมทางการเงิน</a>
                 <button class="btn btn-primary lift" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">+เพิ่มธนาคาร</button>
+                
             </nav>
             <hr class="mt-0 mb-4" />
             <?php
@@ -39,7 +41,7 @@ $id = $_SESSION['id'];
                     <!-- Email notifications preferences card-->
                     <div class="card card-header-actions mb-4">
                         <div class="card-header">
-                            รายละเอียดบัญชี
+                            <label for="">รายละเอียดบัญชี</label><label for="" class="text-xs text-red">หมายเหตุ:สามารถแก้ไขข้อมูลในช่องได้เลย</label>
                             <div class="form-check form-switch">
                                 <!-- <input type="checkbox" checked data-toggle="toggle" data-size="lg"> -->
                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
@@ -52,18 +54,18 @@ $id = $_SESSION['id'];
                                 <div class="mb-3">
                                     <div class="col-md-10">
                                         <label class="small mb-1" for="inputNotificationEmail">ชื่อธนาคาร</label>
-                                        <input class="form-control" id="inputNotificationEmail" type="email" value="<?=$row['bank_npay']?>" disabled />
+                                        <input class="form-control" id="inputNotificationEmail" type="email" value="<?=$row['bank_npay']?>"  />
                                     </div>
                                 </div>
                                 <!-- Form Group (email updates checkboxes)-->
                                 <div class="row">
                                     <div class="col-md-5">
                                         <label class="small mb-1" for="inputNotificationEmail">ชื่อบัญชี</label>
-                                        <input class="form-control" id="inputNotificationEmail" type="email" value="<?=$row['bank_nowner']?>" disabled />
+                                        <input class="form-control" id="inputNotificationEmail" type="email" value="<?=$row['bank_nowner']?>"  />
                                     </div>
                                     <div class="col-md-5">
                                         <label class="small mb-1" for="inputNotificationEmail">เลขบัญชี</label>
-                                        <input class="form-control" id="inputNotificationEmail" type="email" value="<?=$row['bank_numower']?>" disabled />
+                                        <input class="form-control" id="inputNotificationEmail" type="email" value="<?=$row['bank_numower']?>"  />
                                     </div>
                                 </div>
                             </form>
