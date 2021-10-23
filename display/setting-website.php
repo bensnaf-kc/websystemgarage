@@ -1,13 +1,8 @@
 <?php 
 include('header.php'); 
 include('../backend/connect.php');
-
-$sql = "SELECT * FROM store";
-$query = mysqli_query($mysqli,$sql);
-$qty = mysqli_query($mysqli,$sql);
-while ($res = mysqli_fetch_array($qty)){
-    $id = $res['store_id'];
-}
+$id = $_SESSION['id'];
+$c = 1;
 // while ($result = mysqli_fetch_array($query)){
 //     $id = $result[0];
 // }
@@ -15,21 +10,41 @@ while ($res = mysqli_fetch_array($qty)){
 
 <div id="layoutSidenav_content">
     <main>
-        <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
-            <div class="container-xl px-4">
-                <div class="page-header-content pt-4">
-                    <div class="row align-items-center justify-content-between">
-                        <div class="col-auto mt-4">
-                            <h1 class="page-header-title">
-                                <div class="page-header-icon"><i data-feather="filter"></i></div>
-                                ตั้งค่าเว็บไซต์
-                            </h1>
-                            <div class="page-header-subtitle">
-                                </div>
+        <?php
+            $sql_color = "SELECT * FROM user WHERE user_id = '$id'";
+            $qty_color = mysqli_query($mysqli,$sql_color);
+            while($color = mysqli_fetch_array($qty_color)){ 
+                    $type = $color['web_type'];
+            }
+        ?>
+        <?php 
+            if($type == 1){
+                echo "<header class='page-header page-header-dark bg-gradient-default pb-10'>";
+            }
+            if($type == 2){
+                echo "<header class='page-header page-header-dark bg-gradient-sunset pb-10'>";
+            }
+            if($type == 3){
+                echo "<header class='page-header page-header-dark bg-gradient-subtle pb-10'>";
+            }
+            if($type == 4){
+                echo "<header class='page-header page-header-dark bg-gradient-emerald pb-10'>";
+            }
+        ?>
+        <div class="container-xl px-4">
+            <div class="page-header-content pt-4">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mt-4">
+                        <h1 class="page-header-title">
+                            <div class="page-header-icon"><i data-feather="filter"></i></div>
+                            ตั้งค่าเว็บไซต์
+                        </h1>
+                        <div class="page-header-subtitle">
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-n10">
@@ -37,8 +52,29 @@ while ($res = mysqli_fetch_array($qty)){
                 <div class="card-body">
                     <div class="table-responsive">
                         <label for="" class="text-blue">สีหน้าเว็บไซต์</label>
-
+                        <br>
+                        <label for="" class="text-xs text-red">กรุณาเลือกสีที่ต้องการ</label>
+                        <?php
+                            $sql_img = "SELECT * FROM web WHERE user_id = '$id'";
+                            $qty_img = mysqli_query($mysqli,$sql_img);
+                            while($img = mysqli_fetch_array($qty_img)){
+                        ?>
+                        <form action="" method="post">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="flexRadioDefault1" type="radio"
+                                        name="color" value="<?=$c++;?>">
+                                    <label class="form-check-label" for="flexRadioDefault1"><img src="assets/img/backgrounds/<?=$img['web_pic'];?>" alt="" style="width: 100px; height :auto;"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                            }
+                        ?>
+                    <button type="submit" class="btn btn-primary shadow lift">ตกลง</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
