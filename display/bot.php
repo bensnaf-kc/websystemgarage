@@ -41,7 +41,7 @@ function setFind($text, $mysqli)
 		}';
 		return $messages;
 	} else {
-		if ($text == 'status') {
+		if ($text == "01") {
 			$messages = '{
 				"type" : "text",
 				"text" : "ตรวจสอบสถานะรถยนต์กรุณาพิมพ์/n
@@ -50,63 +50,71 @@ function setFind($text, $mysqli)
 			}';
 			return $messages;
 		}
-		if($text == "time"){
+		elseif($text == "time"){
 			
 		}
-
-		$sql = "SELECT * FROM fixcar WHERE f_tel = '$text'";
-		$qty = $mysqli->query($sql);
-
-		if ($qty) {
-			while ($row = mysqli_fetch_array($qty)) {
-				$result = $row['type_idfix'];
-			}
-			if ($result == 1) {
-				$messages = '{
-					"type" : "text",
-					"text" : "รอดำเนินการ"
-				}';
-				return $messages;
-			} elseif ($result == 2) {
-				$messages = '{
-					"type" : "text",
-					"text" : "ตรวจสอบสถานะรถยนต์กรุณาพิมพ์/n
-					เบอร์ติดต่อ หรือ ไอดีไลน์ ของผู้ลูกค้า/n
-					ตัวอย่างเบอร์ติดต่อ : 0xx-xxx-xxxx"
-				}';
-				return $messages;
-			} elseif ($result == 3) {
-				$messages = '{
-					"type" : "text",
-					"text" : "' . $result . '"
-				}';
-				return $messages;
-			} elseif ($result == 4) {
-				$messages = '{
-					"type" : "text",
-					"text" : "' . $result . '"
-				}';
-				return $messages;
-			} elseif ($result == 5) {
-				$messages = '{
-					"type" : "text",
-					"text" : "' . $result . '"
-				}';
-				return $messages;
-			} elseif ($result == 6) {
-				$messages = '{
-					"type" : "text",
-					"text" : "' . $result . '"
-				}';
-				return $messages;
-			}
-		} else {
+		elseif($text == "time"){
+			
 		}
-		$messages = '{
-			"type" : "text",
-			"text" : "ไม่ถูกต้องกรุณาใส่อีกครั้ง"
-		}';
-		return $messages;
+		elseif($text == "time"){
+			
+		}
+		else{
+			$sql = "SELECT * FROM fixcar WHERE f_tel = '$text'";
+			$qty = $mysqli->query($sql);
+
+			if ($qty) {
+				while ($row = mysqli_fetch_array($qty)) {
+					$result = $row['type_idfix'];
+				}
+				if ($result == 1) {
+					$messages = '{
+						"type" : "text",
+						"text" : "รอดำเนินการ"
+					}';
+					return $messages;
+				} elseif ($result == 2) {
+					$messages = '{
+						"type" : "text",
+						"text" : "ตรวจสอบสถานะรถยนต์กรุณาพิมพ์/n
+						เบอร์ติดต่อ หรือ ไอดีไลน์ ของผู้ลูกค้า/n
+						ตัวอย่างเบอร์ติดต่อ : 0xx-xxx-xxxx"
+					}';
+					return $messages;
+				} elseif ($result == 3) {
+					$messages = '{
+						"type" : "text",
+						"text" : "' . $result . '"
+					}';
+					return $messages;
+				} elseif ($result == 4) {
+					$messages = '{
+						"type" : "text",
+						"text" : "' . $result . '"
+					}';
+					return $messages;
+				} elseif ($result == 5) {
+					$messages = '{
+						"type" : "text",
+						"text" : "' . $result . '"
+					}';
+					return $messages;
+				} elseif ($result == 6) {
+					$messages = '{
+						"type" : "text",
+						"text" : "' . $result . '"
+					}';
+					return $messages;
+				}
+			} else {
+				$messages = '{
+					"type" : "text",
+					"text" : "ไม่ถูกต้องกรุณาใส่อีกครั้ง"
+				}';
+				return $messages;
+			}
+			
+		}
 
 		// if ($result->num_rows > 0) {
 		// 	while($row = $result->fetch_assoc()) {
