@@ -41,7 +41,7 @@ function setFind($text, $mysqli)
 		}';
 		return $messages;
 	} else {
-		if ($text == "status") {
+		if ($text == 'status') {
 			$messages = '{
 				"type" : "text",
 				"text" : "ตรวจสอบสถานะรถยนต์กรุณาพิมพ์/n
