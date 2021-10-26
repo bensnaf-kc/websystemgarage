@@ -50,7 +50,7 @@ function setFind($text, $mysqli)
 		}
 		elseif($text == "pay"){
 			$sql_pay = "SELECT * FROM bank";
-			$qty_pay = mysqli_query($mysqli,$sql_pay);			
+			$qty_pay = $mysqli->query($sql_pay);
 			while($pay = mysqli_fetch_array($qty_pay)){
 				$bank_name = $pay['bank_npay'];
 				$bank_owner = $pay['bank_nowner'];
