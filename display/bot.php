@@ -41,78 +41,104 @@ function setFind($text, $mysqli)
 		}';
 		return $messages;
 	} else {
-		if ($text == "01") {
+		if ($text == "status") {
 			$messages = '{
 				"type" : "text",
-				"text" : "ตรวจสอบสถานะรถยนต์กรุณาพิมพ์/n
-						  เบอร์ติดต่อ หรือ ไอดีไลน์ ของผู้ลูกค้า/n
-						  ตัวอย่างเบอร์ติดต่อ : 0xx-xxx-xxxx"
+				"text" : "ตรวจสอบสถานะรถยนต์กรุณาพิมพ์ \n เบอร์ติดต่อ หรือ ไอดีไลน์ ของผู้ลูกค้า \n ตัวอย่างเบอร์ติดต่อ : 0xx-xxx-xxxx"
 			}';
 			return $messages;
 		}
-		elseif($text == "time"){
+		elseif($text == "pay"){
+			$sql_pay = "SELECT * FROM bank";
+			$qty_pay = mysqli_query($mysqli,$sql_pay);			
+			while($pay = mysqli_fetch_array($qty_pay)){
+				$bank_name = $pay['bank_npay'];
+				$bank_owner = $pay['bank_nowner'];
+				$bank_numowner = $pay['bank_numower'];
+			$messages = '{
+				"type" : "text",
+				"text" : "รายละเอียดช่องทางการชำระเงิน \n ธนาคาร : '.$bank_name.' \n ชื่อบัญชี : '.$bank_owner.' \n เลขบัญชี : '.$bank_numowner.'"
+			}';
 			
 		}
-		elseif($text == "time"){
+		return $messages;
 			
 		}
-		elseif($text == "time"){
+		elseif($text == "map"){
+			
+		}
+		elseif($text == "contact"){
 			
 		}
 		else{
-			$sql = "SELECT * FROM fixcar WHERE f_tel = '$text'";
+
+			$sql = "SELECT * FROM fixcar WHERE f_tel = '$text' or f_line = '$text'";
 			$qty = $mysqli->query($sql);
 
 			if ($qty) {
 				while ($row = mysqli_fetch_array($qty)) {
-					$result = $row['type_idfix'];
+					$result = $row['id_fix'];
+		
 				}
-				if ($result == 1) {
+				$sql_car = "SELECT * FROM car WHERE id_fix = '$result'";
+				$qty_car = $mysqli->query($sql_car);
+				while($car = mysqli_fetch_array($qty_car)){
+					$numbercar = $car['c_number'];
+					$numbercar_log = $car['c_log'];
+					$series = $car['c_series'];
+					$gen = $car['c_gen'];
+					$status_car = $car['type_idfix'];
+				}
+				$countcar = mysqli_num_rows($qty_car);
+				if ($status_car == 1) {
 					$messages = '{
 						"type" : "text",
-						"text" : "รอดำเนินการ"
+						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : กำลังดำเนินการ"
 					}';
 					return $messages;
-				} elseif ($result == 2) {
+				} elseif ($status_car == 2) {
 					$messages = '{
 						"type" : "text",
-						"text" : "ตรวจสอบสถานะรถยนต์กรุณาพิมพ์/n
-						เบอร์ติดต่อ หรือ ไอดีไลน์ ของผู้ลูกค้า/n
-						ตัวอย่างเบอร์ติดต่อ : 0xx-xxx-xxxx"
+						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : กำลังซ่อม"
 					}';
 					return $messages;
-				} elseif ($result == 3) {
+				} elseif ($status_car == 3) {
 					$messages = '{
 						"type" : "text",
-						"text" : "' . $result . '"
+						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ซ่อมเสร็จเรียบร้อย"
 					}';
 					return $messages;
 				} elseif ($result == 4) {
 					$messages = '{
 						"type" : "text",
-						"text" : "' . $result . '"
+						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : รอการชำระเงิน"
 					}';
 					return $messages;
 				} elseif ($result == 5) {
 					$messages = '{
 						"type" : "text",
-						"text" : "' . $result . '"
+						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ชำระเงินเรียบร้อย"
 					}';
 					return $messages;
 				} elseif ($result == 6) {
 					$messages = '{
 						"type" : "text",
-						"text" : "' . $result . '"
+						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ระงับการใช้งาน"
 					}';
 					return $messages;
 				}
 			} else {
 				$messages = '{
 					"type" : "text",
-					"text" : "ไม่ถูกต้องกรุณาใส่อีกครั้ง"
+					"text" : "ไม่ถูกต้องกรุณาใส่อีกครั้ง 01"
 				}';
 				return $messages;
 			}
+			$messages = '{
+				"type" : "text",
+				"text" : "hhhhhhhh'.$text.'"
+			}';
+			return $messages;
 			
 		}
 
