@@ -55,6 +55,7 @@ function setFind($text, $mysqli)
 				$bank_name = $pay['bank_npay'];
 				$bank_owner = $pay['bank_nowner'];
 				$bank_numowner = $pay['bank_numower'];
+
 			$messages = '{
 				"type" : "text",
 				"text" : "รายละเอียดช่องทางการชำระเงิน \n ธนาคาร : '.$bank_name.' \n ชื่อบัญชี : '.$bank_owner.' \n เลขบัญชี : '.$bank_numowner.'"

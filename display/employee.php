@@ -1,12 +1,11 @@
 <?php 
 include('header.php'); 
 include('../backend/connect.php');
-
-$sql = "SELECT * FROM store";
+$sql = "SELECT * FROM technician";
 $query = mysqli_query($mysqli,$sql);
 $qty = mysqli_query($mysqli,$sql);
 while ($res = mysqli_fetch_array($qty)){
-    $id = $res['store_id'];
+    $id = $res['id_tc'];
 }
 // while ($result = mysqli_fetch_array($query)){
 //     $id = $result[0];
@@ -15,7 +14,28 @@ while ($res = mysqli_fetch_array($qty)){
 
 <div id="layoutSidenav_content">
     <main>
-        <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+    <?php
+            $idweb = $_SESSION['id'];
+            $sql_color = "SELECT * FROM user WHERE user_id = '$idweb'";
+            $qty_color = mysqli_query($mysqli,$sql_color);
+            while($color = mysqli_fetch_array($qty_color)){ 
+                    $type = $color['web_type'];
+            }
+        ?>
+        <?php 
+            if($type == 1){
+                echo "<header class='page-header page-header-dark bg-gradient-default pb-10'>";
+            }
+            if($type == 2){
+                echo "<header class='page-header page-header-dark bg-gradient-sunset pb-10'>";
+            }
+            if($type == 3){
+                echo "<header class='page-header page-header-dark bg-gradient-subtle pb-10'>";
+            }
+            if($type == 4){
+                echo "<header class='page-header page-header-dark bg-gradient-emerald pb-10'>";
+            }
+        ?>
             <div class="container-xl px-4">
                 <div class="page-header-content pt-4">
                     <div class="row align-items-center justify-content-between">
@@ -34,29 +54,29 @@ while ($res = mysqli_fetch_array($qty)){
         <!-- Main page content-->
         <div class="container-xl px-4 mt-n10">
             <div class="card mb-4">
-                <div class="card-header">รายละเอียดข้อมูลอะไหล่ <button class="btn btn-outline-warning shadow-lg lift"
-                        type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">+เพิ่มอะไหล่</button></div>
+                <div class="card-header">รายละเอียดข้อมูลพนักงาน <button class="btn btn-outline-warning shadow-lg lift"
+                        type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">+เพิ่มพนักงาน</button></div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="datatablesSimple">
                             <thead class="text-dark">
                                 <tr>
-                                    <th>รหัสอะไหล่</th>
+                                    <th>รหัสพนักงาน</th>
                                     <th>ชื่อ</th>
-                                    <th>ราคา</th>
-                                    <th>จำนวน</th>
-                                    <th>ประเถท</th>
+                                    <th>ที่อยู่</th>
+                                    <th>เบอร์ติดต่อ</th>
+                                    <th>แผนก</th>
                                     <th>รูปภาพ</th>
                                     <th class="text-center">ดำเนินการ/ระงับ</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>รหัสอะไหล่</th>
+                                    <th>รหัสพนักงาน</th>
                                     <th>ชื่อ</th>
-                                    <th>ราคา</th>
-                                    <th>จำนวน</th>
-                                    <th>ประเถท</th>
+                                    <th>ที่อยู่</th>
+                                    <th>เบอร์ติดต่อ</th>
+                                    <th>แผนก</th>
                                     <th>รูปภาพ</th>
                                     <th class="text-center">ดำเนินการ/ระงับ</th>
                                 </tr>
@@ -68,26 +88,33 @@ while ($res = mysqli_fetch_array($qty)){
                                         ?>
                                 <tr>
                                     <td class="text-danger">#00<?=$row[0];?></td>
-                                    <td><?=$row['s_name'];?></td>
-                                    <td><?=$row['s_price'];?></td>
-                                    <td><?=$row['s_amount'];?></td>
+                                    <td><?=$row['tc_name'];?></td>
+                                    <td><?=$row['tc_address'];?></td>
+                                    <td><?=$row['tc_tel'];?></td>
                                     <td>
                                         <?php 
-                                            if($row['s_type'] == 1){
-                                                echo "<label class='text-red'>เครื่องยนต์</label>";
-                                            }elseif ($row['s_type'] == 2) {
-                                                echo "<label class='text-blue'>ช่าวงล่าง</label>";
-                                            }elseif ($row['s_type'] == 3){
-                                                echo "<label class='text-warning'>ตัวถัง</label>";
-                                            }elseif ($row['s_type'] == 4){
-                                                echo "<label class='text-primary'>ล้อ</label>";
-                                            }elseif ($row['s_type'] == 5){
-                                                echo "<label class='text-teal'>อื่นๆ</label>";
+                                            if($row['type_iddmt'] == 1){
+                                                echo "<label class='text-red'>ช่างเครื่องยนต์</label>";
+                                            }elseif ($row['type_iddmt'] == 2) {
+                                                echo "<label class='text-blue'>ช่างไฟฟ้า</label>";
+                                            }elseif ($row['type_iddmt'] == 3){
+                                                echo "<label class='text-warning'>ช่างช่วงล่าง</label>";
+                                            }elseif ($row['type_iddmt'] == 4){
+                                                echo "<label class='text-primary'>ช่างการยาง</label>";
+                                            }elseif ($row['type_iddmt'] == 5){
+                                                echo "<label class='text-teal'>ช่วงตรวจสภาพ</label>";
                                             }
                                         ?>
                                     </td>
-                                    <td><img src="assets/img/product/<?=$row['s_pic'];?>" alt="" width="50px"
-                                            height="50px"></td>
+                                    <td>
+                                        <?php
+                                        if($row['tc_pic'] !== 0){ ?>
+                                                <img src="assets/img/emp/<?=$row['tc_pic'];?>" alt="" width="50px"
+                                            height="50px">
+                                        <?php  }elseif($row['tc_pic'] == 0){ 
+                                            echo "ไม่มีรูปภาพ";
+                                        } ?>
+                                    </td>
                                     <td class="text-center">
                                         <button class="btn btn-outline-warning shadow lift btn-sm" type="button"
                                             data-bs-toggle="modal" data-bs-target="#edit<?=$row[0];?>">แก้ไข</button>
@@ -104,7 +131,7 @@ while ($res = mysqli_fetch_array($qty)){
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="edit_store.php?store_id=<?=$row[0];?>" method="post"
+                                                <form action=edit_emp.php?id_tc=<?=$row[0];?>" method="post"
                                                     enctype="multipart/form-data">
                                                     <?php 
                                                         $sql_edit = "SELECT * FROM store WHERE store_id = '".$row[0]."'";
@@ -115,26 +142,26 @@ while ($res = mysqli_fetch_array($qty)){
                                                         <div class="col-md-6">
                                                             <label for="">ชื่อ:</label>
                                                             <input class="form-control" type="text" name="name"
-                                                                value="<?=$edit['s_name'];?>" required>
+                                                                value="<?=$edit['tc_name'];?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="row gx-4 md-4">
                                                         <div class="col-md-4">
-                                                            <label for="">ราคา:</label>
-                                                            <input class="form-control" type="number" name="price"
-                                                                value="<?=$edit['s_price'];?>" placeholder="0.00"
+                                                            <label for="">ที่อยู่:</label>
+                                                            <input class="form-control" type="text" name="add"
+                                                                value="<?=$edit['tc_address'];?>" placeholder="0.00"
                                                                 required>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="">จำนวน:</label>
-                                                            <input class="form-control" type="number" name="amo"
-                                                                value="<?=$edit['s_amount'];?>" value="1" required>
+                                                            <label for="">เบอร์ติดต่อ:</label>
+                                                            <input class="form-control" type="number" name="tel"
+                                                                value="<?=$edit['tc_tel'];?>"  required>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="">ประเภท:</label>
+                                                            <label for="">แผนก:</label>
                                                             <select class="form-control" name="type" id="type" required>
-                                                                <option value="<?=$edit['s_amount'];?>">
-                                                                    <?=$edit['s_amount'];?></option>
+                                                                <option value="<?=$edit['id_ddmt'];?>">
+                                                                    <?=$edit['id_ddmt'];?>id_ddmt</option>
                                                                 <option value="1">เครื่องยนต์</option>
                                                                 <option value="2">ช่วงล่าง</option>
                                                                 <option value="3">ตัวถัง</option>
@@ -183,21 +210,21 @@ while ($res = mysqli_fetch_array($qty)){
                         </div>
                         <div class="row gx-4 md-4">
                             <div class="col-md-4">
-                                <label for="">ราคา:</label>
-                                <input class="form-control" type="number" name="price" placeholder="0.00" required>
+                                <label for="">ที่ิอยู่:</label>
+                                <input class="form-control" type="text" name="add" required>
                             </div>
                             <div class="col-md-4">
-                                <label for="">จำนวน:</label>
-                                <input class="form-control" type="number" name="amo" value="1" required>
+                                <label for="">เบอร์ติดต่อ:</label>
+                                <input class="form-control" type="number" name="tel"  required>
                             </div>
                             <div class="col-md-4">
-                                <label for="">ประเภท:</label>
+                                <label for="">แผนก:</label>
                                 <select class="form-control" name="type" id="type" required>
-                                    <option value="1">เครื่องยนต์</option>
-                                    <option value="2">ช่วงล่าง</option>
-                                    <option value="3">ตัวถัง</option>
-                                    <option value="4">ล้อ</option>
-                                    <option value="5">อื่นๆ</option>
+                                    <option value="1">ช่างเครื่องยนต์</option>
+                                    <option value="2">ช่างไฟฟ้า</option>
+                                    <option value="3">ช่างช่วงล่าง</option>
+                                    <option value="4">ช่างการยาง</option>
+                                    <option value="5">ช่วงตรวจสภาพ</option>
                                 </select>
                             </div>
                             <div class="col-md-6">

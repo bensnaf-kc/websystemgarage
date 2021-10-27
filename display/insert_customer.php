@@ -1,7 +1,28 @@
 <?php include('header.php'); ?>
 <div id="layoutSidenav_content">
     <main>
-        <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+    <?php
+            $idweb = $_SESSION['id'];
+            $sql_color = "SELECT * FROM user WHERE user_id = '$idweb'";
+            $qty_color = mysqli_query($mysqli,$sql_color);
+            while($color = mysqli_fetch_array($qty_color)){ 
+                    $type = $color['web_type'];
+            }
+        ?>
+        <?php 
+            if($type == 1){
+                echo "<header class='page-header page-header-dark bg-gradient-default pb-10'>";
+            }
+            if($type == 2){
+                echo "<header class='page-header page-header-dark bg-gradient-sunset pb-10'>";
+            }
+            if($type == 3){
+                echo "<header class='page-header page-header-dark bg-gradient-subtle pb-10'>";
+            }
+            if($type == 4){
+                echo "<header class='page-header page-header-dark bg-gradient-emerald pb-10'>";
+            }
+        ?>
         </header>
         <div class="container-fluid px-4 mt-n10">
             <div class="card-body">
