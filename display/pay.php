@@ -1,8 +1,14 @@
 <?php 
-include('../backend/connect.php'); 
 include('header.php'); 
+include('../backend/connect.php');
 
+$sql = "SELECT * FROM `fixcar` WHERE type_idfix BETWEEN '4' AND '5'";
+$query = mysqli_query($mysqli,$sql);
+// while ($result = mysqli_fetch_array($query)){
+//     $id = $result[0];
+// }
 ?>
+
 <div id="layoutSidenav_content">
     <main>
     <?php
@@ -32,41 +38,75 @@ include('header.php');
                     <div class="row align-items-center justify-content-between">
                         <div class="col-auto mt-4">
                             <h1 class="page-header-title">
-                                <div class="page-header-icon"><i data-feather="activity"></i></div>
+                                <div class="page-header-icon"><i data-feather="filter"></i></div>
                                 การชำระเงิน
                             </h1>
                             <div class="page-header-subtitle">
-                            </div>
+                                รายละเอียดการชำระของลูกค้า</div>
                         </div>
                     </div>
                 </div>
             </div>
         </header>
         <!-- Main page content-->
-        <div class="container-fluid px-4 mt-n10">
-            <div class="row">
-                <div class="col-lg-6 col-xl-3 mb-4">
-                    <div class="card h-100 lift">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="me-3">
-                                    <div class="text-lg fw-bold text-primary">ผู้ใช้งาน</div>
-                                </div>
-                                <i class="fas fa-user-tie"></i>
-                            </div>
-                        </div>
-                    </div>
+        <div class="container-xl px-4 mt-n10">
+            <div class="card mb-4">
+                <div class="card-header">รายะลเอียดการชำระเงิน &nbsp;
+                <a href="pay_wait.php" class="btn btn-outline-warning shadow lift">รอการชำระ</a>
+                <a href="pay_wait.php" class="btn btn-outline-success shadow lift">ชำระเงินเรียบร้อย</a>
                 </div>
-                <div class="col-lg-6 col-xl-3 mb-4">
-                    <div class="card  h-100 lift">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="me-3">
-                                <div class="text-lg fw-bold text-primary">ลูกค้า</div>
-                                </div>
-                                <i class="fas fa-user"></i>
-                            </div>
-                        </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="datatablesSimple">
+                            <thead class="text-dark">
+                                <tr>
+                                    <th>รหัสลูกค้า</th>
+                                    <th>ชื่อลูกค้า</th>
+                                    <th>วันที่มาติดต่อ</th>
+                                    <th>สถานะ</th>
+                                    <th class="text-center">ดำเนินการ/ระงับ</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>รหัสลูกค้า</th>
+                                    <th>ชื่อลูกค้า</th>
+                                    <th>วันที่มาติดต่อ</th>
+                                    <th>สถานะ</th>
+                                    <th class="text-center">ดำเนินการ/ระงับ</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <?php 
+                                            while ($row = mysqli_fetch_array($query)) {
+                                        ?>
+                                <tr>
+                                    <td class="text-danger">#00<?=$row['id_fix'];?></td>
+                                    <td><?=$row['f_name'];?></td>
+                                    <td><?=$row['f_datecom'];?></td>
+                                    <td>
+                                        <?php
+                                            if($row['type_idfix'] == 4){
+                                                echo "<span class='badge badge-warning'>รอการชำระเงิน</span>";
+                                            }elseif($row['type_idfix'] == 5){
+                                                echo "<span class='badge badge-success'>ชำระเงินเรียบร้อย</span>";
+                                            }
+                                        ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <!--  -->
+                                        <a href="list_car.php?id_fix=<?=$row['id_fix'];?>"
+                                            class="btn btn-warning btn-sm shadow-lg lift"
+                                            role="button">รถยนต์</a>
+                                        <a href="list_car.php?id_fix=<?=$row['id_fix'];?>"
+                                            class="btn btn-dark btn-sm shadow-lg lift "
+                                            role="button">ระงับ</a>
+                                        <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button> -->
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
