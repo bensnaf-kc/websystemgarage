@@ -12,10 +12,6 @@
             type="button" role="tab" aria-controls="pills-contact" aria-selected="false">ประกันภัย/เครม</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-fix-tab" data-bs-toggle="pill" data-bs-target="#pills-fix" type="button"
-            role="tab" aria-controls="pills-fix" aria-selected="false">รายการซ่อม</button>
-    </li>
-    <li class="nav-item" role="presentation">
         <button class="nav-link" id="pills-paybuy-tab" data-bs-toggle="pill" data-bs-target="#pills-paybuy"
             type="button" role="tab" aria-controls="pills-paybuy" aria-selected="false">การชำระเงิน</button>
     </li>
@@ -169,9 +165,7 @@
                     <form action="" method="post">
                         <div class="row gx-4 md-4">
                             <div class="col-md-3">
-                                <label for="">สาเหตุ: <button class="btn btn-info shadow lift" type="button"
-                                        data-bs-toggle="modal" data-bs-target="#infocar">+
-                                        เพิ่มสาเหตุ/อาการ</button></label><br>
+                                <label for="">สาเหตุ:</label><br>
                                 <?php
                                     $sql_info = "SELECT * FROM infocar WHERE id_car = '$idcar'";
                                     $qty_info = mysqli_query($mysqli, $sql_info);
@@ -195,6 +189,11 @@
                                         <?php } ?>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-info shadow lift" type="button"
+                                        data-bs-toggle="modal" data-bs-target="#infocar">+
+                                        เพิ่มสาเหตุ/อาการ</button>
                             </div>
                             <?php } ?>
                         </div>
