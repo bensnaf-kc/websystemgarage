@@ -64,7 +64,7 @@ $query = mysqli_query($mysqli,$sql);
                                     <th>ชื่อลูกค้า</th>
                                     <th>วันที่มาติดต่อ</th>
                                     <th>สถานะ</th>
-                                    <th class="text-center">ดำเนินการ/ระงับ</th>
+                                    <th class="text-center">ดำเนินการ</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -73,7 +73,7 @@ $query = mysqli_query($mysqli,$sql);
                                     <th>ชื่อลูกค้า</th>
                                     <th>วันที่มาติดต่อ</th>
                                     <th>สถานะ</th>
-                                    <th class="text-center">ดำเนินการ/ระงับ</th>
+                                    <th class="text-center">ดำเนินการ</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -87,9 +87,9 @@ $query = mysqli_query($mysqli,$sql);
                                     <td>
                                         <?php
                                             if($row['type_idfix'] == 4){
-                                                echo "<span class='badge badge-warning'>รอการชำระเงิน</span>";
+                                                echo "<div class='badge bg-warning text-while rounded-pill'>รอการชำระเงิน</div>";
                                             }elseif($row['type_idfix'] == 5){
-                                                echo "<span class='badge badge-success'>ชำระเงินเรียบร้อย</span>";
+                                                echo "<div class='badge bg-success text-while rounded-pill'>ชำระเงินเรียบร้อย</div>";
                                             }
                                         ?>
                                     </td>
@@ -97,10 +97,7 @@ $query = mysqli_query($mysqli,$sql);
                                         <!--  -->
                                         <a href="list_car.php?id_fix=<?=$row['id_fix'];?>"
                                             class="btn btn-warning btn-sm shadow-lg lift"
-                                            role="button">รถยนต์</a>
-                                        <a href="list_car.php?id_fix=<?=$row['id_fix'];?>"
-                                            class="btn btn-dark btn-sm shadow-lg lift "
-                                            role="button">ระงับ</a>
+                                            role="button">ดำเนินการ</a>
                                         <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button> -->
                                     </td>
                                 </tr>

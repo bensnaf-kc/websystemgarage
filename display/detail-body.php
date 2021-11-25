@@ -547,25 +547,26 @@
             </div>
         </div>
     </div>
-</div>
-</div>
-<div class="tab-pane fade" id="pills-fix" role="tabpanel" aria-labelledby="pills-fix-tab">
-    <div class="card-body">
-        <div class="card bg-light">
-            <div class="card-header text-dark">รายละเอียดรายการซ่อม &nbsp;<a
-                    href="insert_checkcar.php?id_car=<?= $id; ?>&id_fix=<?= $idcar; ?>"
-                    class="btn btn-primary btn-sm shadow lift">+เพิ่มข้อมูล</a></div>
-            <div class="card-body">
-                <form action="edit_insr.php?id_car=<?= $idcar; ?>" method="POST" enctype="multipart/form-data">
-                    <div class="row gx-4 md-4">
-                        <div class="card-body">
+    <!-- fix -->
+    <div class="tab-pane fade" id="pills-fix" role="tabpanel" aria-labelledby="pills-fix-tab">
+        <div class="card-body">
+            <div class="card bg-light">
+                <div class="card-header text-dark">รายละเอียดรายการซ่อม &nbsp;<a
+                        href="insert_checkcar.php?id_car=<?= $id; ?>&id_fix=<?= $idcar; ?>"
+                        class="btn btn-primary btn-sm shadow lift">+เพิ่มข้อมูล</a></div>
+                <div class="card-body">
+                    <form action="edit_insr.php?id_car=<?= $idcar; ?>" method="POST" enctype="multipart/form-data">
+                        <div class="row gx-4 md-4">
+                            <div class="card-body">
 
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 </div>

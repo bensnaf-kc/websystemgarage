@@ -22,7 +22,7 @@ $c = 1;
             $qty_color = mysqli_query($mysqli,$sql_color);
             while($color = mysqli_fetch_array($qty_color)){ 
                     $type = $color['web_type'];
-            }
+            
         ?>
         <?php 
             if($type == 1){
@@ -149,7 +149,21 @@ $c = 1;
                                         <?php } ?>
                                     </div>
                                 </div>
-                                <div class="card-footer bg-gradient-primary-to-secondary">
+                                <?php
+                                    if($type == 1){
+                                        echo "<div class='card-footer bg-gradient-default'>";
+                                    }
+                                    if($type == 2){
+                                        echo "<div class='card-footer bg-gradient-sunset'>";
+                                    }
+                                    if($type == 3){
+                                        echo "<div class='card-footer bg-gradient-subtle'>";
+                                    }
+                                    if($type == 4){
+                                        echo "<div class='card-footer bg-gradient-emerald'>";
+                                    }
+                                }
+                                ?>
                                     <div class="row gx-4 md-4">
                                         <div class="col-md-4" align="left">
                                         <a href="" class="btn btn-light btn-sm text-end shadow lift"
