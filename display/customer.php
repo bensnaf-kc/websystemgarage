@@ -51,7 +51,7 @@ $query = mysqli_query($mysqli,$sql);
         <!-- Main page content-->
         <div class="container-xl px-4 mt-n10">
             <div class="card mb-4">
-                <div class="card-header">รายะลเอียดข้อมูลลูกค้า</div>
+                <div class="card-header">รายละเอียดข้อมูลลูกค้า</div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="datatablesSimple">

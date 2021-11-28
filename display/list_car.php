@@ -18,43 +18,43 @@ while ($car = mysqli_fetch_array($carquery)) {
 
 <div id="layoutSidenav_content">
     <main>
-    <?php
-            $idweb = $_SESSION['id'];
-            $sql_color = "SELECT * FROM user WHERE user_id = '$idweb'";
-            $qty_color = mysqli_query($mysqli,$sql_color);
-            while($color = mysqli_fetch_array($qty_color)){ 
-                    $type = $color['web_type'];
-            }
+        <?php
+        $idweb = $_SESSION['id'];
+        $sql_color = "SELECT * FROM user WHERE user_id = '$idweb'";
+        $qty_color = mysqli_query($mysqli, $sql_color);
+        while ($color = mysqli_fetch_array($qty_color)) {
+            $type = $color['web_type'];
+        }
         ?>
-        <?php 
-            if($type == 1){
-                echo "<header class='page-header page-header-dark bg-gradient-default pb-10'>";
-            }
-            if($type == 2){
-                echo "<header class='page-header page-header-dark bg-gradient-sunset pb-10'>";
-            }
-            if($type == 3){
-                echo "<header class='page-header page-header-dark bg-gradient-subtle pb-10'>";
-            }
-            if($type == 4){
-                echo "<header class='page-header page-header-dark bg-gradient-emerald pb-10'>";
-            }
+        <?php
+        if ($type == 1) {
+            echo "<header class='page-header page-header-dark bg-gradient-default pb-10'>";
+        }
+        if ($type == 2) {
+            echo "<header class='page-header page-header-dark bg-gradient-sunset pb-10'>";
+        }
+        if ($type == 3) {
+            echo "<header class='page-header page-header-dark bg-gradient-subtle pb-10'>";
+        }
+        if ($type == 4) {
+            echo "<header class='page-header page-header-dark bg-gradient-emerald pb-10'>";
+        }
         ?>
-            <div class="container-xl px-4">
-                <div class="page-header-content pt-4">
-                    <div class="row align-items-center justify-content-between">
-                        <div class="col-auto mt-4">
-                            <h1 class="page-header-title">
-                                <div class="page-header-icon"><i data-feather="filter"></i></div>
-                                รถยนต์
-                            </h1>
-                            <div class="page-header-subtitle">
-                                รายละเอียดรถยนต์ของลูกค้าสร้างใหม่หรือตรวจเช็คสภาพรถยนต์
-                            </div>
+        <div class="container-xl px-4">
+            <div class="page-header-content pt-4">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto mt-4">
+                        <h1 class="page-header-title">
+                            <div class="page-header-icon"><i data-feather="filter"></i></div>
+                            รถยนต์
+                        </h1>
+                        <div class="page-header-subtitle">
+                            รายละเอียดรถยนต์ของลูกค้าสร้างใหม่หรือตรวจเช็คสภาพรถยนต์
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-n10">
@@ -70,6 +70,7 @@ while ($car = mysqli_fetch_array($carquery)) {
                                     <th>รุ่น/ยี่ห้อ</th>
                                     <th>สาเหตุ</th>
                                     <th>รูป</th>
+                                    <th>สถานะรถ</th>
                                     <th class="text-center">ดำเนินการ/ระงับ</th>
                                 </tr>
                             </thead>
@@ -80,6 +81,7 @@ while ($car = mysqli_fetch_array($carquery)) {
                                     <th>รุ่น/ยี่ห้อ</th>
                                     <th>สาเหตุ</th>
                                     <th>รูป</th>
+                                    <th>สถานะรถ</th>
                                     <th class="text-center">ดำเนินการ/ระงับ</th>
                                 </tr>
                             </tfoot>
@@ -98,7 +100,7 @@ while ($car = mysqli_fetch_array($carquery)) {
                                             $qty_info = mysqli_query($mysqli, $sql_info);
                                             while ($row_info = mysqli_fetch_array($qty_info)) {
                                             ?>
-                                                <label class="text-dark"><?=$n++;?>.</label><?= $row_info['info_name']; ?>
+                                                <label class="text-dark"><?= $n++; ?>.</label><?= $row_info['info_name']; ?>
                                             <?php } ?>
                                         </td>
                                         <td class="text-center">
@@ -108,6 +110,29 @@ while ($car = mysqli_fetch_array($carquery)) {
                                             } else { ?>
                                                 <img src="assets/img/car/<?= $row['c_pic']; ?>" class="rounded" alt="" width="85px" height="85px"><br>
                                             <?php
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if ($row['type_idfix'] == 1) {
+                                                echo "<div class='badge bg-gray-500 text-while rounded-pill'
+                                                        type=''>รอดำเนินการ</div>";
+                                            } else if ($row['type_idfix'] == 2) {
+                                                echo "<div class='badge bg-warning text-while rounded-pill'
+                                                        >กำลังซ่อม</div>";
+                                            } else if ($row['type_idfix'] == 3) {
+                                                echo "<div class='badge bg-teal text-while rounded-pill'
+                                                        type='div disabled'>ซ่อมเสร็จ</div>";
+                                            } else if ($row['type_idfix'] == 4) {
+                                                echo "<div class='badge bg-danger text-while rounded-pill'
+                                                        >รอการชำระ</div>";
+                                            } else if ($row['type_idfix'] == 5) {
+                                                echo "<div class='badge bg-success text-while rounded-pill'
+                                                        >ชำระเรียบร้อย</div>";
+                                            } else if ($row['type_idfix'] == 6) {
+                                                echo "<div class='badge bg-black text-while rounded-pill'
+                                                        >ระงับ</div>";
                                             }
                                             ?>
                                         </td>
@@ -127,7 +152,7 @@ while ($car = mysqli_fetch_array($carquery)) {
                                                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="add_infocar.php?id_fix=<?=$id;?>&id_car=<?=$idcar;?>" method="post">
+                                                    <form action="add_infocar.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="post">
                                                         <div class="row">
                                                             <div class="col">
                                                                 <label for="">สาเหตู/อาการ:</label><br>

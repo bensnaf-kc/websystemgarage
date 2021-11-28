@@ -22,20 +22,18 @@
 <body>
 <?php
     include('../backend/connect.php');
-    // $pro_name = $_POST['p_name'];
+    $or = $_GET['or_id'];
     $idcar = $_GET['id_car'];
     $id = $_GET['id_fix'];
-    $list = $_POST['list'];
-    $amot = $_POST['amot'];
-    $price = $_POST['price'];
-    
+    $tech = $_POST['tech'];
+    $dep = $_POST['dep'];
 
-    $sql = "INSERT INTO parts (pt_id, id_car, p_name, p_price, p_amount) 
-            VALUES (NULL,'$idcar','$list','$price','$amot')";
+    $sql = "UPDATE oder_repair
+            SET or_name = '$tech', or_depart = '$dep'
+            WHERE or_id = '$or'";
     $query = mysqli_query($mysqli,$sql);
-    
     if ($query) {
-        header("refresh:0;url=list-repair.php?id_fix=".$id."&id_car=".$idcar);  
+        header("refresh:1;url=confixcar.php?id_fix=".$id."&id_car=".$idcar);  
     }else{
         echo '<script type="text/javascript">
         swal("","เพิ่มการซ่อมไม่สำเร็จ", "error");
@@ -47,9 +45,9 @@
     Swal.fire({
         //   position: 'top-end',
         icon: 'success',
-        title: 'การเพิ่มสำเร็จ',
+        title: 'แก้ไขสำเร็จ',
         showConfirmButton: false,
-        timer: 1000
+        timer: 650
     })
     </script>
 </body>
