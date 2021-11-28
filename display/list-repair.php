@@ -157,6 +157,7 @@ $n = 1;
                         </table>
                     </div>
                 </div>
+                <div class="modal-footer"><a href="confixcar.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-success shadow lift">ต่อไป&nbsp;<i class="fas fa-arrow-circle-right"></i></a></div>
             </div>
         </div>
     </main>
@@ -204,6 +205,28 @@ $n = 1;
             </div>
             <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- ต่อไป -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ดำเนินการซ่อม</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <form action="comple_fixcar.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="post">
+                        <label for="date">วันรับรถยนต์:</label>
+                        <input type="date" class="form-control" name="date" id="date" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-success shadow lift" type="submit">เสร็จสิ้น</button></form></div>
         </div>
     </div>
 </div>

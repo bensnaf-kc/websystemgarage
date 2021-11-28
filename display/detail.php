@@ -174,7 +174,7 @@ $c = 1;
                                             <button class="btn btn-light dropdown-toggle shadow lift" id="dropdownFadeIn" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">สถานะงาน</button>
                                             <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownFadeIn">
                                                 <a class="dropdown-item" href="update1.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>">สร้างใหม่</a>
-                                                <a class="dropdown-item" href="confixcar.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>">ทำการซ่อม</a>
+                                                <a class="dropdown-item" href="list-repair.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>">ทำการซ่อม</a>
                                                 <a class="dropdown-item" href="update3.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>">ซ่อมสำเร็จ</a>
                                                 <a class="dropdown-item" href="update4.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>">ออกใบแจ้งหนี้</a>
                                                 <hr>

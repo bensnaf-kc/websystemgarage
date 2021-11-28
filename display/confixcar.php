@@ -231,8 +231,7 @@ $n = 1;
                         </div>
                     </div> -->
             </div>
-            <div class="modal-footer"><button class="btn btn-light shadow lift" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form>
-            </div>
+            <div class="modal-footer"><button class="btn btn-light shadow lift" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form></div>
         </div>
     </div>
 </div>
