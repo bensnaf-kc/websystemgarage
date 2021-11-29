@@ -33,7 +33,7 @@
     $query = mysqli_query($mysqli,$sql);
     
     if ($query) {
-        header("refresh:1;url=detail.php?id_fix=".$id."&id_car=".$idcar);  
+        header("refresh:1;url=detail.php?id_fix=".$id."&id_car=".$idcar."#pills-paybuy-tab");  
     }else{
         echo '<script type="text/javascript">
         swal("","เพิ่มการซ่อมไม่สำเร็จ", "error");

@@ -34,7 +34,11 @@
     if ($pic_name == NULL) {
         $sql = "INSERT INTO pay (pay_id, id_fix, id_car, pay_date, pay_price, pay_pic, pay_type) 
                 VALUES (NULL,'$id','$id_fix',current_timestamp(),'$price','','2')";
-        if ($mysqli->query($sql) === TRUE) {
+
+        $sql_succ = "UPDATE car SET type_idfix = '5' WHERE id_car = '$idcar'";
+        $qty_succ = mysqli_query($mysqli,$sql_succ);
+
+        if ($qty_succ) {
             echo '<script type="text/javascript">
             swal("","การเพิ่มสำเสร็จ", "success");
                 </script>';
@@ -48,7 +52,10 @@
     }else{
         $sql = "INSERT INTO pay (pay_id, id_fix, id_car, pay_date, pay_price, pay_pic,pay_type) 
                 VALUES (NULL,'$id','$id_fix',current_timestamp(),'$price','$newname','2')";
-        if ($mysqli->query($sql) === TRUE) {
+
+        $sql_succ = "UPDATE car SET type_idfix = '5' WHERE id_car = '$idcar'";
+        $qty_succ = mysqli_query($mysqli,$sql_succ);
+        if ($qty_succ) {
             copy($pic_tmp,"assets/img/deposit/$newname");
             echo '<script type="text/javascript">
             swal("","การเพิ่มสำเสร็จ", "success");

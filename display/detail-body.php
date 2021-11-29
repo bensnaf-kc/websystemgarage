@@ -242,7 +242,7 @@
     <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
         <div class="card-body">
             <div class="card bg-light">
-                <div class="card-header text-dark">รายละเอียดประกันภัย <a href="insert_insurance.php?id_car=<?= $idcar; ?>&id_fix=<?= $id; ?>" class="btn btn-primary btn-sm">+ เพิ่มประกัน/เครม</a><a href="bill_insu.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" type="button" class="btn btn-info btn-sm shadow lift">พิมพ์</a></div>
+                <div class="card-header text-dark">รายละเอียดประกันภัย <a href="insert_insurance.php?id_car=<?= $idcar; ?>&id_fix=<?= $id; ?>" class="btn btn-primary btn-sm">+ เพิ่มประกัน/เครม</a>&nbsp;<a href="bill_insu.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" type="button" class="btn btn-info btn-sm shadow lift"><i class="fas fa-print"></i>&nbsp;พิมพ์</a></div>
                 <div class="card-body">
                     <div class="card-body">
                         <form action="edit_insr.php?id_fix=<?= $id ?>&id_car=<?= $idcar; ?>" method="POST" enctype="multipart/form-data">
@@ -432,7 +432,7 @@
     <div class="tab-pane fade" id="pills-paybuy" role="tabpanel" aria-labelledby="pills-paybuy-tab">
         <div class="card-body">
             <div class="card bg-light">
-                <div class="card-header text-dark">รายละเอียดการชำระเงิน &nbsp;<button class="btn bg-blue text-white shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#Deposit">+ เพิ่มค่ามัดจำ</button>&nbsp;<button class="btn bg-blue text-white  shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#pay-repair">+ เพิ่มค่าซ่อม</button></div>
+                <div class="card-header text-dark">รายละเอียดการชำระเงิน &nbsp;<button class="btn btn-outline-primary shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#Deposit">+ เพิ่มค่ามัดจำ</button>&nbsp;<button class="btn btn-outline-primary  shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#pay-repair">+ เพิ่มค่าซ่อม</button></div>
                 <div class="card-body">
                     <div class="d-flex align-items-start">
                         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -442,10 +442,10 @@
                         <div class="tab-content" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                                 <?php
-                                $sql_pay = "SELECT * FROM pay WHERE id_car = '$idcar'";
-                                $qty_pay = mysqli_query($mysqli, $sql_pay);
-                                $row_pay = mysqli_fetch_array($qty_pay);
-                                if ($row_pay['pay_pic'] == 0) { ?>
+                                $sql_dep = "SELECT * FROM pay WHERE id_car = '$idcar'";
+                                $qty_dep = mysqli_query($mysqli, $sql_dep);
+                                $row_dep = mysqli_fetch_array($qty_dep);
+                                if (empty($row_dep['pay_pic'])) { ?>
                                     <div class="row gx-4">
                                         <div class="col-md-4">
                                             <label class="fs-6 text-gray-600">รูปภาพ:</label><br>
@@ -453,17 +453,17 @@
                                             <button class="btn btn-warning btn-sm shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#deposit-insert">เพิ่มรูปภาพ</button>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="">ค่ามัดจำ(บ.):</label><br>
-                                            <label for="" class="text-orange"><?= $row_pay['pay_price']; ?>.00</label>
+                                            ค่ามัดจำ(บ.):<br>
+                                            <label for="" class="text-blue">0.00</label>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="">คงเหลือ(บ.):</label><br>
+                                            ค้างชำระ(บ.):<br>
                                             <?php
                                             $sql_result = "SELECT SUM(p_price) FROM parts WHERE id_car = '$idcar'";
                                             $qty_result = mysqli_query($mysqli, $sql_result);
                                             $sum = mysqli_fetch_array($qty_result);
                                             ?>
-                                            <label for="" class="text-blue"><?= $sum[0] - $row_pay['pay_price'] ?>.00</label>
+                                            <label for="" class="text-danger"><?= $sum[0] ?>.00</label>
                                         </div>
                                     </div>
                                 <?php
@@ -471,74 +471,78 @@
                                     <div class="row gx-4">
                                         <div class="col-md-4">
                                             <label for="" class="fs-6 text-gray-600">รูปภาพ:</label><br>
-                                            <img src="assets/img/deposit/<?= $row_pay['pay_pic']; ?>" style="height: 100; width: 100px;"><br><br>
-                                            <button class="btn btn-warning btn-sm shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#deposit-edit<?= $row_pay[0]; ?>">แก้ไขรูปภาพ</button>
+                                            <img src="assets/img/deposit/<?= $row_dep['pay_pic']; ?>" style="height: 100; width: 100px;"><br><br>
+                                            <button class="btn btn-warning btn-sm shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#deposit-edit<?= $row_dep[0]; ?>">แก้ไขรูปภาพ</button>
                                         </div>
                                         <div class="col">
-                                            <label for="">ค่ามัดจำ(บ.):</label><br>
-                                            <label for="" class="text-orange"><?= $row_pay['pay_price']; ?>.00</label>
+                                            ค่ามัดจำ(บ.):
+                                            <label for="" class="text-blue"><?= $row_dep['pay_price']; ?>.00</label>
                                         </div>
                                         <div class="col">
-                                            <label for="">คงเหลือ(บ.):</label><br>
+                                            ค้างชำระ(บ.):
                                             <?php
                                             $sql_result = "SELECT SUM(p_price) FROM parts WHERE id_car = '$idcar'";
                                             $qty_result = mysqli_query($mysqli, $sql_result);
                                             $sum = mysqli_fetch_array($qty_result);
+                                            $deposit = $sum[0] - $row_dep['pay_price'];
                                             ?>
-                                            <label for="" class="text-blue"><?= $sum[0] - $row_pay['pay_price'] ?>.00</label>
+                                            <label for="" class="text-danger"><?=$deposit?>.00</label>
                                         </div>
                                     </div>
                                 <?php }  ?>
                             </div>
                             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                            <div class="row">
                             <?php
-                                $sql_pay = "SELECT * FROM pay WHERE id_car = '$idcar'";
+                                $sql_pay = "SELECT * FROM pay WHERE id_car = '$idcar' AND pay_type = '2'";
                                 $qty_pay = mysqli_query($mysqli, $sql_pay);
                                 $row_pay = mysqli_fetch_array($qty_pay);
-                                if ($row_pay['pay_pic'] == 0) { ?>
-                                    <div class="row gx-4">
-                                        <div class="col-md-4">
-                                            <label class="fs-6 text-gray-600">รูปภาพ:</label><br>
-                                            <label>ไม่มีรูปภาพ</label>
-                                            <button class="btn btn-warning btn-sm shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#deposit-insert">เพิ่มรูปภาพ</button>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="">ค่ามัดจำ(บ.):</label><br>
-                                            <label for="" class="text-orange"><?= $row_pay['pay_price']; ?>.00</label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="">คงเหลือ(บ.):</label><br>
-                                            <?php
-                                            $sql_result = "SELECT SUM(p_price) FROM parts WHERE id_car = '$idcar'";
-                                            $qty_result = mysqli_query($mysqli, $sql_result);
-                                            $sum = mysqli_fetch_array($qty_result);
-                                            ?>
-                                            <label for="" class="text-blue"><?= $sum[0] - $row_pay['pay_price'] ?>.00</label>
-                                        </div>
-                                    </div>
-                                <?php
-                                } else { ?>
-                                    <div class="row gx-4">
+                                    if($row_pay['pay_pic'] == 0){
+                            ?>
+                                    <div class="row">
                                         <div class="col-md-4">
                                             <label for="" class="fs-6 text-gray-600">รูปภาพ:</label><br>
-                                            <img src="assets/img/deposit/<?= $row_pay['pay_pic']; ?>" style="height: 100; width: 100px;"><br><br>
+                                            <label>ไม่มีรูปภาพ</label>
                                             <button class="btn btn-warning btn-sm shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#deposit-edit<?= $row_pay[0]; ?>">แก้ไขรูปภาพ</button>
                                         </div>
-                                        <div class="col">
-                                            <label for="">ยอดชำระ(บ.):</label><br>
-                                            <label for="" class="text-orange"><?= $row_pay['pay_price']; ?>.00</label>
+                                        <div class="col-md-4">
+                                            ชำระเรียบร้อย(บ.):
+                                            <label for="" class="text-success"><?= $row_pay['pay_price']; ?>.00</label>
                                         </div>
-                                        <div class="col">
-                                            <label for="">คงเหลือ(บ.):</label><br>
+                                        <div class="col-md-4">
+                                            ค้างชำระ(บ.):<br>
                                             <?php
-                                            $sql_result = "SELECT SUM(p_price) FROM parts WHERE id_car = '$idcar'";
-                                            $qty_result = mysqli_query($mysqli, $sql_result);
-                                            $sum = mysqli_fetch_array($qty_result);
+                                            $sql_resu = "SELECT SUM(p_price) FROM parts WHERE id_car = '$idcar'";
+                                            $qty_resu = mysqli_query($mysqli, $sql_resu);
+                                            $summ = mysqli_fetch_array($qty_resu);
                                             ?>
-                                            <label for="" class="text-blue"><?= $sum[0] - $row_pay['pay_price'] ?>.00</label>
+                                            <label for="" class="text-danger"><?=$row_pay['pay_price']-$deposit ?>.00</label>
                                         </div>
                                     </div>
-                                <?php }  ?>
+                            <?php }else{ ?>
+                                <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="" class="fs-6 text-gray-600">รูปภาพ:</label><br>
+                                            <label>ไม่มีรูปภาพ</label>
+                                            <button class="btn btn-warning btn-sm shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#deposit-edit<?= $row_pay[0]; ?>">แก้ไขรูปภาพ</button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            ชำระเรียบร้อย(บ.):
+                                            <label for="" class="text-success"><?= $row_pay['pay_price']; ?>.00</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            ค้างชำระ(บ.):<br>
+                                            <?php
+                                            $sql_resu = "SELECT SUM(p_price) FROM parts WHERE id_car = '$idcar'";
+                                            $qty_resu = mysqli_query($mysqli, $sql_resu);
+                                            $summ = mysqli_fetch_array($qty_resu);
+                                            ?>
+                                            <label for="" class="text-danger"><?=$row_pay['pay_price']-$deposit ?>.00</label>
+                                        </div>
+                                    </div>
+                            <?php } ?>
+                            </div>
+                            
                             </div>
                         </div>
                     </div>
@@ -765,23 +769,23 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Default Bootstrap Modal</h5>
+                <h5 class="modal-title" id="exampleModalLabel">เพิ่มข้อมูล</h5>
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
             <form action="pay-repair.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="">ราคาค่ามัดจำ</label>
+                            <label for="">ราคาค่าซ่อม</label>
                             <input type="number" name="price" class="form-control" placeholder="0.00" required />
                         </div>
                     </div>
                     <div>
-                        <label for="">รูปภาพหลักฐาน</label>la
+                        <label for="">รูปภาพหลักฐาน</label>
                         <input type="file" name="pic" id="pic" class="form-control">
                     </div>
             </div>
-            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="button">บันทึก</button></form></div>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="submit">บันทึก</button></form></div>
         </div>
     </div>
 </div>

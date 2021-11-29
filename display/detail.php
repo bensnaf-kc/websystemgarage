@@ -74,7 +74,7 @@ $c = 1;
                                                                 echo "ว่าง";
                                                             }else{
                                                         ?>
-                                                            <label for=""class="text-primary"><?= $rrow_in['sr_name']; ?><label class="bg-gray-500 text-while rounded-pill"><?= $rrow_in['sr_name']; ?></label></label>
+                                                            <label for=""class="text-primary"><?= $rrow_in['sr_name']; ?></label>
                                                         <?php } ?>
                                                     </div>
                                                 </div><br>
@@ -98,7 +98,7 @@ $c = 1;
                                                             if ($ro[0] == 0) {
                                                                 echo "0.00 บาท";
                                                             } else { ?>
-                                                                <label for=""class="text-primary"><?= $ro[0]; ?>.00 บาท</label>
+                                                                <label for=""class="text-primary"><?= $ro[0]; ?>.00</label>
                                                             <?php
                                                             }
                                                             ?>
@@ -121,7 +121,7 @@ $c = 1;
                                                             echo "<label for=''><button class='btn btn-orange btn-sm'
                                                         type='button'>รอการชำระ</button></label>";
                                                         } else if ($row['type_idfix'] == 5) {
-                                                            echo "<label for=''><button class='btn btn-indigo btn-sm'
+                                                            echo "<label for=''><button class='btn btn-teal btn-sm'
                                                         type='button'>ชำระเรียบร้อย</button></label>";
                                                         } else if ($row['type_idfix'] == 6) {
                                                             echo "<label for=''><button class='btn btn-dark btn-sm'
@@ -165,7 +165,7 @@ $c = 1;
                                 ?>
                                 <div class="row gx-4 md-4">
                                     <div class="col-md-6" align="left">
-                                        <a href="" class="btn btn-light  text-end shadow lift" type="button">พิมพ์ใบเสนอราคา</a>
+                                        <a href="" class="btn btn-light  text-end shadow lift" type="button"><label class="text-info"><i class="fas fa-print"></i></label>&nbsp;&nbsp;พิมพ์ใบเสนอราคา</a>
                                         <a href="list-repair.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-info  text-white  shadow lift"><i class="fas fa-search"></i>&nbsp;เพิ่มรายการซ่อม</a>
                                     </div>
                                     <div class="col-md-6" align="right">
