@@ -76,7 +76,8 @@ $n = 1;
                         </div>
                         <div class="col" align="right">
                             <!-- Button repair -->
-                            <button class="btn btn-warning shadow lift btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#list-repair"><i class="fas fa-plus"></i>&nbsp;เพิ่มรายการซ่อม</button>
+                            <button class="btn bg-orange text-white shadow lift btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#list-repair"><i class="fas fa-plus"></i>&nbsp;เพิ่มรายการซ่อม</button>
+                            <button class="btn bg-yellow text-white shadow lift btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#list-product"><i class="fas fa-plus"></i>&nbsp;เพิ่มสินค้าในคลัง</button>
                         </div>
                     </div>
                 </div>
@@ -202,6 +203,42 @@ $n = 1;
                             <input type="number" class="form-control" name="price" placeholder="0.00" required>
                         </div>
                     </div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- สินค้าในคลัง -->
+<div class="modal fade" id="list-product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">เพิ่มรายการซ่อม</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php
+                    $sql_store = "SELECT * FROM store";
+                    $qty_store = mysqli_query($mysqli,$sql_store);
+                    while ($store = mysqli_fetch_array($qty_store)){
+                ?>
+                <form action="add_repairstore.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>&store_id=<?=$store[0]?>" method="post">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="list" class="control-label">รายชื่ออะไหล่:</label><br>
+                            <select name="list" id="list" class="form-control">
+                                <option value="<?=$store['s_name'];?>"><?=$store['s_name'];?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="" class="control-label">จำนวน:</label><br>
+                            <input type="number" name="amot" id="amot" required class="form-control" placeholder="0" min="1">
+                        </div>
+                        
+                    </div><br>
             </div>
             <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form>
             </div>
