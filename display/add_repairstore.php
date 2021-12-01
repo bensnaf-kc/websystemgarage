@@ -45,7 +45,7 @@
         $query = mysqli_query($mysqli, $sql);
 
         if ($query) {
-            header("refresh:0;url=list-repair.php?id_fix=" . $id . "&id_car=" . $idcar);
+            header("refresh:1;url=list-repair.php?id_fix=" . $id . "&id_car=" . $idcar);
         } else {
             echo '<script type="text/javascript">
             swal("","เพิ่มการซ่อมไม่สำเร็จ", "error");
@@ -53,11 +53,12 @@
             echo $sql;
         }
     } else {
-        echo "<div class='alert alert-primary alert-dismissible fade show' role='alert'>
-        This alert example has an alert heading, an alert link, and is dismissible!
+        echo "<br><br><br>
+        <div col-md-6><div class='alert alert-danger' role='alert'>
+        สินค้าในคลังไม่เพียงพอต่อความต้องการ!
         <button class='btn-close' type='button' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>";
-        header("refresh:0;url=list-repair.php?id_fix=" . $id . "&id_car=" . $idcar);
+        </div></div>";
+        header("refresh:3;url=list-repair.php?id_fix=" . $id . "&id_car=" . $idcar);
     }
 
 
@@ -69,7 +70,7 @@
             icon: 'success',
             title: 'การเพิ่มสำเร็จ',
             showConfirmButton: false,
-            timer: 1000
+            timer: 750
         })
     </script>
 </body>

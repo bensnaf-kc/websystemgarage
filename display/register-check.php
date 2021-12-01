@@ -18,7 +18,9 @@
         $errors = array();
        
         if(isset($_POST['reg-user'])){
+            print("<pre>");
             print_r($_POST);
+            print("</pre>");
             $infname = mysqli_escape_string($mysqli,$_POST['infname']);
             $inusername = mysqli_escape_string($mysqli,$_POST['inusername']);
             $inemail = mysqli_escape_string($mysqli,$_POST['inemail']);
@@ -47,9 +49,9 @@
             }
             $user_check = "SELECT * FROM user WHERE user_name = '$inusername' or email = '$inemail'";
             $que = mysqli_query($mysqli, $user_check);
-            $result = mysqli_fetch_assoc($que);
+            $result = mysqli_fetch_array($que);
 
-            if($result){ // เช็คว่ามี user ในระบบไหม
+            if($result == 1){ // เช็คว่ามี user ในระบบไหม
                 if($result['user_name'] === $inusername){
                     array_push($errors,"ขณะนี้มีผู้ใช้งานในระบบ");
                     $_SESSION['error_register'] = "ชื่อผู้ใช้งานหรืออีเมล์มีผู้ใช้งาน กรุณาใส่อีกครั้ง!";
@@ -60,26 +62,45 @@
                     $_SESSION['error_register'] = "ชื่อผู้ใช้งานหรืออีเมล์มีผู้ใช้งาน กรุณาใส่อีกครั้ง!";
                     header("location: register.php");
                 }
-            }
-            if(count($errors) == 0){
+            }else{
                 $password = md5($inputPassword);
-                $sql = "INSERT INTO user (user_id, user_name, user_password, email, name, address, tel, id_line, facebook) 
-                VALUES (NULL, '$inusername','$password', '$inemail', '$infname', '$inaddress', '$intel', '', '')";
+                $sql = "INSERT INTO user (user_id, user_name, user_password, email, name, address, tel, user_pic, web_type) 
+                VALUES (NULL, '$inusername','$password', '$inemail', '$infname', '$inaddress', '$intel', '', '1')";
         
                 if($mysqli->query($sql) === TRUE){
                     $_SESSION['username'] = $inusername;
                     $_SESSION['email'] = $inemail;
                     $_SESSION['fname'] = $infname;
+                    $_SESSION['colorweb'] = 1;
                     $_SESSION['success'] = "เข้าสู่ระบบเรียบร้อย";
                     header('location: checkuser.php');
         
                 }else{
-                    echo $re;
+                    echo $sql;
                     array_push($erros, "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง");
                     $_SESSION['error_register'] = "ชื่อผู้ใช้งานหรืออีเมล์ไม่ถูกต้องไม่ถูกต้อง กรุณาใส่อีกครั้ง!";
                     header("location: register.php");
-                 }
+                }
             }
+            // if(count($errors) == 0){
+            //     $password = md5($inputPassword);
+            //     $sql = "INSERT INTO user (user_id, user_name, user_password, email, name, address, tel, id_line, facebook) 
+            //     VALUES (NULL, '$inusername','$password', '$inemail', '$infname', '$inaddress', '$intel', '', '')";
+        
+            //     if($mysqli->query($sql) === TRUE){
+            //         $_SESSION['username'] = $inusername;
+            //         $_SESSION['email'] = $inemail;
+            //         $_SESSION['fname'] = $infname;
+            //         $_SESSION['success'] = "เข้าสู่ระบบเรียบร้อย";
+            //         header('location: checkuser.php');
+        
+            //     }else{
+            //         echo $re;
+            //         array_push($erros, "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง");
+            //         $_SESSION['error_register'] = "ชื่อผู้ใช้งานหรืออีเมล์ไม่ถูกต้องไม่ถูกต้อง กรุณาใส่อีกครั้ง!";
+            //         header("location: register.php");
+            //      }
+            // }
             
         }
     ?>

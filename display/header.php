@@ -138,7 +138,7 @@ if(isset($_GET['logout'])){
                                     <a class="nav-link" href="customer.php">
                                     <i class="fas fa-user"></i>&nbsp;&nbsp;ลูกค้าที่มาติดต่อ
                                     </a>
-                                    <a class="nav-link" href="#"><i class="fas fa-wrench"></i>&nbsp;&nbsp;งานซ่อม</a>
+                                    <a class="nav-link" href="under-repair.php"><i class="fas fa-wrench"></i>&nbsp;&nbsp;งานซ่อม</a>
                                     <a class="nav-link" href="pay.php"><i class="fas fa-dollar-sign"></i>&nbsp;&nbsp;การชำระเงิน</a>
                                 </nav>
                             </div>

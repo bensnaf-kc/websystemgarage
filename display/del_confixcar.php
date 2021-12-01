@@ -11,44 +11,43 @@
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
     <link rel="stylesheet" href="sweetalert2.min.css">
-    <script data-search-pseudo-elements defer
-        src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous">
     </script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.all.min.js"></script>
     <script src="sweetalert2.min.js"></script>
 </head>
+
 <body>
-<?php
+    <?php
     include('../backend/connect.php');
     // $pro_name = $_POST['p_name'];
-    $id = $_GET['id_fix'];
     $idcar = $_GET['id_car'];
-    $infocar = $_POST['infocar'];
-    
+    $id = $_GET['id_fix'];
+    $or_id = $_GET['or_id'];
 
-    $sql = "INSERT INTO infocar (info_id, id_car, info_name) 
-            VALUES (NULL,'$idcar','$infocar')";
-    $query = mysqli_query($mysqli,$sql);
-    
-    if ($query) {
-        header("refresh:1;url=list_car.php?id_fix=".$id);  
-    }else{
-        echo '<script type="text/javascript">
-        swal("","เพิ่มการซ่อมไม่สำเร็จ", "error");
-  		</script>';
-        echo $sql;
-    }
-?>
-<script>
-    Swal.fire({
-        //   position: 'top-end',
-        icon: 'success',
-        title: 'การเพิ่มสำเร็จ',
-        showConfirmButton: false,
-        timer: 750
-    })
+
+    $sql = "DELETE FROM oder_repair WHERE or_id ='$or_id'";
+
+	if($mysqli->query($sql) === TRUE){
+		header("refresh:1;url=confixcar.php?id_fix=" . $id . "&id_car=" . $idcar);
+	}else{
+		echo $sql;
+	}
+
+
+
+    ?>
+    <script>
+        Swal.fire({
+            //   position: 'top-end',
+            icon: 'success',
+            title: 'การลบสำเร็จ',
+            showConfirmButton: false,
+            timer: 750
+        })
     </script>
 </body>
+
 </html>

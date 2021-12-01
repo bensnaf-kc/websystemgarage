@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="card-body">
                                     <!-- Registration form-->
-                                    <form class="was-validated" action="register-check.php" method="POST">
+                                    <form class="was-validated" action="register-check.php" method="POST" >
                                         <!-- Form Row-->
                                         <!-- <div class="row gx-3"> -->
                                         <!-- Form Group (first name)-->
@@ -137,7 +137,7 @@
                                             </div>
                                             <div class="a">
                                                 จะต้องเป็นตัวอักษรภาษาอังกฤษ/ตัวเลข/อักขระพิเศษเท่านั้น
-                                                และมีความยาวไม่น้อยกว่า 8 ตัวอักษร
+                                                และมีความยาวไม่น้อยกว่า 6 ตัวอักษร
                                             </div>
                                         </div><br>
                                         <button class="btn btn-primary btn-block btn-lg shadow-lg lift" name="reg-user"

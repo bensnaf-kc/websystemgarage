@@ -47,7 +47,7 @@
         icon: 'success',
         title: 'การเพิ่มสำเร็จ',
         showConfirmButton: false,
-        timer: 1000
+        timer: 750
     })
     </script>
 </body>

@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <title>Document</title>
+    <title></title>
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
@@ -53,7 +53,7 @@
                     <?php
                     $sql = "SELECT * FROM user"
                 ?>
-                    บริษัท <?php echo $_SESSION['name']; ?>
+                    บริษัท <?php echo $_SESSION['fname']; ?>
                 </div>
                 <div class="col-4" align="right">
                     <h3>ใบเสนอราคา</h3>

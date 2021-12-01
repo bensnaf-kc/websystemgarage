@@ -165,7 +165,7 @@ $c = 1;
                                 ?>
                                 <div class="row gx-4 md-4">
                                     <div class="col-md-6" align="left">
-                                        <a href="" class="btn btn-light  text-end shadow lift" type="button"><label class="text-info"><i class="fas fa-print"></i></label>&nbsp;&nbsp;พิมพ์ใบเสนอราคา</a>
+                                        <a href="bill.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-light  text-end shadow lift" type="button"><label class="text-info"><i class="fas fa-print"></i></label>&nbsp;&nbsp;พิมพ์ใบเสนอราคา</a>
                                         <a href="list-repair.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-info  text-white  shadow lift"><i class="fas fa-search"></i>&nbsp;เพิ่มรายการซ่อม</a>
                                     </div>
                                     <div class="col-md-6" align="right">

@@ -26,6 +26,7 @@
     $name = $_POST['name'];
     $p_part = $_POST['p_part'];
     $amo = $_POST['amo'];
+    
     $total = $p_part * $amo;
     $sql = "INSERT INTO parts (pt_id, id_car, p_name, p_price, p_amount) 
             VALUES (null,'$idcar','$name','$p_part','$amo')";

@@ -38,7 +38,7 @@ $query = mysqli_query($mysqli,$sql);
                     <div class="row align-items-center justify-content-between">
                         <div class="col-auto mt-4">
                             <h1 class="page-header-title">
-                                <div class="page-header-icon"><i data-feather="filter"></i></div>
+                                <div class="page-header-icon"><i data-feather="dollar-sign"></i></div>
                                 การชำระเงิน
                             </h1>
                             <div class="page-header-subtitle">
@@ -52,8 +52,8 @@ $query = mysqli_query($mysqli,$sql);
         <div class="container-xl px-4 mt-n10">
             <div class="card mb-4">
                 <div class="card-header">รายะลเอียดการชำระเงิน &nbsp;
-                <a href="pay_wait.php" class="btn btn-outline-warning shadow lift">รอการชำระ</a>
-                <a href="pay_wait.php" class="btn btn-outline-success shadow lift">ชำระเงินเรียบร้อย</a>
+                <a href="pay-1.php" class="btn btn-outline-warning shadow lift">รอการชำระ</a>
+                <a href="pay-2.php" class="btn btn-outline-success shadow lift">ชำระเงินเรียบร้อย</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

@@ -45,17 +45,16 @@ $id = $_GET['id_fix'];
                 echo "<header class='page-header page-header-dark bg-gradient-emerald pb-10'>";
             }
         ?>
-        </header>
+        </header><br>
         <div class="container-fluid px-4 mt-n10">
-
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                         <div class="card bg-light mb-3">
-                            <div class="card-header"><b>เพิ่มข้อมูลรถยนต์</b></div>
+                            <div class="card-header">เพิ่มข้อมูลรถยนต์</div>
                             <div class="card-body">
                                 <form action="add_car.php?id_fix=<?= $id; ?>" class="was-validated" method="POST" enctype="multipart/form-data" id="myform1">
-                                    <div class="row gx-4 mb-4">
+                                    <div class="row">
                                         <div class="col-md-3">
                                             <label for="numbercar" class="col-form-label">หมายเลขทะเบียน:</label>
                                             <input class="form-control" id="numbercar" type="text" placeholder="" name="numbercar" required />
@@ -230,15 +229,15 @@ $id = $_GET['id_fix'];
                                                 <option value="สีน้ำเงิน">สีน้ำเงิน</option>
                                                 <option value="สีม่วง">สีม่วง</option>
                                             </select>
-                                        </div><br>
-                                        <div class="col-md-3">
-                                            <label for="">รูปรถยนต์:</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="" class="col-form-label">รูปรถยนต์:</label>
                                             <input type="file" name="pic" id="" class="form-control" required />
                                         </div>
-                                    </div>
+                                    </div><br>
                                     <div align="center">
-                                        <button class="btn btn-primary" type="submit">ต่อไป</button>
                                         <button type="reset" class="btn btn-secondary">ล้างข้อมูล</button>
+                                        <button class="btn btn-green shadow lift" type="submit">ต่อไป&nbsp;<i class="fas fa-arrow-circle-right"></i></button>
                                     </div>
                             </div>
                             </form>

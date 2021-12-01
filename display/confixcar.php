@@ -104,13 +104,14 @@ $n = 1;
                                             } elseif ($row['or_depart'] == 4) {
                                                 echo "<div class='badge bg-dark text-while rounded-pill' type=''>ช่างการยาง</div>";
                                             } elseif ($row['or_depart'] == 5) {
-                                                echo "<div class='badge bg-teal text-while rounded-pill' type=''>ช่วงตรวจสภาพ</div>";
+                                                echo "<div class='badge bg-teal text-while rounded-pill' type=''>ช่างตรวจสภาพ</div>";
                                             }
                                             ?>
                                         </td>
                                         <td class="text-center">
                                             <!-- edit listrepair -->
                                             <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#edit<?= $row[0]; ?>">แก้ไข</button>
+                                            <a href="del_confixcar.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>&or_id=<?=$row[0];?>" class="btn btn-danger shadow lift btn-sm">ลบ</a>
                                         </td>
                                     </tr>
                                     <!-- edit repair -->
@@ -146,7 +147,7 @@ $n = 1;
                                                                         } elseif ($row['or_depart'] == 4) {
                                                                             echo "<option value='4'>ช่างการยาง</option>";
                                                                         } elseif ($row['or_depart'] == 5) {
-                                                                            echo "<option value='5'>ช่วงตรวจสภาพ</option>";
+                                                                            echo "<option value='5'>ช่างตรวจสภาพ</option>";
                                                                         }
                                                                     ?>
                                                                     <option value=""></option>
@@ -154,7 +155,7 @@ $n = 1;
                                                                     <option value="2">ช่างไฟฟ้า</option>
                                                                     <option value="3">ช่างช่วงล่าง</option>
                                                                     <option value="4">ช่างการยาง</option>
-                                                                    <option value="5">ช่วงตรวจสภาพ</option>
+                                                                    <option value="5">ช่างตรวจสภาพ</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -220,7 +221,7 @@ $n = 1;
                                 <option value="2">ช่างไฟฟ้า</option>
                                 <option value="3">ช่างช่วงล่าง</option>
                                 <option value="4">ช่างการยาง</option>
-                                <option value="5">ช่วงตรวจสภาพ</option>
+                                <option value="5">ช่างตรวจสภาพ</option>
                             </select>
                         </div>
                     </div><br>

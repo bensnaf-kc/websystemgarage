@@ -34,7 +34,7 @@
     $query = mysqli_query($mysqli,$sql);
     
     if ($query) {
-        header("refresh:1;url=list-repair.php?id_fix=".$id."&id_car=".$idcar);  
+        header("refresh:1;url=confixcar.php?id_fix=".$id."&id_car=".$idcar);  
     }else{
         echo '<script type="text/javascript">
         swal("","เพิ่มการซ่อมไม่สำเร็จ", "error");
@@ -48,7 +48,7 @@
         icon: 'success',
         title: 'การเพิ่มสำเร็จ',
         showConfirmButton: false,
-        timer: 1000
+        timer: 750
     })
     </script>
 </body>

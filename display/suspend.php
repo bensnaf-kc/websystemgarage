@@ -23,35 +23,23 @@
 <?php
     include('../backend/connect.php');
     // $pro_name = $_POST['p_name'];
-    $name = $_POST['name'];
-    $address = $_POST['address'];
-    $tel = $_POST['tel'];
-    $idline = $_POST['idline'];
-    $email = $_POST['email'];
-    
+    $id = $_GET['id_fix'];
     
 
-    $sql = "INSERT INTO fixcar (id_fix, f_name, f_address, f_tel, f_line, f_email, f_datecom, f_dateout, type_idfix) 
-            VALUES (NULL,'$name','$address','$tel','$idline', '$email', current_timestamp(), '', '1')";
-    $query = mysqli_query($mysqli,$sql);
-    
-    if ($query) {
-        header("refresh:1;url=customer.php");  
-    }else{
-        echo '<script type="text/javascript">
-        swal("","เพิ่มการซ่อมไม่สำเร็จ", "error");
-  			</script>';
-        echo $sql;
-    }
+   $sql = "UPDATE fixcar SET type_idfix = '2' WHERE id_fix = '$id'";
+   $qty = mysqli_query($mysqli,$sql);
+   if($qty){
+    header("refresh:1;url=customer.php");  
+   }
 ?>
 <script>
     Swal.fire({
         //   position: 'top-end',
         icon: 'success',
-        title: 'เพิ่มงานต่อติดสำเร็จ',
+        title: 'ระงับสำเร็จ',
         showConfirmButton: false,
-        timer: 750
+        timer: 650
     })
-    </script>
+</script>
 </body>
 </html>

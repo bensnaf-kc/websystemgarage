@@ -66,6 +66,7 @@ while ($car = mysqli_fetch_array($carquery)) {
                             <thead class="text-dark">
                                 <tr>
                                     <th>รหัสลูกค้า</th>
+                                    <th>รหัสรถยนต์</th>
                                     <th>เลขทะเบียน</th>
                                     <th>รุ่น/ยี่ห้อ</th>
                                     <th>สาเหตุ</th>
@@ -77,6 +78,7 @@ while ($car = mysqli_fetch_array($carquery)) {
                             <tfoot>
                                 <tr>
                                     <th>รหัสลูกค้า</th>
+                                    <th>รหัสรถยนต์</th>
                                     <th>เลขทะเบียน</th>
                                     <th>รุ่น/ยี่ห้อ</th>
                                     <th>สาเหตุ</th>
@@ -92,6 +94,7 @@ while ($car = mysqli_fetch_array($carquery)) {
                                 ?>
                                     <tr>
                                         <td class="text-danger">#00<?= $row['id_fix']; ?></td>
+                                        <td class="text-danger"><?= $row['c_id']; ?></td>
                                         <td><?= $row['c_number']; ?></td>
                                         <td><?= $row['c_series']; ?>/<?= $row['c_gen']; ?></td>
                                         <td class="text-danger">
@@ -103,16 +106,7 @@ while ($car = mysqli_fetch_array($carquery)) {
                                                 <label class="text-dark"><?= $n++; ?>.</label><?= $row_info['info_name']; ?>
                                             <?php } ?>
                                         </td>
-                                        <td class="text-center">
-                                            <?php
-                                            if ($row['c_pic'] == NULL) {
-                                                echo "ไม่มีรูป";
-                                            } else { ?>
-                                                <img src="assets/img/car/<?= $row['c_pic']; ?>" class="rounded" alt="" width="85px" height="85px"><br>
-                                            <?php
-                                            }
-                                            ?>
-                                        </td>
+                                        <td class="text-center"><img src="assets/img/car/<?= $row['c_pic']; ?>" width="50px" height="50px"></td>
                                         <td>
                                             <?php
                                             if ($row['type_idfix'] == 1) {
@@ -138,7 +132,7 @@ while ($car = mysqli_fetch_array($carquery)) {
                                         </td>
                                         <td class="text-center">
                                             <button class="btn btn-warning btn-sm shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#infocar">+เพิ่มสาเหตุ</button>
-                                            <a href="detail.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-info btn-sm shadow-lg lift" role="button">รายละเอียด</a>
+                                            <a href="detail.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-success btn-sm shadow-lg lift" role="button">ต่อไป</a>
                                             <a href="insert_car.php?id_fix=<?= $row['id_fix']; ?>" class="btn btn-dark btn-sm shadow-lg lift " role="button">ระงับ</a>
                                             <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button> -->
                                         </td>

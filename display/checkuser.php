@@ -40,20 +40,28 @@
                                     <!-- Login form-->
                                     <!-- Form Group (email address)-->
                                     <div class="text-center">
-                                        <label class="fs-3  text-center">กรุณาบันทึกข้อมูลด้านล่างนี้</label><br>
-                                        <label class="fs-3  text-center">เพื่อใช้เข้าสู่ระบบในโอกาศต่อไป</label>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label class="text-center">กรุณาบันทึกข้อมูลด้านล่างนี้</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="text-center">เพื่อใช้เข้าสู่ระบบในโอกาศต่อไป</label>
+                                            </div>
+                                        </div>
                                     </div><br>
                                     <!-- Form Group (password)-->
-                                    <div class="card-body text-center fs-4 bg-gray-400">
-                                        <label class="text-primary">ชื่อผู้ใช้งาน</label><br>
+                                    <div class="card-body text-center fs-4 bg-gray-700">
+                                        <label class="text-success">ชื่อผู้ใช้งาน</label><br>
                                         <label class="text-white"><?php echo $_SESSION['username']; ?></label><br>
-                                        <label class="text-primary">อีเมล์</label><br>
+                                        <label class="text-success">อีเมล์</label><br>
                                         <label class="text-white"><?php echo $_SESSION['email']; ?></label>
                                     </div><br>
                                     <div class="text-center">
                                         <label class="fs-6 text-center">เพื่อความสะดวกในการจดจำ
                                             เราได้ส่งข้อความนี้ไปที่อีเมล์</label>
-                                        <label class="fs-6 text-center"><?php echo $_SESSION['email']; ?> เป็นที่เรียบร้อย</label>
+                                        <label class="fs-6 text-red text-center"><?php echo $_SESSION['email']; ?></label>&nbsp;เป็นที่เรียบร้อย
                                     </div><br>
                                     <!-- Form Group (login box)-->
                                     <div class="" align="center">
