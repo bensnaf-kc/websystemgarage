@@ -39,9 +39,9 @@
                                 <div class="card-body">
                                     <!-- Login form-->
                                     <!-- Form Group (email address)-->
-                                    <div class="text-center">
+                                    <div align="center">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col">
                                                 <label class="text-center">กรุณาบันทึกข้อมูลด้านล่างนี้</label>
                                             </div>
                                         </div>

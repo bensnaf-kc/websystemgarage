@@ -56,7 +56,7 @@
                     บริษัท <?php echo $_SESSION['fname']; ?>
                 </div>
                 <div class="col-4" align="right">
-                    <h3>ใบเสนอราคา</h3>
+                    <h3>ใบแจ้งหนี้</h3>
                     <?php
                     $sq = "SELECT * FROM fixcar WHERE id_fix='$id'";
                     $re = mysqli_query($mysqli,$sq);
@@ -105,7 +105,6 @@
                     while ($row = mysqli_fetch_array($r)) {
                 ?>
                     วันที่เข้าซ่อม :<label for=""><?=$row['f_datecom'];?></label> <br>
-                    วันนัดรับรถ :<label for=""><?=$row['f_dateout'];?></label> <br>
                     <?php } ?>
                 </div>
             </div><br>
@@ -128,17 +127,18 @@
                             <th class="text-right">ราคาทั้งสิ้น</th>
                             <th class="text-right">
                             <?php
-                                $se = "SELECT SUM(p_sum)
-                                FROM parts
-                                WHERE id_car='$idcar'";
+                                $se = "SELECT * FROM parts WHERE id_car='$idcar'";
                                 $re = mysqli_query($mysqli,$se);
-                                while ($rtt = mysqli_fetch_array($re)) {
+                                $sum_t = 0;
+                                while($rtt = mysqli_fetch_array($re)){
+                                    $sum_t += $rtt['p_amount']*$rtt['p_price'];
                                     // $total = $power + $parts;
                                     // $tax = ($total * 0.07);
                                     // $result = ($total + $tax);
+                                }
                             ?>
-                            <?= $rtt[0] ?>.00 บาท
-                            <?php } ?>
+                            <?= $sum_t ?>.00
+                           
                             </th>
                         </tr>
                     </tfoot>
@@ -152,8 +152,8 @@
                             <td><?=$n++;?></td>
                             <td><?=$row['p_name'];?></td>
                             <td align="center"><?=$row['p_amount'];?></td>
-                            <td align="center"><?=$row['p_price'];?></td>
-                            <td align="right"><?=$row['p_sum'];?></td>
+                            <td align="center"><?=$row['p_price'];?>.00</td>
+                            <td align="right"><?=$row['p_amount']*$row['p_price'];?>.00</td>
                         </tr>
                         <?php } ?>
                     </tbody>
@@ -168,19 +168,13 @@
                 </div>
                 <div class="col-2 p-3 mb-2 bg-light text-dark border" align="right">
                 <?php
-                    $szz = "SELECT SUM(p_sum)
-                    FROM parts
-                    WHERE id_car='$idcar'";
-                    $rzz = mysqli_query($mysqli,$szz);
-                    while ($rtt = mysqli_fetch_array($rzz)) {
-                        $to = $rtt[0];
-                        $ro = ($to*0.07);
+                    $price = ($sum_t*7)/100;
                         // $total = $power + $parts;
                         // $tax = ($total * 0.07);
                         // $result = ($total + $tax);
                 ?>
-                    <?= $ro ?>0 บาท
-                <?php } ?>
+                    <?= $price ?>.00 บาท
+              
                 </div>
             </div>
             <div class="row">
@@ -191,21 +185,7 @@
                     ยอดสุทธิ
                 </div>
                 <div class="col-2 p-3 mb-2 bg-light text-dark border" align="right">
-                <?php
-                    $saa = "SELECT SUM(p_sum)
-                    FROM parts
-                    WHERE id_car='$idcar'";
-                    $raa = mysqli_query($mysqli,$saa);
-                    while ($rtt = mysqli_fetch_array($raa)) {
-                        $total = $rtt[0];
-                        $tax = ($total * 0.07);
-                        $result = ($total + $tax);
-                        // $total = $power + $parts;
-                        // $tax = ($total * 0.07);
-                        // $result = ($total + $tax);
-                ?>
-                    <?= $result ?>0 บาท
-                <?php } ?>
+                    <?= $sum_t+$price ?>.00 บาท
                 </div>
             </div><br>
             <div class="row">
@@ -219,8 +199,8 @@
                 $ro = mysqli_query($mysqli,$so);
                 while ($row = mysqli_fetch_array($ro)){
             ?>
-            ช่องทางการโอนเงิน <?= $row['1']; ?>
-            เลขบัญชี   <?= $row['2']; ?> <br>
+            *ช่องทางการโอนเงิน <?= $row['1']; ?><br>
+            เลขบัญชี   <?= $row['2']; ?> ชื่อบัญชี  <?= $row['com_nameowner']; ?>
             <?php } ?>
                 </div>
             </div>

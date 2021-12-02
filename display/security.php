@@ -1,5 +1,4 @@
 <?php
-session_start();
 include('../backend/connect.php');
 include('header.php');
 ?>
@@ -66,11 +65,11 @@ include('header.php');
                                     <!-- Form Group (password)-->
                                     <div class="mb-3">
                                         <label class="small mb-1" for="inputPassword">รหัสผ่าน&nbsp;&nbsp;<label class="text-sm text-red">หมายเหตุ: รหัสผ่านของผู้สมัครใช้งาน</label></label>
-                                        <input class="form-control" name="inputPassword" type="password" placeholder="กรุณาใส่รหัสผ่าน" />
+                                        <input class="form-control" name="inputPassword" type="password" placeholder="กรุณาใส่รหัสผ่าน" required/>
                                     </div>
                                     <!-- Form Group (login box)-->
                                     <div class="d-flex align-items-center justify-content-between mt-6 mb-0">
-                                        <button class="btn btn-primary shadow lift" type="submit" name="btn">เข้าสู่ระบบ</button>
+                                        <button class="btn btn-primary shadow lift" type="submit" name="btn-login" id="btn-login">เข้าสู่ระบบ</button>
                                     </div>
                                 </form>
                             </div>

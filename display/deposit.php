@@ -46,7 +46,7 @@
             echo $sql;
         }
     }else{
-        $sql = "INSERT INTO pay (pay_id, id_fix, id_car, pay_date, pay_price, pay_pic,pay_type) 
+        $sql = "INSERT INTO pay (pay_id, id_fix, id_car, pay_date, pay_price, pay_pic, pay_type) 
                 VALUES (NULL,'$id','$id_fix',current_timestamp(),'$price','$newname','1')";
         if ($mysqli->query($sql) === TRUE) {
             copy($pic_tmp,"assets/img/deposit/$newname");

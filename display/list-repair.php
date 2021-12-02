@@ -54,6 +54,7 @@ $n = 1;
         <!-- Main page content-->
         <div class="container-xl px-4 mt-n10">
             <a href="detail.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-danger shadow lift"><i class="fas fa-arrow-circle-left"></i>&nbsp;ย้อนกลับ</a>
+            <a href="bill_testcar.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-light  text-end shadow lift" type="button"><label class="text-info"><i class="fas fa-print"></i></label>&nbsp;&nbsp;สร้างใบเสนอราคา</a>
             <div class="card mb-4">
 
                 <div class="card-header">

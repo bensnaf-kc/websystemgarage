@@ -165,8 +165,17 @@ $c = 1;
                                 ?>
                                 <div class="row gx-4 md-4">
                                     <div class="col-md-6" align="left">
-                                        <a href="bill.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-light  text-end shadow lift" type="button"><label class="text-info"><i class="fas fa-print"></i></label>&nbsp;&nbsp;พิมพ์ใบเสนอราคา</a>
-                                        <a href="list-repair.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-info  text-white  shadow lift"><i class="fas fa-search"></i>&nbsp;เพิ่มรายการซ่อม</a>
+                                        <?php
+                                            $sql_bill = "SELECT * FROM car WHERE id_car = '$idcar'";
+                                            $qty_bill = mysqli_query($mysqli,$sql_bill);
+                                            $bill = mysqli_fetch_array($qty_bill);
+                                                if($bill['type_idfix'] == 4){
+                                        ?>
+                                            <a href="bill.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-light  text-end shadow lift" type="button"><label class="text-info"><i class="fas fa-print"></i></label>&nbsp;&nbsp;พิมพ์ใบเสนอราคา</a>
+                                        <?php }else{ ?>
+                                            <button class="btn btn-light  text-end shadow lift" disabled><label class="text-info"><i class="fas fa-print"></i></label>&nbsp;&nbsp;พิมพ์ใบเสนอราคา</button>
+                                        <?php } ?>
+                                        <a href="list-repair.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-info  text-white  shadow lift"><i class="fas fa-search"></i>&nbsp;รายการซ่อม</a>
                                     </div>
                                     <div class="col-md-6" align="right">
                                         <div class="dropdown">
@@ -188,7 +197,7 @@ $c = 1;
                             </div>
                     </div>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="" class="text-red text-xs">หมายเหตุ :
-                        การตรวจเช็คขั้นต้นไปเมนู รายการซ่อม เพื่อทำการสร้างใบเสนอราคา</label><br><br>
+                        การตรวจเช็คขั้นต้นไปที่ปุ่ม รายการซ่อม เพื่อเพิ่มรายการซ่อมและทำการสร้างใบเสนอราคา</label><br><br>
                     <!-- detail body -->
                     <?php include('detail-body.php'); ?>
                 </div>

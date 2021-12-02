@@ -127,18 +127,6 @@ $id = $_SESSION['id'];
                                 <!-- Form Row-->
                                 <div class="row gx-3 mb-3">
                                     <!-- Form Group (phone number)-->
-
-                                    <div class="col-md-6">
-                                        <label class="small mb-1" for="inputPhone">เบอร์ติดต่อ</label>
-                                        <input class="form-control" id="inputPhone" type="text"
-                                            value="<?=$info['tel'];?>" name="tel" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="small mb-1" for="inputPhone">Facebook Fanpages</label> <label
-                                            for="" class="text-sm text-red">ชื่อเพส หรือ url </label>
-                                        <input class="form-control" id="inputPhone" type="facebook"
-                                            value="<?=$info['facebook'];?>" name="facebook" />
-                                    </div>
                                     <?php
                                         }
                                     ?>
