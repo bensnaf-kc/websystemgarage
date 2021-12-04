@@ -3,7 +3,7 @@ include('header.php');
 include('../backend/connect.php');
 $idweb = $_SESSION['id'];
 
-$sql = "SELECT * FROM fixcar WHERE type_idfix = '1' AND user_id = '$idweb'";
+$sql = "SELECT * FROM fixcar WHERE user_id = '$idweb'";
 $query = mysqli_query($mysqli,$sql);
 // while ($result = mysqli_fetch_array($query)){
 //     $id = $result[0];
@@ -40,7 +40,7 @@ $query = mysqli_query($mysqli,$sql);
                         <div class="col-auto mt-4">
                             <h1 class="page-header-title">
                                 <div class="page-header-icon"><i data-feather="user"></i></div>
-                                ลูกค้าที่มาติดต่อ
+                                ข้อมูลลูกค้าลูกค้า
                             </h1>
                             <div class="page-header-subtitle">
                                 รายละเอียดลูกค้าที่ทำการมาติดต่อขอการซ่อมหรือตรวจเช็คสภาพรถยนต์</div>
@@ -60,8 +60,9 @@ $query = mysqli_query($mysqli,$sql);
                                 <tr>
                                     <th>รหัสลูกค้า</th>
                                     <th>ชื่อลูกค้า</th>
-                                    <th>วันที่มาติดต่อ</th>
+                                    <th>ไอดีไลน์</th>
                                     <th>เบอร์ติดต่อ</th>
+                                    <th>สถานะ</th>
                                     <th class="text-center">ดำเนินการ/ระงับ</th>
                                 </tr>
                             </thead>
@@ -69,8 +70,9 @@ $query = mysqli_query($mysqli,$sql);
                                 <tr>
                                     <th>รหัสลูกค้า</th>
                                     <th>ชื่อลูกค้า</th>
-                                    <th>วันที่มาติดต่อ</th>
+                                    <th>ไอดีไลน์</th>
                                     <th>เบอร์ติดต่อ</th>
+                                    <th>สถานะ</th>
                                     <th class="text-center">ดำเนินการ/ระงับ</th>
                                 </tr>
                             </tfoot>
@@ -81,16 +83,36 @@ $query = mysqli_query($mysqli,$sql);
                                 <tr>
                                     <td class="text-danger">#00<?=$row['id_fix'];?></td>
                                     <td><?=$row['f_name'];?></td>
-                                    <td><?=$row['f_datecom'];?></td>
+                                    <td><?=$row['f_line'];?></td>
                                     <td><?=$row['f_tel'];?></td>
+                                    <td>
+                                        <?php
+                                            if ($row['type_idfix'] == 1) {
+                                                echo "<div class='badge bg-green text-while rounded-pill'>ใช้บริการ</div>";
+                                            } elseif ($row['type_idfix'] == 2) {
+                                                echo "<div class='badge bg-dark text-while rounded-pill'>ระงับกาารใช้งาน</div>";
+                                            }
+                                        ?>
+                                    </td>
                                     <td class="text-center">
                                         <!--  -->
                                         <a href="list_car.php?id_fix=<?=$row['id_fix'];?>"
                                             class="btn btn-warning btn-sm shadow-lg lift"
                                             role="button">รถยนต์</a>
-                                        <a href="suspend.php?id_fix=<?=$row['id_fix'];?>"
-                                            class="btn btn-dark btn-sm shadow-lg lift "
-                                            role="button">ระงับ</a>
+                                        <?php
+                                            $sql_sus = "SELECT * FROM fixcar WHERE user_id = '$user'";
+                                            $qty_sus = mysqli_query($mysqli,$sql_sus);
+                                            $sus = mysqli_fetch_array($qty_sus);
+                                            if($sus['type_idfix'] == 1){
+                                        ?>
+                                                <a href="suspend.php?id_fix=<?=$row['id_fix'];?>"
+                                                class="btn btn-dark btn-sm shadow-lg lift"
+                                                role="button">ระงับ</a>
+                                        <?php }else{ ?>
+                                            <a href="suspend_ac.php?id_fix=<?=$row['id_fix'];?>"
+                                                class="btn btn-success btn-sm shadow-lg lift"
+                                                role="button">ใช้งาน</a>
+                                        <?php } ?>
                                         <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button> -->
                                     </td>
                                 </tr>

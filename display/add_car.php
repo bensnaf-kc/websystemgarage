@@ -21,7 +21,9 @@
 
 <body>
     <?php
+    session_start();
     include('../backend/connect.php');
+    $user = $_SESSION['id'];
     // $pro_name = $_POST['p_name'];
     $id = $_GET['id_fix'];
     $numbercar = $_POST['numbercar'];
@@ -48,8 +50,8 @@
     }
     $rs = simpleRandString();
 
-    $sql = "INSERT INTO car (id_car, id_fix, c_id, c_number, c_series, c_gen, c_color, c_log, c_pic, type_idfix) 
-            VALUES (NULL,'$id','$rs','$numbercar','$series', '$gen','$color','$type','$newname','1' )
+    $sql = "INSERT INTO car (id_car, id_fix, user_id, c_id, c_number, c_series, c_gen, c_color, c_log, c_pic, type_idfix) 
+            VALUES (NULL,'$id','$user','$rs','$numbercar','$series', '$gen','$color','$type','$newname','1' )
             ";
 
     if ($mysqli->query($sql) === TRUE) {

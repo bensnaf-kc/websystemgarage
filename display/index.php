@@ -2,7 +2,7 @@
 include('../backend/connect.php'); 
 include('header.php'); 
 
-$sqlwait = "SELECT * FROM fixcar WHERE type_idfix = '1'";
+$sqlwait = "SELECT * FROM fixcar WHERE type_idfix = '1' AND user_id = '$user'";
 $resultwait = mysqli_query($mysqli,$sqlwait);
 $countwait = mysqli_num_rows($resultwait);
 $sql_wait = "SELECT * FROM fixcar INNER JOIN type_fixcar
@@ -11,7 +11,7 @@ $sql_wait = "SELECT * FROM fixcar INNER JOIN type_fixcar
 $result_wait = mysqli_query($mysqli,$sql_wait);
 // $count_wait = mysqli_num_rows($result_wait);
 
-$sqlfix = "SELECT * FROM fixcar WHERE type_idfix = '2'";
+$sqlfix = "SELECT * FROM fixcar WHERE type_idfix = '2' AND user_id = '$user'";
 $resultfix = mysqli_query($mysqli,$sqlfix);
 $countfix = mysqli_num_rows($resultfix);
 $sql_fix = "SELECT * FROM fixcar INNER JOIN type_fixcar
@@ -19,7 +19,7 @@ $sql_fix = "SELECT * FROM fixcar INNER JOIN type_fixcar
             WHERE fixcar.type_idfix = '2'";
 $result_fix = mysqli_query($mysqli,$sql_fix);
 
-$sqlpay = "SELECT * FROM fixcar WHERE type_idfix = '4'";
+$sqlpay = "SELECT * FROM fixcar WHERE type_idfix = '4' AND user_id = '$user'";
 $resultpay = mysqli_query($mysqli,$sqlpay);
 // $countpay = mysqli_num_rows($resultpay);
 $sql_pay = "SELECT * FROM fixcar INNER JOIN type_fixcar
@@ -34,7 +34,7 @@ $sqlbath = "SELECT * FROM price INNER JOIN fixcar
     $rebath = mysqli_query($mysqli,$sqlbath);
     $countpay = mysqli_num_rows($resultpay);
 
-$sqlday = "SELECT * FROM fixcar WHERE type_idfix = '5'";
+$sqlday = "SELECT * FROM fixcar WHERE type_idfix = '5' AND user_id = '$user'";
 $resultday = mysqli_query($mysqli,$sqlday);
 $countday = mysqli_num_rows($resultday);
 $sql_day = "SELECT * FROM fixcar INNER JOIN type_fixcar
@@ -48,7 +48,7 @@ $sqlbath = "SELECT * FROM price INNER JOIN fixcar
 $rebath = mysqli_query($mysqli,$sqlbath);
 // $rw = mysqli_fetch_array($rebath);
 
-$sqlfixsu = "SELECT * FROM fixcar WHERE type_idfix = '3'";
+$sqlfixsu = "SELECT * FROM fixcar WHERE type_idfix = '3' AND user_id = '$user'";
 $resultfixsu = mysqli_query($mysqli,$sqlfixsu);
 $countfixsu = mysqli_num_rows($resultfixsu);
 $sql_fixsu = "SELECT * FROM fixcar INNER JOIN type_fixcar
@@ -56,7 +56,7 @@ $sql_fixsu = "SELECT * FROM fixcar INNER JOIN type_fixcar
          WHERE fixcar.type_idfix = '3'";
 $result_wait = mysqli_query($mysqli,$sql_fixsu);
 
-$sqlsus = "SELECT * FROM fixcar WHERE type_idfix = '6'";
+$sqlsus = "SELECT * FROM fixcar WHERE type_idfix = '6' AND user_id = '$user'";
 $resultsus = mysqli_query($mysqli,$sqlsus);
 $countsus = mysqli_num_rows($resultsus);
 $sql_sus = "SELECT * FROM fixcar INNER JOIN type_fixcar

@@ -11,35 +11,36 @@
     <link href="css/styles.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
     <link rel="stylesheet" href="sweetalert2.min.css">
-    <script data-search-pseudo-elements defer
-        src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous">
     </script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.all.min.js"></script>
     <script src="sweetalert2.min.js"></script>
 </head>
+
 <body>
-<?php
+    <?php
     include('../backend/connect.php');
     // $pro_name = $_POST['p_name'];
-    $id = $_GET['id_fix'];
-    
+    $id_tc = $_GET['id_tc'];
+    $sql = "DELETE FROM technician WHERE id_tc ='$id_tc'";
 
-   $sql = "UPDATE fixcar SET type_idfix = '2' WHERE id_fix = '$id'";
-   $qty = mysqli_query($mysqli,$sql);
-   if($qty){
-    header("refresh:1;url=customer_all.php");  
-   }
-?>
-<script>
-    Swal.fire({
-        //   position: 'top-end',
-        icon: 'success',
-        title: 'ระงับสำเร็จ',
-        showConfirmButton: false,
-        timer: 650
-    })
-</script>
+	if($mysqli->query($sql) === TRUE){
+		header("refresh:1;url=employee.php");
+	}else{
+		echo $sql;
+	}
+    ?>
+    <script>
+        Swal.fire({
+            //   position: 'top-end',
+            icon: 'success',
+            title: 'การลบสำเร็จ',
+            showConfirmButton: false,
+            timer: 750
+        })
+    </script>
 </body>
+
 </html>

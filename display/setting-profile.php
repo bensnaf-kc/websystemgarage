@@ -137,6 +137,82 @@ $id = $_SESSION['id'];
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-8">
+                    <!-- Account details card-->
+                    <div class="card mb-4">
+                        <div class="card-header">ตำแหน่งอู่/ศูนย์บริการ <label for=""
+                                class="text-sm text-red">หมายเหตุ:เพื่อสะดวกต่อการไปในในบริการไลน์บอท</label>
+                        <button class="btn btn-outline-warning shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#map">+ เพื่มแผนที่</button>
+                        </div>
+                        <div class="card-body">
+                            <form action="edit_infoprofile.php?user_id=<?=$id;?>" method="post">
+                                <!-- Form Row-->
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (first name)-->
+                                    <!-- <iframe src="https://maps.google.co.th/maps?ie=UTF8&amp;cid=10685722337921446924&amp;q=%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%80%E0%B8%97%E0%B8%84%E0%B9%82%E0%B8%99%E0%B9%82%E0%B8%A5%E0%B8%A2%E0%B8%B5%E0%B8%9E%E0%B8%87%E0%B8%A9%E0%B9%8C%E0%B8%AA%E0%B8%A7%E0%B8%B1%E0%B8%AA%E0%B8%94%E0%B8%B4%E0%B9%8C&amp;gl=TH&amp;hl=th&amp;ll=13.8361,100.498327&amp;spn=0.006295,0.006295&amp;t=m&amp;output=embed" width="350" height="350" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe> -->
+                                </div>
+                                <?php 
+                                            $sql_map = "SELECT * FROM map WHERE user_id = '$user'";
+                                            $qty_map = mysqli_query($mysqli,$sql_map);
+                                            $map = mysqli_fetch_array($qty_map);
+                                            if($map != NULL){
+                                        ?>
+                                <!-- Form Row        -->
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (organization name)-->
+                                    <div class="col">
+                                        
+                                        <label class="small mb-1" for="inputOrgName">ชื่อที่ตั้ง</label>
+                                        <input class="form-control" id="inputOrgName" type="text"
+                                            value="<?=$map['map_name'];?>" name="address" />
+                                    </div>
+                                </div>
+                                <!-- Form Group (email address)-->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputEmailAddress">ลองจิจูด:LAT</label>
+                                    <input class="form-control" id="inputEmailAddress" type="email"
+                                        placeholder="Enter your email address" value="<?=$map['map_lat'];?>"
+                                        name="email" />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputEmailAddress">ละติจูด:LNG</label>
+                                    <input class="form-control" id="inputEmailAddress" type="email"
+                                        placeholder="Enter your email address" value="<?=$map['map_lng'];?>"
+                                        name="email" />
+                                </div>
+                                <?php }else{ ?>
+                                    <div class="row gx-3 mb-3">
+                                    <!-- Form Group (organization name)-->
+                                    <div class="col">
+                                        
+                                        <label class="small mb-1" for="inputOrgName">ชื่อที่ตั้ง</label>
+                                        <input class="form-control" id="inputOrgName" type="text"
+                                            placeholder="ยังไม่มีข้อมูล" disabled />
+                                    </div>
+                                </div>
+                                <!-- Form Group (email address)-->
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputEmailAddress">ลองจิจูด:LAT</label>
+                                    <input class="form-control" id="inputEmailAddress" type="email"
+                                    placeholder="ยังไม่มีข้อมูล" disabled />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputEmailAddress">ละติจูด:LNG</label>
+                                    <input class="form-control" id="inputEmailAddress" type="email"
+                                    placeholder="ยังไม่มีข้อมูล" disabled />
+                                </div>
+                                <?php } ?>
+                                <!-- Form Row-->
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (phone number)-->
+                                    
+                                </div>
+                                <!-- Save changes button-->
+                                <button class="btn btn-warning shadow lift" type="">แก้ไข</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -189,4 +265,85 @@ $id = $_SESSION['id'];
 </div>
 </div>
 </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="map" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="add_map.php?user_id=<?=$id;?>" method="post">
+                <div class="row">
+                    <div class="col"  align="center">
+                        <p class="text-red">ตัวอย่างการใส่ข้อมูล</p>
+                        <?php
+                        $sql_img = "SELECT * FROM map_defail";
+                        $qty_img = mysqli_query($mysqli, $sql_img);
+                        $row = mysqli_fetch_array($qty_img);
+                        ?>
+                        <img src="assets/img/map/<?=$row['m_name'];?>" alt="" style="width: auto; height: auto;">
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col" align="center">
+                        <label for="" class="text-red">หมายเหตุ : เลือกตำแหน่งที่ตั้งใน Google map แล้วนำเลขในช่อง ที่ 1 - 2 แบบในตัวอย่างมาใส่ในช่องที่กำหนดให้ไว้ด้านล่าง</label>
+                    </div>
+                </div><hr><br>
+                <div class="row" align="center">
+                <div class="col" align="center">
+                        
+                    </div>
+                    <div class="col" align="center">
+                        <label for="">ชื่อตำแหน่งที่ตั้งอู่/ศูนย์บริการ</label>
+                        <input type="text" class="form-control" name="name" required placeholder="กรุณาใส่ชื่อตำแหน่งที่ตั้ง อู่/ศูนย์บริการ">
+                    </div>
+                    <div class="col" align="center">
+                        
+                    </div>
+                </div><br>
+                <div class="row" align="center">
+                <div class="col" align="center">
+                        
+                    </div>
+                    <div class="col" align="center">
+                        <label for="">ที่อยู่</label><br>
+                        <!-- <textarea name="address" id="" cols="30" rows="2"></textarea> -->
+                        <input type="text" class="form-control" name="add" required placeholder="กรุณาใส่ที่อยู่ อู่/ศูนย์บริการ">
+                    </div>
+                    <div class="col" align="center">
+                        
+                    </div>
+                </div><br>
+                <div class="row" align="center">
+                <div class="col" align="center">
+                        
+                        </div>
+                    <div class="col" align="center">
+                        <label for="" class="text-red">1.</label>ลองจิจูด:LAT
+                        <input type="text" class="form-control" name="lat" required placeholder="" required>
+                    </div>
+                    <div class="col" align="center">
+                        
+                    </div>
+                </div><br>
+                <div class="row" align="center">
+                <div class="col" align="center">
+                        
+                        </div>
+                    <div class="col" align="center">
+                        <label for="" class="text-red">2.</label>ละติจูด:LNG
+                        <input type="text" class="form-control" name="lng" required placeholder="" required>
+                    </div>
+                    <div class="col" align="center">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary shadow lift" type="submit">บันทึก</button></form></div>
+        </div>
+    </div>
 </div>

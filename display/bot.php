@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include('../backend/connect.php');
 require "vendor/autoload.php";
 // include "admin/config.php";
@@ -44,7 +46,7 @@ function setFind($text, $mysqli)
 		if ($text == "status") {
 			$messages = '{
 				"type" : "text",
-				"text" : "ตรวจสอบสถานะรถยนต์กรุณาพิมพ์ \n เบอร์ติดต่อ หรือ ไอดีไลน์ ของผู้ลูกค้า \n ตัวอย่างเบอร์ติดต่อ : 0xx-xxx-xxxx"
+				"text" : "ตรวจสอบสถานะรถยนต์กรุณาพิมพ์ :\nรหัสรถยนต์\nหากไม่ทราบรหัสรถยนต์กรุณาพิมพ์  : เบอร์โทร หรือ ไอดีไลน์\nตัวอย่างการพิมพ์เฉพาะเบอร์โทร : 0xx-xxx-xxxx"
 			}';
 			return $messages;
 		}
@@ -67,78 +69,149 @@ function setFind($text, $mysqli)
 			
 		}
 		elseif($text == "map"){
-			
-		}
-		elseif($text == "contact"){
-			
-		}
-		else{
 
-			$sql = "SELECT * FROM fixcar WHERE f_tel = '$text' or f_line = '$text'";
+			$sql = "SELECT * FROM user";
 			$qty = $mysqli->query($sql);
+			$textz = "";
+			while($row = mysqli_fetch_array($qty)){
+				$textz .= $row['name'].' : รหัส '.$row['user_id'].'\n';
+			}
+			$messages = '{
+				"type" : "text",
+				"text" : "ชื่ออู่/ศูนย์บริการ : รหัสอู่/ศูนย์บริการ \n'.$textz.'\nกรุณาพิมพ์ รหัส อู่/ศูนย์บริการ เพื่อทำการแสดงตำแหน่งที่ตั้ง"
+			}';
+			return $messages;
+		}
+		// elseif($text >= 0){
 
-			if ($qty) {
-				while ($row = mysqli_fetch_array($qty)) {
-					$result = $row['id_fix'];
-		
-				}
+		// 	$sql = "SELECT * FROM map WHERE user_id = '$text'";
+		// 	$qty = $mysqli->query($sql);
+			// while($row = mysqli_fetch_array($qty)){
+			// 	$name = $row['map_name'];
+			// 	$lat = $row['map_lat'];
+			// 	$lng = $row['map_lng'];
+			// }
+			// $messages = '{
+			// 	"type" : "location",
+			// 	"title" : "ชื่ออู่/ศูนย์บริการ :'.$name.'",
+			// 	"latitude": '.$lat.',
+			// 	"longitude": '.$lng.'
+			// }';
+			// return $messages;
+		// }
+		elseif($text == "contact"){
+
+			$sql = "SELECT * FROM user";
+			$qty = $mysqli->query($sql);
+			$textz = "";
+			while($row = mysqli_fetch_array($qty)){
+				$textz .= $row['name'].' : '.$row['tel'].'\n';
+				// $tel .= $row['tel'].'\n';
+			}
+			$messages = '{
+				"type" : "text",
+				"text" : "ชื่ออู่/ศูนย์บริการ:\n'.$textz.'\nกรุณาพิมพ์ ชื่อร้านอู่/ศูนย์บริการ"
+			}';
+			return $messages;
+		}else{
+			$sql_map = "SELECT * FROM map WHERE user_id = '$text'";
+			$qty_map = $mysqli->query($sql_map);
+			while($map = mysqli_fetch_array($qty_map)){
+				$idmap = $map['map_id'];
+				$map_name = $map['map_name'];
+				$lat = $map['map_lat'];
+				$lng = $map['map_lng'];
+				$add = $map['map_address'];
+			}
+
+			$sql = "SELECT * FROM fixcar WHERE f_tel = '$text' OR f_line = '$text'";
+			$qty = $mysqli->query($sql) or die("error");
+			while ($row = mysqli_fetch_array($qty)) {
+				$result = $row['id_fix'];
+			}
+
+			if ($result != NULL) {
+				
 				$sql_car = "SELECT * FROM car WHERE id_fix = '$result'";
 				$qty_car = $mysqli->query($sql_car);
 				while($car = mysqli_fetch_array($qty_car)){
+					$codecar = $car['c_id'];
+				}
+				if($codecar != NULL){
+					$messages = '{
+						"type" : "text",
+						"text" : "รหัสรถยนต์ของคุณ : '.$codecar.'"
+					}';
+					return $messages;
+				}else{
+					$messages = '{
+						"type" : "text",
+						"text" : "รหัสรถยนต์ของคุณ : ยังไม่มีรถยนต์ในระบบ"
+					}';
+					return $messages;
+				}
+			} else {
+
+				$sql_check = "SELECT * FROM car WHERE c_id = '$text'";
+				$qty_check = $mysqli->query($sql_check);
+				while($car = mysqli_fetch_array($qty_check)){
 					$numbercar = $car['c_number'];
 					$numbercar_log = $car['c_log'];
 					$series = $car['c_series'];
 					$gen = $car['c_gen'];
 					$status_car = $car['type_idfix'];
 				}
-				$countcar = mysqli_num_rows($qty_car);
 				if ($status_car == 1) {
 					$messages = '{
 						"type" : "text",
-						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : กำลังดำเนินการ"
+						"text" : "สถานะการซ่อมของคุณ\nเลขทะเบียน :'.$numbercar.'\nจังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : กำลังดำเนินการ"
 					}';
 					return $messages;
 				} elseif ($status_car == 2) {
 					$messages = '{
 						"type" : "text",
-						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : กำลังซ่อม"
+						"text" : "สถานะการซ่อมของคุณ \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : กำลังซ่อม"
 					}';
 					return $messages;
 				} elseif ($status_car == 3) {
 					$messages = '{
 						"type" : "text",
-						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ซ่อมเสร็จเรียบร้อย"
+						"text" : "สถานะการซ่อมของคุณ \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ซ่อมเสร็จเรียบร้อย"
 					}';
 					return $messages;
 				} elseif ($result == 4) {
 					$messages = '{
 						"type" : "text",
-						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : รอการชำระเงิน"
+						"text" : "สถานะการซ่อมของคุณ \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : รอการชำระเงิน"
 					}';
 					return $messages;
 				} elseif ($result == 5) {
 					$messages = '{
 						"type" : "text",
-						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ชำระเงินเรียบร้อย"
+						"text" : "สถานะการซ่อมของคุณ \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ชำระเงินเรียบร้อย"
 					}';
 					return $messages;
 				} elseif ($result == 6) {
 					$messages = '{
 						"type" : "text",
-						"text" : "สถานะการซ่อมของคุณ \n จำนวนรถยนต์ :'.$countcar.' \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ระงับการใช้งาน"
+						"text" : "สถานะการซ่อมของคุณ \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ระงับการใช้งาน"
 					}';
 					return $messages;
 				}
-			} else {
+			}
+			if($idmap != NULL){
 				$messages = '{
-					"type" : "text",
-					"text" : "ไม่ถูกต้องกรุณาใส่อีกครั้ง 01"
+					"type" : "location",
+					"title" : "ชื่ออู่/ศูนย์บริการ :'.$map_name.'",
+					"address": "'.$add.'",
+					"latitude": '.$lat.',
+					"longitude": '.$lng.'
 				}';
 				return $messages;
 			}
 			$messages = '{
 				"type" : "text",
-				"text" : "hhhhhhhh'.$text.'"
+				"text" : "hhhhhhhh'.$result.'"
 			}';
 			return $messages;
 			

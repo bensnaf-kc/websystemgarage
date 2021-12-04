@@ -2,7 +2,8 @@
 include('header.php');
 include('../backend/connect.php');
 
-$sql = "SELECT * FROM car WHERE type_idfix BETWEEN '4' AND '5'";
+
+$sql = "SELECT * FROM car WHERE type_idfix BETWEEN '4' AND '5' AND user_id = '$user'";
 $query = mysqli_query($mysqli, $sql);
 // while ($result = mysqli_fetch_array($query)){
 //     $id = $result[0];

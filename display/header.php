@@ -9,6 +9,7 @@ if(isset($_GET['logout'])){
     header('location: login.php');
 
 }
+$user = $_SESSION['id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -150,7 +151,7 @@ if(isset($_GET['logout'])){
                             </a>
                             <div class="collapse" id="collapsePages" data-bs-parent="#accordionSidenav">
                                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPagesMenu">
-                                    <a class="nav-link" href="#"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;ข้อมูลลูกค้า</a>
+                                    <a class="nav-link" href="customer_all.php"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;ข้อมูลลูกค้า</a>
                                     <a class="nav-link" href="store.php"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;ข้อมูลอะไหล่</a>
                                     <a class="nav-link" href="employee.php"><i class="fas fa-info-circle"></i>&nbsp;&nbsp;ข้อมูลพนักงาน</a>
                                 </nav>

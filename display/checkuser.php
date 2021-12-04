@@ -1,5 +1,5 @@
 <?php session_start(); 
-
+error_reporting(0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,8 +60,8 @@
                                     </div><br>
                                     <div class="text-center">
                                         <label class="fs-6 text-center">เพื่อความสะดวกในการจดจำ
-                                            เราได้ส่งข้อความนี้ไปที่อีเมล์</label>
-                                        <label class="fs-6 text-red text-center"><?php echo $_SESSION['email']; ?></label>&nbsp;เป็นที่เรียบร้อย
+                                           </label>
+                                        <label class="fs-6 text-red text-center"><?php echo $_SESSION['email']; ?></label>&nbsp;
                                     </div><br>
                                     <!-- Form Group (login box)-->
                                     <div class="" align="center">

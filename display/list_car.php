@@ -46,7 +46,10 @@ while ($car = mysqli_fetch_array($carquery)) {
                     <div class="col-auto mt-4">
                         <h1 class="page-header-title">
                             <div class="page-header-icon"><i data-feather="filter"></i></div>
-                            รถยนต์
+                            รถยนต์ = <?php $sql_cus = "SELECT * FROM fixcar WHERE user_id = '$user'";
+                             $qty_cus = mysqli_query($mysqli,$sql_cus);
+                             $cus = mysqli_fetch_array($qty_cus);?>
+                             <?= $cus['f_name']; ?>
                         </h1>
                         <div class="page-header-subtitle">
                             รายละเอียดรถยนต์ของลูกค้าสร้างใหม่หรือตรวจเช็คสภาพรถยนต์
@@ -132,7 +135,7 @@ while ($car = mysqli_fetch_array($carquery)) {
                                         </td>
                                         <td class="text-center">
                                             <button class="btn btn-warning btn-sm shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#infocar<?=$idcar;?>">+เพิ่มสาเหตุ</button>
-                                            <a href="detail.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-success btn-sm shadow-lg lift" role="button">ต่อไป</a>
+                                            <a href="detail.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-success btn-sm shadow-lg lift" role="button">จัดการ</a>
                                             <a href="insert_car.php?id_fix=<?= $row['id_fix']; ?>" class="btn btn-dark btn-sm shadow-lg lift " role="button">ระงับ</a>
                                             <!-- <button class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="trash-2"></i></button> -->
                                             

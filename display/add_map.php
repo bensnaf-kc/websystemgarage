@@ -23,21 +23,19 @@
 <?php
     session_start();
     include('../backend/connect.php');
-    // $pro_name = $_POST['p_name'];
+    $user = $_GET['user_id'];
     $name = $_POST['name'];
-    $address = $_POST['address'];
-    $tel = $_POST['tel'];
-    $idline = $_POST['idline'];
-    $email = $_POST['email'];
-    $user = $_SESSION['id'];
+    $add = $_POST['add'];
+    $lat = $_POST['lat'];
+    $lng = $_POST['lng'];
     
 
-    $sql = "INSERT INTO fixcar (id_fix, user_id,f_name, f_address, f_tel, f_line, f_email, f_datecom, f_dateout, type_idfix) 
-            VALUES (NULL,$user,'$name','$address','$tel','$idline', '$email', current_timestamp(), '', '1')";
+    $sql = "INSERT INTO map (map_id, user_id, map_name, map_address, map_lat, map_lng) 
+            VALUES (NULL,$user,'$name','$add','$lat','$lng')";
     $query = mysqli_query($mysqli,$sql);
     
     if ($query) {
-        header("refresh:1;url=customer.php");  
+        header("refresh:1;url=setting-profile.php");  
     }else{
         echo '<script type="text/javascript">
         swal("","เพิ่มการซ่อมไม่สำเร็จ", "error");
@@ -49,7 +47,7 @@
     Swal.fire({
         //   position: 'top-end',
         icon: 'success',
-        title: 'เพิ่มงานต่อติดสำเร็จ',
+        title: 'เพิ่มติดสำเร็จ',
         showConfirmButton: false,
         timer: 750
     })

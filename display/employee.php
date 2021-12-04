@@ -1,7 +1,7 @@
 <?php 
 include('header.php'); 
 include('../backend/connect.php');
-$sql = "SELECT * FROM technician";
+$sql = "SELECT * FROM technician WHERE user_id = '$user'";
 $query = mysqli_query($mysqli,$sql);
 $qty = mysqli_query($mysqli,$sql);
 while ($res = mysqli_fetch_array($qty)){
@@ -118,6 +118,7 @@ while ($res = mysqli_fetch_array($qty)){
                                     <td class="text-center">
                                         <button class="btn btn-outline-warning shadow lift btn-sm" type="button"
                                             data-bs-toggle="modal" data-bs-target="#edit<?=$row[0];?>">แก้ไข</button>
+                                            <a href="del_emp.php?id_tc=<?= $id; ?>" class="btn btn-outline-danger btn-sm shadow lift" role="button" onclick="return confirm('ยืนยันการลบ???')"><i class='far fa-trash-alt'></i></a>
                                     </td>
                                 </tr>
                                 <!-- Modal edit -->
@@ -131,10 +132,10 @@ while ($res = mysqli_fetch_array($qty)){
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action=edit_emp.php?id_tc=<?=$row[0];?>" method="post"
+                                                <form action=edit-emp.php?id_tc=<?=$row[0];?>" method="post"
                                                     enctype="multipart/form-data">
                                                     <?php 
-                                                        $sql_edit = "SELECT * FROM store WHERE store_id = '".$row[0]."'";
+                                                        $sql_edit = "SELECT * FROM technician WHERE id_tc = '".$row[0]."'";
                                                         $result_edit = mysqli_query($mysqli,$sql_edit);
                                                         $edit = mysqli_fetch_array($result_edit);
                                                     ?>
@@ -154,14 +155,12 @@ while ($res = mysqli_fetch_array($qty)){
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="">เบอร์ติดต่อ:</label>
-                                                            <input class="form-control" type="number" name="tel"
+                                                            <input class="form-control" type="text" name="tel"
                                                                 value="<?=$edit['tc_tel'];?>"  required>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="">แผนก:</label>
                                                             <select class="form-control" name="type" id="type" required>
-                                                                <option value="<?=$edit['id_ddmt'];?>">
-                                                                    <?=$edit['id_ddmt'];?>id_ddmt</option>
                                                                 <option value="1">เครื่องยนต์</option>
                                                                 <option value="2">ช่วงล่าง</option>
                                                                 <option value="3">ตัวถัง</option>
@@ -172,7 +171,7 @@ while ($res = mysqli_fetch_array($qty)){
                                                         <div class="col-md-6">
                                                             <label for="">รูป:</label>
                                                             <input class="form-control" type="file" name="pic" id="pic"
-                                                                required>
+                                                                >
                                                         </div>
                                                     </div>
                                             </div>
@@ -201,7 +200,7 @@ while ($res = mysqli_fetch_array($qty)){
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="add_store.php" method="post" enctype="multipart/form-data">
+                    <form action="add_emp.php" method="post" enctype="multipart/form-data">
                         <div class="row gx-4 md-4">
                             <div class="col-md-6">
                                 <label for="">ชื่อ:</label>
@@ -210,12 +209,12 @@ while ($res = mysqli_fetch_array($qty)){
                         </div>
                         <div class="row gx-4 md-4">
                             <div class="col-md-4">
-                                <label for="">ที่ิอยู่:</label>
+                                <label for="">ที่อยู่:</label>
                                 <input class="form-control" type="text" name="add" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="">เบอร์ติดต่อ:</label>
-                                <input class="form-control" type="number" name="tel"  required>
+                                <input class="form-control" type="text" name="tel"  required>
                             </div>
                             <div class="col-md-4">
                                 <label for="">แผนก:</label>
@@ -254,4 +253,5 @@ while ($res = mysqli_fetch_array($qty)){
         </div>
     </footer>
 </div>
-<?php include('footer.php'); ?>
+<?php include('footer.php'); 
+?>
