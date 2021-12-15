@@ -3,6 +3,8 @@ session_start();
 include('../backend/connect.php');
 $id = $_GET['id_fix'];
 $idcar = $_GET['id_car'];
+$codeuser = $_SESSION['user_code'];
+$iduser = $_SESSION['id'];
 $time = date("d/m/Y");
 $n = 1;
 ?>
@@ -45,6 +47,18 @@ $n = 1;
 <body>
     <div class="container border">
         <div class="card-body">
+        <div align="center">
+        <?php
+                    $sql = "SELECT * FROM user WHERE user_id = '$iduser'";
+                    $qty = mysqli_query($mysqli, $sql);
+                    $logo = mysqli_fetch_array($qty);
+                    if($logo['user_logo'] == NULL){
+        ?>
+            <img src="assets/img/logo/favicon.png" alt="" style="width: 85px; height: 85px;">
+        <?php }else{ ?>
+        <img src="assets/img/logo/<?=$logo['user_logo']?>" alt="" style="width: 85px; height: 85px;">
+        <?php } ?>
+            </div>
             <br>
             <div class="row">
                 <div class="col-8">
@@ -52,6 +66,7 @@ $n = 1;
                     $sql = "SELECT * FROM user"
                     ?>
                     <?php echo $_SESSION['fname']; ?> <br>
+                    <label class="text-sm"><?php echo $_SESSION['address']; ?></label>
                 </div>
                 <div class="col-4" align="right">
                     <h3>ใบเสนอราคา</h3>
@@ -94,7 +109,7 @@ $n = 1;
                     <tfoot class="thead-light">
                         <tr>
                             <th class="text-left"></th>
-                            <th class="text-center">></th>
+                            <th class="text-center"></th>
                             <th class="text-center"></th>
                             <?php
                             $sqs = "SELECT SUM(p_price) FROM parts WHERE id_car = '$idcar'";
@@ -159,7 +174,29 @@ $n = 1;
                     อีกทั้งได้นำทรัพย์สินมีค่าออกจากรถหมดแล้ว ตามที่อู่แจ้ง
                     หากเกิดการสูญหายทางอู่จะไม่รับผิดชอบใดๆทั้งสิ้น
                 </div>
-            </div>
+            </div><br><br><br><br><br><br>
+            <div class="row">
+                <div class="col">
+                    <label for="">______________________________</label>
+                </div>
+                <div class="col">
+                    
+                </div>
+                <div class="col">
+                    <label for="">______________________________</label>
+                </div>
+           </div>
+           <div class="row" align="center">
+                <div class="col">
+                    <label for="">ผู้รับรถยนต์</label>
+                </div>
+                <div class="col">
+                    
+                </div>
+                <div class="col">
+                    <label for="">เจ้าหน้าที่</label>
+                </div>
+           </div>
         </div>
     </div>
 

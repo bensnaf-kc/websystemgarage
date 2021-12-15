@@ -2,6 +2,7 @@
 include('../backend/connect.php');
 include('header.php');
 $id = $_SESSION['id'];
+$code = $_SESSION['user_code'];
 ?>
 <div id="layoutSidenav_content">
     <main>
@@ -52,7 +53,7 @@ $id = $_SESSION['id'];
             </nav>
             <hr class="mt-0 mb-4" />
             <?php
-                $sql = "SELECT * FROM bank WHERE user_id = '$id'";
+                $sql = "SELECT * FROM bank WHERE user_code = '$code'";
                 $qty = mysqli_query($mysqli,$sql);
                 while($row = mysqli_fetch_array($qty)){
 
@@ -65,8 +66,10 @@ $id = $_SESSION['id'];
                             <label for="">รายละเอียดบัญชี</label><label for="" class="text-xs text-red">หมายเหตุ:สามารถแก้ไขข้อมูลในช่องได้เลย</label>
                             <div class="form-check form-switch">
                                 <!-- <input type="checkbox" checked data-toggle="toggle" data-size="lg"> -->
+                                <form action="" method="post">
                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
                                 <label class="form-check-label text-red" for="flexSwitchCheckChecked">ปิด</label>
+                                </form>
                             </div>
                         </div>
                         <div class="card-body">
@@ -123,7 +126,7 @@ $id = $_SESSION['id'];
                 <h5 class="modal-title" id="exampleModalLabel">เพิ่มรายการ</h5>
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="add_bank.php?user_id=<?=$id;?>" method="post">
+            <form action="add_bank.php?user_code=<?=$code;?>" method="post">
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">

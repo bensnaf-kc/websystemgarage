@@ -40,7 +40,7 @@ $query = mysqli_query($mysqli,$sql);
                         <div class="col-auto mt-4">
                             <h1 class="page-header-title">
                                 <div class="page-header-icon"><i data-feather="user"></i></div>
-                                ข้อมูลลูกค้าลูกค้า
+                                ข้อมูลลูกค้า
                             </h1>
                             <div class="page-header-subtitle">
                                 รายละเอียดลูกค้าที่ทำการมาติดต่อขอการซ่อมหรือตรวจเช็คสภาพรถยนต์</div>

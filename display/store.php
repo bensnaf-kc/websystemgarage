@@ -2,7 +2,7 @@
 include('header.php'); 
 include('../backend/connect.php');
 
-$sql = "SELECT * FROM store";
+$sql = "SELECT * FROM store WHERE user_id = $user";
 $query = mysqli_query($mysqli,$sql);
 $qty = mysqli_query($mysqli,$sql);
 while ($res = mysqli_fetch_array($qty)){
@@ -112,6 +112,7 @@ while ($res = mysqli_fetch_array($qty)){
                                     <td class="text-center">
                                         <button class="btn btn-outline-warning shadow lift btn-sm" type="button"
                                             data-bs-toggle="modal" data-bs-target="#edit<?=$row[0];?>">แก้ไข</button>
+                                        <a href="del_store?store_id=<?=$id;?>" class="btn btn-outline-dark shadow lift btn-sm">ลบ</a>
                                     </td>
                                 </tr>
                                 <!-- Modal edit -->

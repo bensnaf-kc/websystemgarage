@@ -3,6 +3,8 @@
     include('../backend/connect.php');
     $id = $_GET['id_fix'];
     $idcar = $_GET['id_car'];
+    $codeuser = $_SESSION['user_code'];
+    $iduser = $_SESSION['id'];
     $n=1;
 ?>
 <!DOCTYPE html>
@@ -47,13 +49,26 @@
 <body>
     <div class="container border">
         <div class="card-body">
+        <div align="center">
+        <?php
+                    $sql = "SELECT * FROM user WHERE user_id = '$iduser'";
+                    $qty = mysqli_query($mysqli, $sql);
+                    $logo = mysqli_fetch_array($qty);
+                    if($logo['user_logo'] == NULL){
+        ?>
+            <img src="assets/img/logo/favicon.png" alt="" style="width: 85px; height: 85px;">
+        <?php }else{ ?>
+        <img src="assets/img/logo/<?=$logo['user_logo']?>" alt="" style="width: 85px; height: 85px;">
+        <?php } ?>
+            
+                
+            </div>
             <br>
             <div class="row">
                 <div class="col-8">
-                    <?php
-                    $sql = "SELECT * FROM user"
-                ?>
-                    บริษัท <?php echo $_SESSION['fname']; ?>
+                    
+                    บริษัท <?php echo $_SESSION['fname']; ?><br>
+                    <label class="text-sm"><?php echo $_SESSION['address']; ?></label>
                 </div>
                 <div class="col-4" align="right">
                     <h3>ใบแจ้งหนี้</h3>
@@ -190,21 +205,47 @@
             </div><br>
             <div class="row">
                 <div class="col">
+                <label class="">
                     ข้าพเจ้าในฐานะเจ้าของรถหรือตัวแทน
                     ได้นำรถเข้าติดต่อเพื่อประสงค์จัดซ่อมตามรายการที่แจ้งไว้และทราบถึงตำหนิต่างๆขนตัวรถ
                     อีกทั้งได้นำทรัพย์สินมีค่าออกจากรถหมดแล้ว ตามที่อู่แจ้ง
-                    หากเกิดการสูญหายทางอู่จะไม่รับผิดชอบใดๆทั้งสิ้น <br> <br>
+                    หากเกิดการสูญหายทางอู่จะไม่รับผิดชอบใดๆทั้งสิ้น
+                </label><br> <br>
                     <?php
-                $so = "SELECT * FROM com";
+                $so = "SELECT * FROM com WHERE user_code = '$codeuser'";
                 $ro = mysqli_query($mysqli,$so);
-                while ($row = mysqli_fetch_array($ro)){
+                if($ro != NULL){
+                while ($row_b = mysqli_fetch_array($ro)){
             ?>
             *ช่องทางการโอนเงิน <?= $row['1']; ?><br>
-            เลขบัญชี   <?= $row['2']; ?> ชื่อบัญชี  <?= $row['com_nameowner']; ?>
-            <?php } ?>
+            เลขบัญชี   <?= $row_b['bank_numowner']; ?> ชื่อบัญชี  <?= $row_b['bank_nowner']; ?>
+            <?php }} ?>
                 </div>
             </div>
-           
+            <br><br><br><br><br><br>
+            <div class="row">
+                <div class="col">
+                    <label for="">______________________________</label>
+                </div>
+                <div class="col">
+                    
+                </div>
+                <div class="col">
+                    <label for="">______________________________</label>
+                </div>
+           </div>
+           <div class="row" align="center">
+                <div class="col">
+                    <label for="">ผู้รับรถยนต์</label>
+                </div>
+                <div class="col">
+                    
+                </div>
+                <div class="col">
+                    <label for="">เจ้าหน้าที่</label>
+                </div>
+           </div>
+        </div>
             
         </div>
     </div>

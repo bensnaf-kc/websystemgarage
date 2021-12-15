@@ -82,13 +82,46 @@ $n = 1;
                                     $res = mysqli_num_rows($qty);
                                     if ($res == 0) {
                                     ?>
-                                        <Label>รายการสาเหตุ:</Label><br>
-                                        <button class="btn btn-warning btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">+เพิ่มรายการสาเหตุ</button>
+                                    
+
+                                        <Label>รายการสาเหตุ:</Label>
+                                        <?php
+                                                    $sql_inn = "SELECT * FROM infocar WHERE id_car = '$idcar'";
+                                                    $qty_inn = mysqli_query($mysqli,$sql_inn);
+                                                    $text = "";
+                                                    while($infocarn = mysqli_fetch_array($qty_inn)){
+                                                        $textn .= $infocarn['info_name'].',';
+                                                   
+                                                     } 
+                                                ?>
+                                        <div class="col-md-4">
+                                            <input type="text" value="<?=$textn?> " class="form-control">
+                                        </div>
+                                        
+                                        <br>
+                                        <button class="btn btn-warning btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">+เพิ่มอะไหล่</button>
                                     <?php } else { ?>
                                         <br>
+                                        
+                                            
+                                                <label for="">รายการสาเหตุ: </label>
+                                                <?php
+                                                    $sql_in = "SELECT * FROM infocar WHERE id_car = '$idcar'";
+                                                    $qty_in = mysqli_query($mysqli,$sql_in);
+                                                    $text = "";
+                                                    while($infocar = mysqli_fetch_array($qty_in)){
+                                                        $text .= $infocar['info_name'].',';
+                                                    }
+                                                  
+                                                ?>
+                                                
+                                           
+                                            <div class="col-md-4">
+                                            <input type="text" value="<?=$text?> " class="form-control">
+                                        </div><br>
                                         <div class="row">
                                             <div class="col-md-5">
-                                                <label for="">รายการสาเหตุ: </label>
+                                                <label for="">รายการเปลี่ยนอะไหล่: </label>
                                                 <form action="" method="post">
                                                     <?php
                                                     $sql = "SELECT * FROM info_insurance WHERE id_car = '$idcar'";
@@ -193,35 +226,63 @@ $n = 1;
             obj.value = obj.value.substr(0, pattern.length);
         }
     }
+    
 </script>
-<?php include('footer.php'); ?>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <h5 class="modal-title" id="exampleModalLabel">รายการเปลี่ยนอะไหล่</h5>
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="add_insuinfo.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="post">
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="detail">รายการสาเหตุ:</label><br>
-                            <input type="text" class="form-control" id="detail" name="detail" required>
+            <form action="add_insuinfo.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="post">
+            <div class="modal-body " id="dyc">
+                <div class="row">
+                        <div class="col-md-4">
+                            <label for="list">รายการ / อะไหล่:</label><br>
                         </div>
-                        <div class="col-3">
-                            <label for="">จำนวน:</label><br>
-                            <input type="number" class="form-control" id="amount" name="amount" placeholder="0" required>
+                        <div class="col-md-2">
+                            <label for="">จำนวน:</label>
                         </div>
-                        <div class="col-3">
-                            <label for="">ราคา/หน่วย:</label><br>
-                            <input type="number" class="form-control" id="price" name="price" placeholder="0.00" required>
+                        <div class="col-md-2">
+                            <label for="">ราคา:</label>
                         </div>
-                    </div><br>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                    <script>
+                        $(document).ready(function() {
+                            let i = 1;
+                            $("#add").click(function() {
+                                i++;
+                                $("#dyc").append('<div class="row" id="row' + i + '"><div class="col-md-4"><input type="text" class="form-control name_list" name="list[]" id="list" placeholder="กรุณาใส่ข้อมูล" required></div><div class="col-md-2"><input type="number" class="form-control" name="amot[]" placeholder="0" min="1" required></div><div class="col-md-2"><input type="number" class="form-control" name="price[]" placeholder="0.00" min="1" required></div><div class="col-md-2"><button type="button" class="btn btn-danger shadow lift btn-sm btn_remove" name="remove" id="' + i + '">-</button></div></div>')
+                            })
+                            $(document).on('click', '.btn_remove', function() {
+                                let btn_id = $(this).attr('id');
+                                $('#row' + btn_id + '').remove();
+                            })
+                        })
+                    </script>
+                    <div class="row" id="row">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control name_list" name="list[]" id="list" placeholder="กรุณาใส่ข้อมูล" required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" name="amot[]" placeholder="0" min="1" required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" name="price[]" placeholder="0.00" min="1" required>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-warning shadow lift btn-sm" name="add" id="add">+</button>
+                        </div>
+                    </div>
             </div>
-            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="submit">บันทึก</button></form>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="submit" name="btn">บันทึก</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
+<?php include('footer.php'); ?>

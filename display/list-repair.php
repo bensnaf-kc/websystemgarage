@@ -10,6 +10,7 @@ $query = mysqli_query($mysqli, $sql);
 //     $id = $result[0];
 // }
 $n = 1;
+
 ?>
 
 <div id="layoutSidenav_content">
@@ -77,8 +78,10 @@ $n = 1;
                         </div>
                         <div class="col" align="right">
                             <!-- Button repair -->
-                            <button class="btn bg-orange text-white shadow lift btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#list-repair"><i class="fas fa-plus"></i>&nbsp;เพิ่มการซ่อมใหม่</button>
-                            <button class="btn bg-yellow text-white shadow lift btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#list-product"><i class="fas fa-plus"></i>&nbsp;เพิ่มสินค้าในคลัง</button>
+
+                            <button class="btn bg-primary text-white shadow lift btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#list-repair"><i class="fas fa-plus"></i>&nbsp;เพิ่มอะไหล่</button>
+                            <button class="btn btn-primary text-white shadow lift btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#p-car"><i class="fas fa-plus"></i>&nbsp;เพิ่มค่าแรง</button>
+                            <button class="btn bg-primary text-white shadow lift btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#list-product"><i class="fas fa-plus"></i>&nbsp;เพิ่มอะไหล่ในคลัง</button>
                         </div>
                     </div>
                 </div>
@@ -151,7 +154,7 @@ $n = 1;
                                                             </div>
                                                         </div>
                                                 </div>
-                                                <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form>
+                                                <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form>
                                                 </div>
                                             </div>
                                         </div>
@@ -184,37 +187,404 @@ $n = 1;
         </div>
     </footer>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <?php include('footer.php'); ?>
 
 <!-- รายการซ่อม -->
+
 <div class="modal fade" id="list-repair" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">เพิ่มรายการซ่อม</h5>
+                <h5 class="modal-title" id="exampleModalLabel">เพิ่มรายการเปลี่ยนอะไหล่</h5>
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="add_repair.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="post">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <label for="list">รายการ / อะไหล่:</label><br>
-                            <input type="text" class="form-control" name="list" id="list" placeholder="กรุณาใส่รายการซ่อม" required>
+            <form action="add_repair.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="post" >
+                <div class="modal-body" id="dyc">
+                    <!-- <div class="row">
+                        <div class="col-md-4">
+                            <input type="checkbox" name="list[]" value="ค่าแรง">
+                            <label for="">ค่าแรง</label>
+                            <input type="text" class="form-control" name="price[]" min="1" placeholder="0.00">
                         </div>
-                    </div><br>
+                    </div><hr> -->
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="">จำนวน:</label>
-                            <input type="number" class="form-control" name="amot" placeholder="0" required>
+                            <label for="">ภายนอก</label>
+
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label for="">จำนวน:</label>
+                        </div>
+                        <div class="col-md-4">
                             <label for="">ราคา:</label>
-                            <input type="number" class="form-control" name="price" placeholder="0.00" required>
                         </div>
                     </div>
-            </div>
-            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form>
-            </div>
+                    <hr>
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_1" type="checkbox" value="สีรถ" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">สีรถ</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_1"  min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_1" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 ">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_2" type="checkbox" value="ยาง" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">ยาง</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_2" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_2" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_3" type="checkbox" value="กระจก" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">กระจก</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_3"  min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_3" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_4" type="checkbox" value="ไฟ" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">ไฟ</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_4" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_4" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_5" type="checkbox" value="ประตู/กระโปรง" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">ประตู/กระโปรง</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_5" min="1" value="1" placeholder="0" disabled >
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_5" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <label for="">ภายใน</label>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_6" type="checkbox" value="เบาะ" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">เบาะ</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_6" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_6" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_7" type="checkbox" value="หน้าปัด" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">หน้าปัด</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_7" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_7" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_8" type="checkbox" value="ช่องเก็บของ" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">ช่องเก็บของ</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_8" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_8" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_9" type="checkbox" value="คอนโซน" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">คอนโซน</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_9" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_9" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <label for="">ระบบไฟฟ้า</label>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_10" type="checkbox" value="ไฟหน้า" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">ไฟหน้า</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_10" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_10" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_11" type="checkbox" value="ไฟหลัง" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">ไฟหลัง</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_11" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_11" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_12" type="checkbox" value="แอร์" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">แอร์</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_12" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_12" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_13" type="checkbox" value="ที่ปัดน้ำฝน" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">ที่ปัดน้ำฝน</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_13" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_13" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_14" type="checkbox" value="กระจกไฟฟ้า" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">กระจกไฟฟ้า</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_14"  min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_14" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <label for="">ห้องเครื่อง</label>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_15" type="checkbox" value="น้ำมันเบรค" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">น้ำมันเบรค</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_15" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_15" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_16" type="checkbox" value="น้ำมันเครื่อง" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">น้ำมันเครื่อง</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_16" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_16" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_17" type="checkbox" value="น้ำมันเกียร์" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">น้ำมันเกียร์</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_17" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_17" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_18" type="checkbox" value="สายพาน" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">สายพาน</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_18" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_18" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" id="chk_19" type="checkbox" value="หม้อน้ำ" name="list[]">
+                                <label class="form-check-label" for="flexCheckDefault">หม้อน้ำ</label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="number" class="form-control" name="amot[]" id="am_19" min="1" value="1" placeholder="0" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="number" class="form-control" name="price[]" id="pr_19" placeholder="0.00" disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <label for="">อื่นๆ</label>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="list">รายการ / อะไหล่:</label><br>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="">จำนวน:</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="">ราคา:</label>
+                        </div>
+                    </div>
+
+                    <div class="row" id="row">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control name_list" name="list[]" id="list" placeholder="กรุณาใส่ข้อมูล">
+
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" name="amot[]" placeholder="0" min="1">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" name="price[]" placeholder="0.00" min="1">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-warning shadow lift btn-sm" name="add" id="add">+</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" name="btn-sub" type="submit">เพิ่ม</button>
+                </div>
+            </form>
+            <script>
+                //  $(function() {
+                //         $("#lt").click(function() { // เมื่อคลิกที่ checkbox id=i_accept
+                //             if ($(this).prop("checked") == true) { // ถ้าเลือก
+                //                 $("#am").removeAttr("disabled"); // ให้ปุ่ม id=continue_bt ทำงาน สามารถคลิกได้
+                //                 $("#pr").removeAttr("disabled");
+                //             } else { // ยกเลิกไม่ทำการเลือก
+                //                 $("#am").attr("disabled", "disabled");
+                //                 $("#pr").attr("disabled", "disabled"); // ให้ปุ่ม id=continue_bt ไม่ทำงาน
+                //             }
+                //         });
+                //     });
+                // $(':checkbox').change(function() {
+                //     $(this)
+                //         .closest(".col-lg-3")
+                //         .find("[name=ex_code]")
+                //         .prop('disabled', !$(this).is(':checked'));
+                //     });
+                $(':checkbox').change(function() {
+                    var chk_id = $(this).attr('id');
+                    var id = chk_id.split("_");
+                    var real_id = id[1];
+                    if($("#chk_"+real_id).is(':checked')){
+                        $("#am_"+real_id).prop('disabled', false);
+                        $("#pr_"+real_id).prop('disabled', false);
+                    }
+                    else {
+                        $("#am_"+real_id).prop('disabled', true);
+                        $("#pr_"+real_id).prop('disabled', true);
+                    }
+                });
+            </script>
+            <script>
+                $(document).ready(function() {
+                    let i = 1;
+                    $("#add").click(function() {
+                        i++;
+                        $("#dyc").append('<div class="row" id="row' + i + '"><div class="col-md-4"><input type="text" class="form-control name_list" name="list[]" id="list" placeholder="กรุณาใส่ข้อมูล" ></div><div class="col-md-2"><input type="number" class="form-control" name="amot[]" placeholder="0" min="1" ></div><div class="col-md-2"><input type="number" class="form-control" name="price[]" placeholder="0.00" min="1" ></div><div class="col-md-2"><button type="button" class="btn btn-danger shadow lift btn-sm btn_remove" name="remove" id="' + i + '">-</button></div></div>')
+                    })
+                    $(document).on('click', '.btn_remove', function() {
+                        let btn_id = $(this).attr('id');
+                        $('#row' + btn_id + '').remove();
+                    })
+                   
+                })
+            </script>
         </div>
     </div>
 </div>
@@ -228,28 +598,30 @@ $n = 1;
                 <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <?php
-                $sql_store = "SELECT * FROM store";
-                $qty_store = mysqli_query($mysqli, $sql_store);
-                while ($store = mysqli_fetch_array($qty_store)) {
-                ?>
-                    <form action="add_repairstore.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>&store_id=<?= $store[0] ?>" method="post">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <label for="list" class="control-label">เลือกสินค้า/อะไหล่:</label><br>
-                                <select name="list" id="list" class="form-control">
+
+                <form action="add_repairstore.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>&store_id=<?= $store[0] ?>" method="post">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="list" class="control-label">เลือกสินค้า/อะไหล่:</label><br>
+
+                            <select name="list" id="list" class="form-control">
+                                <?php
+                                $sql_store = "SELECT * FROM store";
+                                $qty_store = mysqli_query($mysqli, $sql_store);
+                                while ($store = mysqli_fetch_array($qty_store)) {
+                                ?>
                                     <option value="<?= $store['s_name']; ?>" class="form-control"><?= $store['s_name']; ?></option>
                                 <?php } ?>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="" class="control-form-label">จำนวน:</label><br>
-                                <input type="number" name="amot" id="amot" required class="form-control" placeholder="0" min="1" value="1">
-                            </div>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="" class="control-form-label">จำนวน:</label><br>
+                            <input type="number" name="amot" id="amot" required class="form-control" placeholder="0" min="1" value="1">
+                        </div>
 
-                        </div><br>
+                    </div><br>
             </div>
-            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form>
             </div>
         </div>
     </div>
@@ -273,6 +645,29 @@ $n = 1;
                 </div>
             </div>
             <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-success shadow lift" type="submit">เสร็จสิ้น</button></form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ค่าแรง -->
+<div class="modal fade" id="p-car" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">เพิ่มค่าแรง</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <form action="add_repairs.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="post">
+                            <label for="date">ค่าแรง:</label>
+                            <input type="number" class="form-control" name="p_car" id="p_car" min="1" placeholder="0.00" required>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="submit">บันทึก</button></form>
             </div>
         </div>
     </div>

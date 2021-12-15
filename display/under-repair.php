@@ -86,10 +86,14 @@ $c = 1;
                                         <?php
                                             $sql_respon = "SELECT * FROM oder_repair WHERE id_car = '$row[0]'";
                                             $qty_respon = mysqli_query($mysqli, $sql_respon);
-                                            $respon = mysqli_fetch_array($qty_respon);
+                                            $i = 1;
+                                            while($respon = mysqli_fetch_array($qty_respon)){
+                                                $name .= $i++.$respon['or_name'].' '; 
+                                                $date = $respon['dateout'];
+                                            }
                                         ?>
-                                        <td class="text-blue"><?=$c++;?>.<?= $respon['or_name']; ?></td>
-                                        <td><?= $respon['dateout']; ?></td>
+                                        <td class="text-blue">.<?= $name; ?></td>
+                                        <td><?=$date?></td>
                                         <td class="text-center">
                                             <!--  -->
                                             <a href="list_car.php?id_fix=<?= $row['id_fix']; ?>" class="btn btn-warning btn-sm shadow-lg lift" role="button">รถยนต์</a>

@@ -14,6 +14,7 @@
 <body>
 <?php
         session_start();
+        error_reporting(0);
         include("../backend/connect.php");
         $errors = array();
        
@@ -22,8 +23,9 @@
             print_r($_POST);
             print("</pre>");
             $infname = mysqli_escape_string($mysqli,$_POST['infname']);
-            $inusername = mysqli_escape_string($mysqli,$_POST['inusername']);
+            $inusername = mysqli_escape_string($mysqli,$_POST['username']);
             $inemail = mysqli_escape_string($mysqli,$_POST['inemail']);
+            $intel = mysqli_escape_string($mysqli,$_POST['intel']);
             $inaddress = mysqli_escape_string($mysqli,$_POST['inaddress']);
             $inputPassword = mysqli_escape_string($mysqli,$_POST['inputPassword']);
             $inputPassword2 = mysqli_escape_string($mysqli,$_POST['inputPassword2']);
@@ -47,39 +49,59 @@
                 $_SESSION['error_register'] = "รหัสผ่านไม่ตรงกัน!";
                 header("location: register.php");
             }
-            $user_check = "SELECT * FROM user WHERE user_name = '$inusername' or email = '$inemail'";
+            $user_check = "SELECT * FROM user WHERE user_name = '$inusername' OR email = '$inemail' OR name = '$infname'";
             $que = mysqli_query($mysqli, $user_check);
             $result = mysqli_fetch_array($que);
 
-            if($result == 1){ // เช็คว่ามี user ในระบบไหม
+            if($result != NULL){ // เช็คว่ามี user ในระบบไหม
                 if($result['user_name'] === $inusername){
                     array_push($errors,"ขณะนี้มีผู้ใช้งานในระบบ");
-                    $_SESSION['error_register'] = "ชื่อผู้ใช้งานหรืออีเมล์มีผู้ใช้งาน กรุณาใส่อีกครั้ง!";
+                    $_SESSION['error_register'] = "ขณะนี้มีผู้ใช้งานในระบบ!";
                     header("location: register.php");
                 }
                 if($result['email'] === $inemail){
                     array_push($errors,"ขณะนี้มีอีเมล์ในระบบ");
-                    $_SESSION['error_register'] = "ชื่อผู้ใช้งานหรืออีเมล์มีผู้ใช้งาน กรุณาใส่อีกครั้ง!";
+                    $_SESSION['error_register'] = "ขณะนี้มีอีเมล์ในระบบ!";
+                    header("location: register.php");
+                }
+                if($result['name'] === $infname){
+                    array_push($errors,"ขณะนี้มีชื่ออู่หรือศูนย์บริการในระบบ!");
+                    $_SESSION['error_register'] = "ขณะนี้มีชื่ออู่หรือศูนย์บริการในระบบ!";
                     header("location: register.php");
                 }
             }else{
                 $password = md5($inputPassword);
-                $sql = "INSERT INTO user (user_id, user_name, user_password, email, name, address, tel, user_pic, web_type) 
-                VALUES (NULL, '$inusername','$password', '$inemail', '$infname', '$inaddress', '$intel', '', '1')";
-        
-                if($mysqli->query($sql) === TRUE){
-                    $_SESSION['username'] = $inusername;
-                    $_SESSION['email'] = $inemail;
-                    $_SESSION['fname'] = $infname;
-                    $_SESSION['colorweb'] = 1;
-                    $_SESSION['success'] = "เข้าสู่ระบบเรียบร้อย";
-                    header('location: checkuser.php');
-        
+
+                function simpleRandString($length = 4, $list = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+                {
+                    mt_srand((float)microtime() * 1000000);
+                    $newstring = "";
+
+                    if ($length > 0) {
+                        while (strlen($newstring) < $length) {
+                            $newstring .= $list[mt_rand(0, strlen($list) - 1)];
+                        }
+                    }
+                    return $newstring;
+                }
+                $rs = simpleRandString();
+
+                $sql = "INSERT INTO user (user_id, user_code, user_name, user_password, email, name, address, tel, user_pic, user_logo, web_type) 
+                VALUES (NULL, '$rs', '$inusername','$password', '$inemail', '$infname', '$inaddress', '$intel', '', '','1')";
+                $result = mysqli_query($mysqli,$sql);
+                $sql_code = "SELECT * FROM user WHERE user_code = '$rs'";
+                $qty_code = mysqli_query($mysqli,$sql_code);
+                $row_code = mysqli_fetch_array($qty_code);
+       
+                if($result != NULL){
+                   $_SESSION['code'] = $row_code[1];
+                   
+                   header('location: register-personal.php');
                 }else{
-                    echo $sql;
-                    array_push($erros, "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง");
-                    $_SESSION['error_register'] = "ชื่อผู้ใช้งานหรืออีเมล์ไม่ถูกต้องไม่ถูกต้อง กรุณาใส่อีกครั้ง!";
-                    header("location: register.php");
+                //    array_push($erros, "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง");
+                //    $_SESSION['error'] = "ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง กรุณาใส่อีกครั้ง!";
+                //    header("location: login.php");
+                echo $sql;
                 }
             }
             // if(count($errors) == 0){

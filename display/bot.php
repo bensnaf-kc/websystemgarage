@@ -4,7 +4,6 @@ session_start();
 include('../backend/connect.php');
 require "vendor/autoload.php";
 // include "admin/config.php";
-require_once('vendor/linecorp/line-bot-sdk/line-bot-sdk-tiny/LINEBotTiny.php');
 $access_token = "Yc7epxagkTDtxlDZVmNicqE921hrLs3jn6fH/IWym3c1Wf7wHTuG7CfHoSuROOXiq0QGv37GiIHuMZvYVbAfcySjFifvh2kFd4/5azEHb1ZzyFvkFI6gQKR9JfBN1gdxwopvrIqeGf2hS1JD1BJ2eQdB04t89/1O/w1cDnyilFU=";
 
 $content = file_get_contents('php://input');
@@ -43,6 +42,10 @@ function setFind($text, $mysqli)
 		}';
 		return $messages;
 	} else {
+
+		$test = substr($text, 0, 4);
+		
+		// ========================================================
 		if ($text == "status") {
 			$messages = '{
 				"type" : "text",
@@ -51,21 +54,55 @@ function setFind($text, $mysqli)
 			return $messages;
 		}
 		elseif($text == "pay"){
-			$sql_pay = "SELECT * FROM bank";
-			$qty_pay = $mysqli->query($sql_pay);
-			$name = "";
-			while($pay = mysqli_fetch_array($qty_pay)){
-				$bank_name = $pay['bank_npay'];
-				$bank_owner = $pay['bank_nowner'];
-				$bank_numowner = $pay['bank_numower'];
-				
+			// $sql = "SELECT * FROM user";
+			// $qty = $mysqli->query($sql);
+			// $textz = "";
+			// while($row = mysqli_fetch_array($qty)){
+			// 	$textz .= $row['name'].' :\nรหัส '.$row['user_code'].'\n';
+			// }
 			$messages = '{
 				"type" : "text",
-				"text" : "รายละเอียดช่องทางการชำระเงิน \n ธนาคาร : '.$bank_name.' \n ชื่อบัญชี : '.$bank_owner.' \n เลขบัญชี : '.$bank_numowner.'"
+				"text" : "ช่องทางกาารชำระเงิน $\nกรุณาพิมพ์: pay-ชื่ออู่ที่ต้องการ\n-------------------------------\nหรือถ้าจำชื่อออู่ไม่ได้ กรุณาพิมพ์ : ดูรายชื่ออู่"
 			}';
+			return $messages;
 			
 		}
-		return $messages;
+		elseif($text == "ดูรายชื่ออู่"){
+			$sql = "SELECT * FROM user";
+			$qty = $mysqli->query($sql);
+			$textz = "";
+			while($row = mysqli_fetch_array($qty)){
+				$textz .= $row['name'].' :\nรหัส '.$row['user_code'].'\n';
+			}
+			$messages = '{
+				"type" : "text",
+				"text" : "'.$textz.'"
+			}';
+			return $messages;
+			
+		}
+		elseif($test == "pay-"){
+			$pattern = "/[-\s:]/";
+			$components = preg_split($pattern, $text);
+			$t_service = $components[1];
+
+			$sql = "SELECT * FROM user WHERE name = '$t_service'";
+			$qty = $mysqli->query($sql);
+			$rw = mysqli_fetch_array($qty);
+			$usercode = $rw[1];
+			$sql_pay = "SELECT * FROM bank WHERE user_code = '$usercode'";
+			$qty_pay = mysqli_query($mysqli, $sql_pay);
+			
+			$textz = "";
+			while($row = mysqli_fetch_array($qty_pay)){
+				$number = mysqli_real_escape_string($mysqli, $row['bank_numower']);
+				$textz .= 'ชื่อธนาคาร : '.$row['bank_npay'].'\nชื่อบัญชี : '.$row['bank_nowner'].'\nเลขบัญชี : '.$row['bank_numower'];
+			}
+			$messages = '{
+				"type" : "text",
+				"text" : "'.$t_service.'"
+			}';
+			return $messages;
 			
 		}
 		elseif($text == "map"){
@@ -82,23 +119,6 @@ function setFind($text, $mysqli)
 			}';
 			return $messages;
 		}
-		// elseif($text >= 0){
-
-		// 	$sql = "SELECT * FROM map WHERE user_id = '$text'";
-		// 	$qty = $mysqli->query($sql);
-			// while($row = mysqli_fetch_array($qty)){
-			// 	$name = $row['map_name'];
-			// 	$lat = $row['map_lat'];
-			// 	$lng = $row['map_lng'];
-			// }
-			// $messages = '{
-			// 	"type" : "location",
-			// 	"title" : "ชื่ออู่/ศูนย์บริการ :'.$name.'",
-			// 	"latitude": '.$lat.',
-			// 	"longitude": '.$lng.'
-			// }';
-			// return $messages;
-		// }
 		elseif($text == "contact"){
 
 			$sql = "SELECT * FROM user";
@@ -122,6 +142,16 @@ function setFind($text, $mysqli)
 				$lat = $map['map_lat'];
 				$lng = $map['map_lng'];
 				$add = $map['map_address'];
+			}
+
+			$sql_bank = "SELECT * FROM bank WHERE user_code = '$text'";
+			$qty_bank = $mysqli->query($sql_bank);
+			while($map = mysqli_fetch_array($qty_bank)){
+				$idbank = $map['bank_id'];
+				// $map_name = $map['map_name'];
+				// $lat = $map['map_lat'];
+				// $lng = $map['map_lng'];
+				// $add = $map['map_address'];
 			}
 
 			$sql = "SELECT * FROM fixcar WHERE f_tel = '$text' OR f_line = '$text'";
@@ -179,19 +209,19 @@ function setFind($text, $mysqli)
 						"text" : "สถานะการซ่อมของคุณ \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ซ่อมเสร็จเรียบร้อย"
 					}';
 					return $messages;
-				} elseif ($result == 4) {
+				} elseif ($status_car == 4) {
 					$messages = '{
 						"type" : "text",
 						"text" : "สถานะการซ่อมของคุณ \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : รอการชำระเงิน"
 					}';
 					return $messages;
-				} elseif ($result == 5) {
+				} elseif ($status_car == 5) {
 					$messages = '{
 						"type" : "text",
 						"text" : "สถานะการซ่อมของคุณ \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ชำระเงินเรียบร้อย"
 					}';
 					return $messages;
-				} elseif ($result == 6) {
+				} elseif ($status_car == 6) {
 					$messages = '{
 						"type" : "text",
 						"text" : "สถานะการซ่อมของคุณ \n เลขทะเบียน :'.$numbercar.' \n จังหวัด :'.$numbercar_log.' \n ยี่ห้อ :'.$series.' \n รุ่น :'.$gen.' \n สถานะตอนนี้ : ระงับการใช้งาน"
@@ -209,9 +239,24 @@ function setFind($text, $mysqli)
 				}';
 				return $messages;
 			}
+			if($idbank != NULL){
+				$sql_pay = "SELECT * FROM bank WHERE user_code = '$text'";
+				$qty_pay = $mysqli->query($sql_pay);
+				$text_pay = "";
+				while($pay = mysqli_fetch_array($qty_pay)){
+					$text_pay .= 'ธนาคาร : '.$pay['bank_npay'].'\n ชื่อบัญชี : '.$pay['bank_nowner'].'\n เลขบัญชี : '.$pay['bank_numower'].'\n';
+					
+				$messages = '{
+					"type" : "text",
+					"text" : "รายละเอียดช่องทางการชำระเงิน \n '.$text_pay.'"
+				}';
+				
+			}
+			return $messages;
+			}
 			$messages = '{
 				"type" : "text",
-				"text" : "hhhhhhhh'.$result.'"
+				"text" : "กรุณาใส่ข้อมูลให้ถูกต้อง'.$result.'"
 			}';
 			return $messages;
 			

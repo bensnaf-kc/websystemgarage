@@ -1,5 +1,5 @@
 <?php session_start(); 
-error_reporting(0);
+error_reporting(1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,15 +54,11 @@ error_reporting(0);
                                     <!-- Form Group (password)-->
                                     <div class="card-body text-center fs-4 bg-gray-700">
                                         <label class="text-success">ชื่อผู้ใช้งาน</label><br>
-                                        <label class="text-white"><?php echo $_SESSION['username']; ?></label><br>
+                                        <label class="text-white"><?php echo $_SESSION['id']; ?></label><br>
                                         <label class="text-success">อีเมล์</label><br>
                                         <label class="text-white"><?php echo $_SESSION['email']; ?></label>
                                     </div><br>
-                                    <div class="text-center">
-                                        <label class="fs-6 text-center">เพื่อความสะดวกในการจดจำ
-                                           </label>
-                                        <label class="fs-6 text-red text-center"><?php echo $_SESSION['email']; ?></label>&nbsp;
-                                    </div><br>
+                                    <br>
                                     <!-- Form Group (login box)-->
                                     <div class="" align="center">
                                         <a href="login.php"><button

@@ -205,27 +205,27 @@
                             <form action="edit_cus.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="POST" enctype="multipart/form-data">
                                 <div class="row gx-4 md-3">
                                     <div class="col-md-3">
-                                        <label for="101">ชื่อ:</label>
-                                        <input type="text" value="<?= $row[1]; ?>" id="c_name" name="c_name" class="form-control">
+                                        <label for="101">ชื่อลูกค้า:</label>
+                                        <input type="text" value="<?= $row[2]; ?>" id="c_name" name="c_name" class="form-control">
                                     </div>
                                     <div class="col">
                                         <label for="">อีเมล์:</label><br>
-                                        <input type="text" value="<?= $row[5]; ?>" class="form-control" id="c_email" name="c_email">
+                                        <input type="text" value="<?= $row['f_email']; ?>" class="form-control" id="c_email" name="c_email">
                                     </div>
                                     <br>
 
                                     <div class="col-md-3">
                                         <label for="">เบอร์ติดต่อ:</label><br>
-                                        <input type="text" value="<?= $row[3]; ?>" class="form-control" onkeyup="autoTab(this)" id="c_tel" name="c_tel">
+                                        <input type="text" value="<?= $row['f_tel']; ?>" class="form-control" onkeyup="autoTab(this)" id="c_tel" name="c_tel">
                                     </div>
                                     <div class="col-md-3">
                                         <label for="">ไอดีไลน์:</label><br>
-                                        <input type="text" value="<?= $row[4]; ?>" class="form-control" id="c_idline" name="c_idline">
+                                        <input type="text" value="<?= $row['f_line']; ?>" class="form-control" id="c_idline" name="c_idline">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="">ที่อยู่:</label><br>
-                                    <input type="text" value="<?= $row[2]; ?>" class="form-control" id="c_add" name="c_add">
+                                    <input type="text" value="<?= $row['f_address']; ?>" class="form-control" id="c_add" name="c_add">
                                 </div>
                                 <br>
                                 <div align="right">
@@ -445,7 +445,7 @@
                                 $sql_dep = "SELECT * FROM pay WHERE id_car = '$idcar'";
                                 $qty_dep = mysqli_query($mysqli, $sql_dep);
                                 $row_dep = mysqli_fetch_array($qty_dep);
-                                if (empty($row_dep['pay_pic'])) { ?>
+                                if ($row_dep == NULL) { ?>
                                     <div class="row gx-4">
                                         <div class="col-md-4">
                                             <label class="fs-6 text-gray-600">รูปภาพ:</label><br>
@@ -498,8 +498,25 @@
                                     $sql_pay = "SELECT * FROM pay WHERE id_car = '$idcar' AND pay_type = '2'";
                                     $qty_pay = mysqli_query($mysqli, $sql_pay);
                                     $pay = mysqli_fetch_array($qty_pay);
-
+                                    if($pay == NULL){
                                     ?>
+                                         <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="" class="fs-6 text-gray-600">รูปภาพ:</label><br>
+                                                <label>ไม่มีรูปภาพ</label>
+                                                <button class="btn btn-warning btn-sm shadow lift" type="button" data-bs-toggle="modal" data-bs-target="#deposit-edit<?= $row_pay[0]; ?>">แก้ไขรูปภาพ</button>
+                                            </div>
+                                            <div class="col-md-4">
+                                                ชำระเรียบร้อย(บ.):
+                                                <label for="" class="text-success">0.00</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                ค้างชำระ(บ.):<br>
+                                            
+                                                <label for="" class="text-danger"><?= $sum[0] ?>.00</label>
+                                            </div>
+                                        </div>
+                                    <?php }else{ ?>
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="" class="fs-6 text-gray-600">รูปภาพ:</label><br>
@@ -526,7 +543,7 @@
                                             <label for="" class="text-danger"><?= $pay['pay_price'] - $deposit ?>.00</label>
                                         </div>
                                     </div>
-                                 
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>

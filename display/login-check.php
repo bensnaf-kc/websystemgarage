@@ -38,11 +38,12 @@
 
          if($row == 1){
             $_SESSION['id'] = $res[0];
-            $_SESSION['username'] = $res[1];
-            $_SESSION['email'] = $res[3];
-            $_SESSION['fname'] = $res[4];
-            $_SESSION['address'] = $res[5];
-            $_SESSION['tel'] = $res[6];
+            $_SESSION['user_code'] = $res[1];
+            $_SESSION['username'] = $res[2];
+            $_SESSION['email'] = $res[4];
+            $_SESSION['fname'] = $res[5];
+            $_SESSION['address'] = $res[6];
+            $_SESSION['tel'] = $res[7];
             $_SESSION['success'] = "เข้าสู่ระบบเรียบร้อย";
             header('location: index.php');
 

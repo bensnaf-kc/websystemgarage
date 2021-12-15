@@ -21,6 +21,8 @@
 </head>
 <body>
 <?php
+session_start();
+    $user = $_SESSION['id'];
     include('../backend/connect.php');
     // $pro_name = $_POST['p_name'];
     $idcar = $_GET['id_car'];
@@ -29,8 +31,8 @@
     $dep = $_POST['dep'];
     
 
-    $sql = "INSERT INTO oder_repair (or_id, id_car, or_name, or_depart, dateout) 
-            VALUES (NULL,'$idcar','$tech','$dep','')";
+    $sql = "INSERT INTO oder_repair (or_id, user_id, id_car, or_name, or_depart, dateout) 
+            VALUES (NULL,'$user','$idcar','$tech','$dep','')";
     $query = mysqli_query($mysqli,$sql);
     
     if ($query) {

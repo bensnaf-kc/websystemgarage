@@ -1,5 +1,5 @@
-<?php 
-include('header.php'); 
+<?php
+include('header.php');
 include('../backend/connect.php');
 $idcar = $_GET['id_car'];
 $id = $_GET['id_fix'];
@@ -7,27 +7,27 @@ $id = $_GET['id_fix'];
 
 <div id="layoutSidenav_content">
     <main>
-    <?php
-            $idweb = $_SESSION['id'];
-            $sql_color = "SELECT * FROM user WHERE user_id = '$idweb'";
-            $qty_color = mysqli_query($mysqli,$sql_color);
-            while($color = mysqli_fetch_array($qty_color)){ 
-                    $type = $color['web_type'];
-            }
+        <?php
+        $idweb = $_SESSION['id'];
+        $sql_color = "SELECT * FROM user WHERE user_id = '$idweb'";
+        $qty_color = mysqli_query($mysqli, $sql_color);
+        while ($color = mysqli_fetch_array($qty_color)) {
+            $type = $color['web_type'];
+        }
         ?>
-        <?php 
-            if($type == 1){
-                echo "<header class='page-header page-header-dark bg-gradient-default pb-10'>";
-            }
-            if($type == 2){
-                echo "<header class='page-header page-header-dark bg-gradient-sunset pb-10'>";
-            }
-            if($type == 3){
-                echo "<header class='page-header page-header-dark bg-gradient-subtle pb-10'>";
-            }
-            if($type == 4){
-                echo "<header class='page-header page-header-dark bg-gradient-emerald pb-10'>";
-            }
+        <?php
+        if ($type == 1) {
+            echo "<header class='page-header page-header-dark bg-gradient-default pb-10'>";
+        }
+        if ($type == 2) {
+            echo "<header class='page-header page-header-dark bg-gradient-sunset pb-10'>";
+        }
+        if ($type == 3) {
+            echo "<header class='page-header page-header-dark bg-gradient-subtle pb-10'>";
+        }
+        if ($type == 4) {
+            echo "<header class='page-header page-header-dark bg-gradient-emerald pb-10'>";
+        }
         ?>
         </header>
         <div class="container-fluid px-4 mt-n10">
@@ -35,9 +35,9 @@ $id = $_GET['id_fix'];
                 <div class="table-responsive">
                     <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
                         <div class="card bg-light mb-3">
-                            <div class="card-header"><b>เพิ่มข้อมูลประกันภัย/เครม</b>   <a href="detail.php?id_fix=<?=$id;?>&id_car=<?=$idcar;?>" type="button" class="btn btn-danger shadow lift btn-sm">ย้อนกลับ</a></div>
+                            <div class="card-header"><b>เพิ่มข้อมูลประกันภัย/เครม</b> <a href="detail.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" type="button" class="btn btn-danger shadow lift btn-sm">ย้อนกลับ</a></div>
                             <div class="card-body">
-                                <form action="add_insurance.php?id_fix=<?=$id;?>&id_car=<?=$idcar;?>" method="post" enctype="multipart/form-data">
+                                <form action="add_insurance.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="post" enctype="multipart/form-data">
                                     <div class="row gx-4 md-4">
                                         <div class="col-md-4">
                                             <label for="insr">บริษัทประกันภัย</label><br>
@@ -79,8 +79,7 @@ $id = $_GET['id_fix'];
                                     <div class="row gx-4 md-4">
                                         <div class="col-md-4">
                                             <label for="numbercam">หมายเลขเคลม</label><br>
-                                            <input type="text" class="form-control" id="numbercam" name="numbercam"
-                                                required>
+                                            <input type="text" class="form-control" id="numbercam" name="numbercam" required>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="peolpel">ฝั่งผู้เอาประกัน</label><br>
@@ -94,13 +93,29 @@ $id = $_GET['id_fix'];
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="">รูปภาพใบเครม</label>
-                                            <input type="file" name="pic" id="pic" class="form-control">
+                                            <input type="file" name="pic" id="pic" onchange="readURL(this);" class="form-control">
                                         </div>
-                                    </div>
+                                        
+                                    </div><br>
+                                    <img id="blah" style="width: auto; height: 150px;">
+                                    <script>
+                                        function readURL(input) {
+                                            if (input.files && input.files[0]) {
+                                                var reader = new FileReader();
+
+                                                reader.onload = function(e) {
+                                                    $('#blah')
+                                                        .attr('src', e.target.result);
+                                                };
+
+                                                reader.readAsDataURL(input.files[0]);
+                                            }
+                                        }
+                                    </script>
                                     <br>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary shadow lift">ต่อไป</button>
+                                <button type="submit" class="btn btn-success shadow lift">ต่อไป</button>
                                 <button type="reset" class="btn btn-secondary shadow lift" data-dismiss="modal">ล้าง</button>
                                 </form>
                             </div>
@@ -123,29 +138,4 @@ $id = $_GET['id_fix'];
         </div>
     </footer>
 </div>
-<script>
-function autoTab(obj) {
-    /* กำหนดรูปแบบข้อความโดยให้ _ แทนค่าอะไรก็ได้ แล้วตามด้วยเครื่องหมาย
-    หรือสัญลักษณ์ที่ใช้แบ่ง เช่นกำหนดเป็น  รูปแบบเลขที่บัตรประชาชน
-    4-2215-54125-6-12 ก็สามารถกำหนดเป็น  _-____-_____-_-__
-    รูปแบบเบอร์โทรศัพท์ 08-4521-6521 กำหนดเป็น __-____-____
-    หรือกำหนดเวลาเช่น 12:45:30 กำหนดเป็น __:__:__
-    ตัวอย่างข้างล่างเป็นการกำหนดรูปแบบเลขบัตรประชาชน
-    */
-    var pattern = new String("___-___-____"); // กำหนดรูปแบบในนี้
-    var pattern_ex = new String("-"); // กำหนดสัญลักษณ์หรือเครื่องหมายที่ใช้แบ่งในนี้
-    var returnText = new String("");
-    var obj_l = obj.value.length;
-    var obj_l2 = obj_l - 1;
-    for (i = 0; i < pattern.length; i++) {
-        if (obj_l2 == i && pattern.charAt(i + 1) == pattern_ex) {
-            returnText += obj.value + pattern_ex;
-            obj.value = returnText;
-        }
-    }
-    if (obj_l >= pattern.length) {
-        obj.value = obj.value.substr(0, pattern.length);
-    }
-}
-</script>
 <?php include('footer.php'); ?>

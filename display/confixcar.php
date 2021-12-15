@@ -37,6 +37,7 @@ $n = 1;
         }
         ?>
         <div class="container-xl px-4">
+            
             <div class="page-header-content pt-4">
                 <!-- <div class="row align-items-center justify-content-between">
                         <div class="col-auto mt-4">
@@ -53,6 +54,17 @@ $n = 1;
         </header>
         <!-- Main page content-->
         <div class="container-xl px-4 mt-n10">
+        <?php if (isset($_SESSION['notemp'])) : ?>
+                <div class="alert alert-danger alert-dismissible" role="alert" id="liveAlert" align="center">
+                    <h6>
+                        <?php
+                        echo $_SESSION['notemp'];
+                        unset($_SESSION['notemp']);
+                        ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </h6>
+                </div>
+            <?php endif ?>
             <a href="detail.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-danger shadow lift"><i class="fas fa-arrow-circle-left"></i>&nbsp;ย้อนกลับ</a>
             <div class="card mb-4">
 
@@ -111,7 +123,7 @@ $n = 1;
                                         <td class="text-center">
                                             <!-- edit listrepair -->
                                             <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#edit<?= $row[0]; ?>">แก้ไข</button>
-                                            <a href="del_confixcar.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>&or_id=<?=$row[0];?>" class="btn btn-danger shadow lift btn-sm">ลบ</a>
+                                            <a href="del_confixcar.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>&or_id=<?= $row[0]; ?>" class="btn btn-danger shadow lift btn-sm">ลบ</a>
                                         </td>
                                     </tr>
                                     <!-- edit repair -->
@@ -138,17 +150,17 @@ $n = 1;
                                                                 <label for="">แผนก:</label><br>
                                                                 <select name="dep" id="dep" class="form-control" required>
                                                                     <?php
-                                                                        if ($row['or_depart'] == 1) {
-                                                                            echo "<option value='1'>ช่างเครื่องยนต์</option>";
-                                                                        } elseif ($row['or_depart'] == 2) {
-                                                                            echo "<option value='2'>ช่างไฟฟ้า</option>";
-                                                                        } elseif ($row['or_depart'] == 3) {
-                                                                            echo "<option value='3'>ช่างช่วงล่าง</option>";
-                                                                        } elseif ($row['or_depart'] == 4) {
-                                                                            echo "<option value='4'>ช่างการยาง</option>";
-                                                                        } elseif ($row['or_depart'] == 5) {
-                                                                            echo "<option value='5'>ช่างตรวจสภาพ</option>";
-                                                                        }
+                                                                    if ($row['or_depart'] == 1) {
+                                                                        echo "<option value='1'>ช่างเครื่องยนต์</option>";
+                                                                    } elseif ($row['or_depart'] == 2) {
+                                                                        echo "<option value='2'>ช่างไฟฟ้า</option>";
+                                                                    } elseif ($row['or_depart'] == 3) {
+                                                                        echo "<option value='3'>ช่างช่วงล่าง</option>";
+                                                                    } elseif ($row['or_depart'] == 4) {
+                                                                        echo "<option value='4'>ช่างการยาง</option>";
+                                                                    } elseif ($row['or_depart'] == 5) {
+                                                                        echo "<option value='5'>ช่างตรวจสภาพ</option>";
+                                                                    }
                                                                     ?>
                                                                     <option value=""></option>
                                                                     <option value="1">ช่างเครื่องยนต์</option>
@@ -189,6 +201,14 @@ $n = 1;
         </div>
     </footer>
 </div>
+<script>
+    function setEmp() {
+        var img = document.getElementById("image");
+        img.src = this.value;
+        return false;
+    }
+    document.getElementById("Emplist").onchange = setEmp();
+</script>
 <?php include('footer.php'); ?>
 
 <!-- รายการซ่อม -->
@@ -204,19 +224,20 @@ $n = 1;
                     <div class="row">
                         <div class="col-md-10">
                             <label for="">ผู้รับผิดชอบ/ช่าง:</label><br>
-                            <select name="tech" id="tech" class="form-control" required>
+                            <select name="tech" id="Emplist" class="form-control" required>
                                 <?php
-                                $sql_tec = "SELECT * FROM technician";
+                                $sql_tec = "SELECT * FROM technician WHERE user_id = '$user'";
                                 $qty_tec = mysqli_query($mysqli, $sql_tec);
                                 while ($row_tec = mysqli_fetch_array($qty_tec)) {;
                                 ?>
                                     <option value="<?= $row_tec['tc_name']; ?>"><?= $row_tec['tc_name']; ?></option>
-                                <?php } ?>
+                                <?php  } ?>
                             </select>
                         </div><br>
                         <div class="col-md-10">
                             <label for="">แผนก:</label><br>
                             <select name="dep" id="dep" class="form-control" required>
+
                                 <option value="1">ช่างเครื่องยนต์</option>
                                 <option value="2">ช่างไฟฟ้า</option>
                                 <option value="3">ช่างช่วงล่าง</option>
@@ -232,7 +253,8 @@ $n = 1;
                         </div>
                     </div> -->
             </div>
-            <div class="modal-footer"><button class="btn btn-light shadow lift" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form></div>
+            <div class="modal-footer"><button class="btn btn-light shadow lift" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-primary" type="submit">เพิ่ม</button></form>
+            </div>
         </div>
     </div>
 </div>
@@ -249,12 +271,13 @@ $n = 1;
                 <div class="row">
                     <div class="col">
                         <form action="comple_fixcar.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" method="post">
-                        <label for="date">วันรับรถยนต์:</label>
-                        <input type="date" class="form-control" name="date" id="date" required>
+                            <label for="date">วันรับรถยนต์:</label>
+                            <input type="date" class="form-control" name="date" id="date" required>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-success shadow lift" type="submit">เสร็จสิ้น</button></form></div>
+            <div class="modal-footer"><button class="btn btn-secondary" type="button" data-bs-dismiss="modal">ปิด</button><button class="btn btn-success shadow lift" type="submit">เสร็จสิ้น</button></form>
+            </div>
         </div>
     </div>
 </div>

@@ -46,105 +46,126 @@ $c = 1;
                             <div class="card bg-light mb-3">
                                 <div class="card bg-light">
                                     <div class="card-header text-primary bg-light">งานติดต่อ <label class="text-dark">#00<?= $id; ?></label></div>
-                                    <div class="card-body bg-gray-200">
-                                        <div class="container overflow-hidden">
+                                    <div class="card-body bg-gray-500">
+                                        <div class="container">
                                             <?php while ($row = mysqli_fetch_array($query)) { ?>
                                                 <div class="row">
-                                                    <div class="col">
-                                                        <label for="" class="fs-6 text-gray-600">รุ่น/ยี่ห้อรถ</label><br>
-                                                        <label for="" class="text-primary"><?= $row['c_series']; ?>/<?= $row['c_gen']; ?></label>
-                                                    </div>
-                                                    <div class="col">
-                                                        <label for="" class="fs-6 text-gray-600">เลขทะเบียน</label><br>
-                                                        <label for=""class="text-primary"><?= $row['c_number']; ?></label>
-                                                    </div>
-                                                    <div class="col">
-                                                        <?php while ($rw = mysqli_fetch_array($customer)) { ?>
-                                                            <label for="" class="fs-6 text-gray-600">ชื่อลูกค้า</label><br>
-                                                            <label for=""class="text-primary"><?= $rw['f_name']; ?></label>
-                                                        <?php } ?>
-                                                    </div>
-                                                    <div class="col">
-                                                        <label for="" class="fs-6 text-gray-600">ประกันภัย</label><br>
-                                                        <?php
-                                                        $sqlinsr = "SELECT * FROM insurance WHERE id_car = '$idcar'";
-                                                        $resultinsr = mysqli_query($mysqli, $sqlinsr);
-                                                        $rrow_in = mysqli_fetch_array($resultinsr);
-                                                            if($rrow_in == 0){
-                                                                echo "ว่าง";
-                                                            }else{
-                                                        ?>
-                                                            <label for=""class="text-primary"><?= $rrow_in['sr_name']; ?></label>
-                                                        <?php } ?>
-                                                    </div>
-                                                </div><br>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <?php
-                                                        $sq = "SELECT * FROM fixcar WHERE id_fix = '$id'";
-                                                        $res = mysqli_query($mysqli, $sq);
-                                                        while ($in = mysqli_fetch_array($res)) {
-                                                        ?>
-                                                            <label for="" class="fs-6 text-gray-600">วันที่ติดต่อ</label><br>
-                                                            <label for=""class="text-primary"><?= $in['f_datecom']; ?></label>
-                                                        <?php } ?>
-                                                    </div>
-                                                    <div class="col">
-                                                        <label for="" class="fs-6 text-gray-600">ยอดสุทธิ(บ.)</label><br>
-                                                        <?php
-                                                        $sqs = "SELECT SUM(p_price) FROM parts WHERE id_car = '$idcar'";
-                                                        $res = mysqli_query($mysqli, $sqs);
-                                                        while ($ro = mysqli_fetch_array($res)) {
-                                                            if ($ro[0] == 0) {
-                                                                echo "0.00 บาท";
-                                                            } else { ?>
-                                                                <label for=""class="text-primary"><?= $ro[0]; ?>.00</label>
-                                                            <?php
-                                                            }
-                                                            ?>
-                                                        <?php } ?>
-                                                    </div>
-                                                    <div class="col">
-                                                        <label for="" class="fs-6 text-gray-600">สถานะงาน</label><br>
-
-                                                        <?php
-                                                        if ($row['type_idfix'] == 1) {
-                                                            echo "<label for=''><button class='btn btn-cyan btn-sm'
-                                                        type='button'>สร้างใหม่</button></label>";
-                                                        } else if ($row['type_idfix'] == 2) {
-                                                            echo "<label for=''><button class='btn btn-warning btn-sm'
-                                                        type='button'>กำลังซ่อม</button></label>";
-                                                        } else if ($row['type_idfix'] == 3) {
-                                                            echo "<label for=''><button class='btn btn-green btn-sm'
-                                                        type='button disabled'>ซ่อมเสร็จ</button></label>";
-                                                        } else if ($row['type_idfix'] == 4) {
-                                                            echo "<label for=''><button class='btn btn-orange btn-sm'
-                                                        type='button'>รอการชำระ</button></label>";
-                                                        } else if ($row['type_idfix'] == 5) {
-                                                            echo "<label for=''><button class='btn btn-teal btn-sm'
-                                                        type='button'>ชำระเรียบร้อย</button></label>";
-                                                        } else if ($row['type_idfix'] == 6) {
-                                                            echo "<label for=''><button class='btn btn-dark btn-sm'
-                                                        type='button'>ระงับ</button></label>";
-                                                        }
-                                                        ?>
-
-                                                    </div>
-                                                    <div class="col">
-                                                    <label for="" class="fs-6 text-gray-600">รูปรถยนต์</label><br>
+                                                    <div class="col" align="center">
                                                         <?php
                                                         if ($row['c_pic'] == 0) {
                                                             echo "<label>ยังไม่มีรูป</label>";
                                                         } else { ?>
-                                                            <img src="assets/img/car/<?= $row['c_pic']; ?>" class="rounded" width="100px" height="100px" style="margin-bottom: 20px;">
+                                                            <img src="assets/img/car/<?= $row['c_pic']; ?>" class="rounded mx-auto d-block" width="300px" height="300px" >
                                                         <?php
                                                         }
                                                         ?>
-                                                        <br>
-                                                        <a href="" class="btn btn-warning btn-sm" type="button">แก้ไขรูป</a>
+                                                    </div>
+
+                                                    <div class="col">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <label for="" class="fs-6  text-white form-label">รุ่น</label><br>
+                                                                    <label for="" class="text-primary text-xl form-label"><?= $row['c_series']; ?></label>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label for="" class="fs-6 text-white form-label">ยี่ห้อรถ</label><br>
+                                                                    <label for="" class="text-primary text-xl form-label"><?= $row['c_gen']; ?></label>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label for="" class="fs-6 text-white form-label">เลขทะเบียน</label><br>
+                                                                    <label for="" class="text-primary text-xl form-label"><?= $row['c_number']; ?></label>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="col ">
+                                                                    <?php while ($rw = mysqli_fetch_array($customer)) { ?>
+                                                                        <label for="" class="fs-6 text-white form-label">ชื่อลูกค้า</label><br>
+                                                                        <label for="" class="text-primary text-lg form-label"><?= $rw['f_name']; ?></label>
+                                                                    <?php } ?>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label for="" class="fs-6 text-white form-label">ประกันภัย</label><br>
+                                                                    <?php
+                                                                    $sqlinsr = "SELECT * FROM insurance WHERE id_car = '$idcar'";
+                                                                    $resultinsr = mysqli_query($mysqli, $sqlinsr);
+                                                                    $rrow_in = mysqli_fetch_array($resultinsr);
+                                                                    if ($rrow_in == 0) {
+                                                                        echo "ว่าง";
+                                                                    } else {
+                                                                    ?>
+                                                                        <label for="" class="text-primary text-lg form-label"><?= $rrow_in['sr_name']; ?></label>
+                                                                    <?php } ?>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <?php
+                                                                    $sq = "SELECT * FROM fixcar WHERE id_fix = '$id'";
+                                                                    $res = mysqli_query($mysqli, $sq);
+                                                                    while ($in = mysqli_fetch_array($res)) {
+                                                                    ?>
+                                                                        <label for="" class="fs-6 text-white form-label">วันที่ติดต่อ</label>
+                                                                        <label for="" class="text-primary text-lg form-label"><?= $in['f_datecom']; ?></label>
+                                                                    <?php } ?>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <div class="row" align="center">
+                                                                <label for="" class="fs-6 text-white form-label">ยอดสุทธิ(บ.)</label>
+                                                                <?php
+                                                                $sqs = "SELECT SUM(p_price) FROM parts WHERE id_car = '$idcar'";
+                                                                $res = mysqli_query($mysqli, $sqs);
+
+                                                                $sql_sr = "SELECT SUM(infois_sum) FROM info_insurance WHERE id_car = '$idcar'";
+                                                                $qty_sr = mysqli_query($mysqli, $sql_sr);
+                                                                $row_sr = mysqli_fetch_array($qty_sr);
+                                                                if ($res) {
+                                                                    while ($ro = mysqli_fetch_array($res)) {
+                                                                        if ($ro[0] == 0) {
+                                                                            echo "<label class='text-primary text-xl form-label'>0.00 บาท</label>";
+                                                                        } else { ?>
+                                                                            <label for="" class="text-primary text-xl form-label"><?= $ro[0]; ?>.00</label>
+                                                                        <?php
+                                                                        }
+                                                                        ?>
+                                                                    <?php }
+                                                                } elseif ($qty_sr) {
+                                                                    if ($row_sr[0] == NULL) {
+                                                                        echo "<label class='text-primary text-xl form-label'>0.00 บาท</label>";
+                                                                    } else { ?>
+                                                                        <label for="" class="text-primary text-xl form-label"><?= $row_sr[0]; ?>.00</label>
+                                                                <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </div>
                                                     </div>
                                                 </div>
-                                                <br>
+                                                <div class="row">
+                                                    <div class="col" align="center">
+                                                        <label for="" class="fs-6 text-white form-label">สถานะงาน</label><br>
+
+                                                        <?php
+                                                        if ($row['type_idfix'] == 1) {
+                                                            echo "<div class='badge bg-warning text-white rounded text-xl'>รอดำเนินการ</div>";
+                                                        } else if ($row['type_idfix'] == 2) {
+                                                            echo "<div class='badge bg-warning text-white rounded text-xl'>กำลังซ่อม</div>";
+                                                        } else if ($row['type_idfix'] == 3) {
+                                                            echo "<div class='badge bg-warning text-white rounded text-xl'>ซ่อมเสร็จ</div>";
+                                                        } else if ($row['type_idfix'] == 4) {
+                                                            echo "<div class='badge bg-warning text-white rounded text-xl'>รอการชำระ</div>";
+                                                        } else if ($row['type_idfix'] == 5) {
+                                                            echo "<div class='badge bg-warning text-white rounded text-xl'>ชำระเรียบร้อย</div>";
+                                                        } else if ($row['type_idfix'] == 6) {
+                                                            echo "<div class='badge bg-warning text-white rounded text-xl'>ระงับ</div>";
+                                                        }
+                                                        ?>
+
+                                                    </div>
+                                                    <div class="col">
+
+                                                    </div>
+                                                </div>
                                             <?php } ?>
                                         </div>
                                     </div>
@@ -166,13 +187,13 @@ $c = 1;
                                 <div class="row gx-4 md-4">
                                     <div class="col-md-6" align="left">
                                         <?php
-                                            $sql_bill = "SELECT * FROM car WHERE id_car = '$idcar'";
-                                            $qty_bill = mysqli_query($mysqli,$sql_bill);
-                                            $bill = mysqli_fetch_array($qty_bill);
-                                                if($bill['type_idfix'] == 4){
+                                        $sql_bill = "SELECT * FROM car WHERE id_car = '$idcar'";
+                                        $qty_bill = mysqli_query($mysqli, $sql_bill);
+                                        $bill = mysqli_fetch_array($qty_bill);
+                                        if ($bill['type_idfix'] == 4) {
                                         ?>
                                             <a href="bill.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-light  text-end shadow lift" type="button"><label class="text-info"><i class="fas fa-print"></i></label>&nbsp;&nbsp;พิมพ์ใบเสนอราคา</a>
-                                        <?php }else{ ?>
+                                        <?php } else { ?>
                                             <button class="btn btn-light  text-end shadow lift" disabled><label class="text-info"><i class="fas fa-print"></i></label>&nbsp;&nbsp;พิมพ์ใบเสนอราคา</button>
                                         <?php } ?>
                                         <a href="list-repair.php?id_fix=<?= $id; ?>&id_car=<?= $idcar; ?>" class="btn btn-info  text-white  shadow lift"><i class="fas fa-search"></i>&nbsp;รายการซ่อม</a>

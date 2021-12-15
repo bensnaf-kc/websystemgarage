@@ -21,6 +21,8 @@
 
 <body>
     <?php
+    session_start();
+    $id = $_SESSION['id'];
     include('../backend/connect.php');
     $name = $_POST['name'];
     $price = $_POST['price'];
@@ -32,8 +34,8 @@
     $newname = $rand . $pic_name;
 
     if ($pic_name == NULL) {
-        $sql = "INSERT INTO store (store_id, s_name, s_price, s_amount, s_type, s_pic) 
-                VALUES (null,'$name','$price','$amo','$type','')";
+        $sql = "INSERT INTO store (store_id, user_id,s_name, s_price, s_amount, s_type, s_pic) 
+                VALUES (null,'$id','$name','$price','$amo','$type','')";
         $query = mysqli_query($mysqli, $sql);
         if ($query) {
             // copy($pic_tmp, "assets/img/product/$newname");
@@ -45,8 +47,8 @@
             // header("refresh:1; url=index-detail.php");
         }
     } else {
-        $sql = "INSERT INTO store (store_id, s_name, s_price, s_amount, s_type, s_pic) 
-            VALUES (null,'$name','$price','$amo','$type','$newname')";
+        $sql = "INSERT INTO store (store_id, user_id,s_name, s_price, s_amount, s_type, s_pic) 
+            VALUES (null,'$id','$name','$price','$amo','$type','$newname')";
         $query = mysqli_query($mysqli, $sql);
         if ($query) {
             copy($pic_tmp, "assets/img/product/$newname");

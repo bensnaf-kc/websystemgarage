@@ -23,27 +23,27 @@ $id = $_GET['id_fix'];
 
 <div id="layoutSidenav_content">
     <main>
-    <?php
-            $idweb = $_SESSION['id'];
-            $sql_color = "SELECT * FROM user WHERE user_id = '$idweb'";
-            $qty_color = mysqli_query($mysqli,$sql_color);
-            while($color = mysqli_fetch_array($qty_color)){ 
-                    $type = $color['web_type'];
-            }
+        <?php
+        $idweb = $_SESSION['id'];
+        $sql_color = "SELECT * FROM user WHERE user_id = '$idweb'";
+        $qty_color = mysqli_query($mysqli, $sql_color);
+        while ($color = mysqli_fetch_array($qty_color)) {
+            $type = $color['web_type'];
+        }
         ?>
-        <?php 
-            if($type == 1){
-                echo "<header class='page-header page-header-dark bg-gradient-default pb-10'>";
-            }
-            if($type == 2){
-                echo "<header class='page-header page-header-dark bg-gradient-sunset pb-10'>";
-            }
-            if($type == 3){
-                echo "<header class='page-header page-header-dark bg-gradient-subtle pb-10'>";
-            }
-            if($type == 4){
-                echo "<header class='page-header page-header-dark bg-gradient-emerald pb-10'>";
-            }
+        <?php
+        if ($type == 1) {
+            echo "<header class='page-header page-header-dark bg-gradient-default pb-10'>";
+        }
+        if ($type == 2) {
+            echo "<header class='page-header page-header-dark bg-gradient-sunset pb-10'>";
+        }
+        if ($type == 3) {
+            echo "<header class='page-header page-header-dark bg-gradient-subtle pb-10'>";
+        }
+        if ($type == 4) {
+            echo "<header class='page-header page-header-dark bg-gradient-emerald pb-10'>";
+        }
         ?>
         </header><br>
         <div class="container-fluid px-4 mt-n10">
@@ -147,6 +147,7 @@ $id = $_GET['id_fix'];
                                             <label for="series" class="col-form-label">ยี่ห้อ:
                                             </label>
                                             <select class="form-control" id="series" name="series" placeholder="sdss" searchable="true" required>
+                                                <option value=""></option>
                                                 <option value='Alfa Romeo'>Alfa Romeo</option>
                                                 <option value='Aston Martin'>Aston Martin</option>
                                                 <option value='Audi'>Audi</option>
@@ -232,8 +233,13 @@ $id = $_GET['id_fix'];
                                         </div>
                                         <div class="col-md-4">
                                             <label for="" class="col-form-label">รูปรถยนต์:</label>
-                                            <input type="file" name="pic" id="" class="form-control" required />
+                                            <input type="file" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])" name="pic" id="" class="form-control" required />
+                                            
                                         </div>
+                                        <div class="col-md-4">
+                                        <img id="blah" src="assets/img/car/car.png" alt="your image" width="100px" height="100px" />
+                                        </div>
+                              
                                     </div><br>
                                     <div align="center">
                                         <button type="reset" class="btn btn-secondary">ล้างข้อมูล</button>
@@ -290,5 +296,13 @@ $id = $_GET['id_fix'];
             obj.value = obj.value.substr(0, pattern.length);
         }
     }
+
+    var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  };
 </script>
 <?php include('footer.php'); ?>

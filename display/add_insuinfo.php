@@ -24,23 +24,41 @@
     include('../backend/connect.php');
     $id_car = $_GET['id_car'];
     $id = $_GET['id_fix'];
-    $detail = $_POST['detail'];
-    $amount = $_POST['amount'];
+    $list_c = count($_POST['list']);
+    $amot_c = count($_POST['amot']);
+    $price_c = count($_POST['price']);
+    $list = $_POST['list'];
+    $amot = $_POST['amot'];
     $price = $_POST['price'];
     
-    $sql = "INSERT INTO info_insurance (infois_id, id_car, infois_name, infois_amount, infois_price) 
-            VALUES (NULL,'$id_car','$detail','$amount','$price')";
-    if ($mysqli->query($sql) === TRUE) {
-        echo '<script type="text/javascript">
-        swal("","การเพิ่มสำเร็จ", "success");
-  		</script>';
-        header("refresh:0; url=insert_insru.php?id_car=".$id_car."&id_fix=".$id); 
-    }else{
-        echo '<script type="text/javascript">
+
+    if ($list_c >= 1) {
+        for ($i = 0; $i < $list_c; $i++) {
+            if (trim($_POST['list'][$i]) != NULL && $_POST['amot'][$i] != NULL && $_POST['price'][$i] != NULL) {
+                $sum[$i] += $_POST['amot'][$i] * $_POST['price'][$i];
+                $sql = "INSERT INTO info_insurance (infois_id, id_car, infois_name, infois_amount, infois_price, infois_sum) 
+                    VALUES (NULL,'$id_car','$list[$i]','$amot[$i]','$price[$i]','$sum[$i]')";
+                $qty = mysqli_query($mysqli, $sql);
+            }
+        }
+        
+        header("location: insert_insru.php?id_fix=" . $id . "&id_car=" . $id_car);
+    } else {
+        $sum = $_POST['amot'] * $_POST['price'];
+        $sql = "INSERT INTO info_insurance (infois_id, id_car, infois_name, infois_amount, infois_price, infois_sum) 
+            VALUES (NULL,'$id_car','$list','$amot','$price','$sum')";
+        $query = mysqli_query($mysqli, $sql);
+
+        if ($query) {
+            header("location: insert_insru.php?id_fix=" . $id . "&id_car=" . $id_car);
+        } else {
+            echo '<script type="text/javascript">
         swal("","เพิ่มการซ่อมไม่สำเร็จ", "error");
-  			</script>';
-        echo $sql;
+  		</script>';
+            echo $sql;
+        }
     }
+    
 ?>
 </body>
 </html>
